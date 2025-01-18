@@ -10,7 +10,7 @@
 #include <iostream>
 #include <frc/DigitalInput.h>
 
-using namespace IntakeConstants;
+using namespace OuttakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
@@ -30,7 +30,7 @@ void Outtake::resetMotor() {
 
     m_outtakeConfig.encoder
     //replace intakeRatio
-        .PositionConversionFactor(1.0 / intakeRatio);
+        .PositionConversionFactor(1.0 / pulleyRatio);
     // m_intakeController.SetP(kiP);
     // m_intakeController.SetI(kaI);
     // m_intakeController.SetD(kaD);

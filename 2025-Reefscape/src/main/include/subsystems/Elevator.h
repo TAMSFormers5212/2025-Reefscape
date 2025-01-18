@@ -1,41 +1,64 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// #pragma once
+#pragma once
 
-// #include <frc2/command/CommandPtr.h>
-// #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/SubsystemBase.h>
+#include <frc/DutyCycleEncoder.h>
+#include <frc/controller/PIDController.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
+#include <frc/controller/ElevatorFeedforward.h>
+#include <frc/trajectory/TrapezoidProfile.h>
+#include <units/voltage.h>
 
-// class ExampleSubsystem : public frc2::SubsystemBase {
-//  public:
-//   ExampleSubsystem();
+#include <rev/SparkMax.h>
+#include <rev/config/SparkMaxConfig.h>
+#include <rev/SparkRelativeEncoder.h>
+#include <rev/SparkClosedLoopController.h>
+#include <frc/AnalogEncoder.h>
 
-//   /**
-//    * Example command factory method.
-//    */
-//   frc2::CommandPtr ExampleMethodCommand();
 
-//   /**
-//    * An example method querying a boolean state of the subsystem (for example, a
-//    * digital sensor).
-//    *
-//    * @return value of some boolean subsystem state, such as a digital sensor.
-//    */
-//   bool ExampleCondition();
+#include <Constants.h>
+using namespace rev::spark;
+using namespace frc;
+using namespace ElevatorConstants;
 
-//   /**
-//    * Will be called periodically whenever the CommandScheduler runs.
-//    */
-//   void Periodic() override;
+class Elevator : public frc2::SubsystemBase {
+ public:
+  Elevator(int leftMotor, int rightMotor, int encoder, double encoderOffset);
+    void setPosition(double elevatorPose);
 
-//   /**
-//    * Will be called periodically whenever the CommandScheduler runs during
-//    * simulation.
-//    */
-//   void SimulationPeriodic() override;
+    double getPosition();
+    void resetMotors();
+    void resetEncoders();
+    
 
-//  private:
-//   // Components (e.g. motor controllers and sensors) should generally be
-//   // declared private and exposed only through public methods.
-// };
+  void Periodic() override;
+
+  /**
+   * Will be called periodically whenever the CommandScheduler runs during
+   * simulation.
+   */
+  void SimulationPeriodic() override;
+ double initialPosition = 0.0;
+ private:
+    SparkMax m_leftMotor;
+    SparkMax m_rightMotor;
+     SparkMaxConfig m_leftConfig;
+    SparkMaxConfig m_rightConfig;
+
+    SparkRelativeEncoder m_leftEncoder = m_leftMotor.GetEncoder();
+    SparkRelativeEncoder m_rightEncoder = m_rightMotor.GetEncoder();
+
+     SparkClosedLoopController m_leftController = m_leftMotor.GetClosedLoopController(); // leader
+    SparkClosedLoopController m_rightController = m_rightMotor.GetClosedLoopController(); // follower
+
+    DutyCycleEncoder m_absoluteEncoder{encoder};
+    double position = 0.0;
+    ElevatorFeedforward m_elevatorFF;
+  // Components (e.g. motor controllers and sensors) should generally be
+  // declared private and exposed only through public methods.
+};

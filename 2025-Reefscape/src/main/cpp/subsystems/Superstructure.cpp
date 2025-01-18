@@ -4,7 +4,9 @@
 
 #include "subsystems/Superstructure.h"
 
-Superstructure::Superstructure(): m_intake(IntakeConstants::motor) {
+Superstructure::Superstructure(): 
+m_intake(IntakeConstants::motor), m_outtake(OuttakeConstants::leftMotor), 
+m_elevator(ElevatorConstants::leftMotor, ElevatorConstants::rightMotor,ElevatorConstants::encoder, ElevatorConstants::encoderOffset ) {
   resetSuperstructure();
   // Implementation of subsystem constructor goes here.
 }
@@ -12,6 +14,8 @@ Superstructure::Superstructure(): m_intake(IntakeConstants::motor) {
 void Superstructure::resetSuperstructure(){
     // m_arm.resetMotors();
     m_intake.resetMotor();
+    m_outtake.resetMotor();
+    m_elevator.resetMotors();
     // m_shooter.resetMotors();
     // m_leftWinch.resetMotor();
     // m_rightWinch.resetMotor();

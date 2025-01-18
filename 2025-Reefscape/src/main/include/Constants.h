@@ -14,6 +14,7 @@
 #include <units/length.h>
 #include <units/time.h>
 #include <units/voltage.h>
+#include <units/Velocity.h>
 // #include <units/base.h>
 #include <numbers>
 #include <string>
@@ -198,7 +199,7 @@ namespace SwerveModuleConstants {//per swerve module
 
 }
 
-namespace ArmConstants{
+namespace ElevatorConstants{
 
     constexpr int leftMotor = 12;
     constexpr int rightMotor = 11;
@@ -210,7 +211,7 @@ namespace ArmConstants{
 
     constexpr double sprocketRatio = 5.5;
     constexpr int planetaryRatio = 20;
-    constexpr int armRatio = 110; // 20:1 maxplanetary * 66:12 sprocket
+    constexpr int elevatorRatio = 110; // 20:1 maxplanetary * 66:12 sprocket
     
     constexpr double kaP = 0.50;
     constexpr double kaI = 0.0000;
@@ -234,14 +235,14 @@ namespace ArmConstants{
     constexpr units::volt_t kaS{0.0};
     constexpr units::volt_t kaG{0.50};
     constexpr units::volt_t vkaV{0.014};
-    constexpr units::radians_per_second_t akaV{1};
-    constexpr auto kaV = vkaV / akaV;
+    constexpr units::meters_per_second_t akaV{1};
+    constexpr auto kaV = vkaV /akaV;
     constexpr units::volt_t vkaA{0.05};
-    constexpr units::radians_per_second_squared_t akaA{1};
+    constexpr units::meters_per_second_squared_t akaA{1};
     constexpr auto kaA = vkaA / akaV ; // not nessecary
 }
 
-namespace ShooterConstants{
+namespace OuttakeConstants{
     constexpr int leftMotor = 15;
     constexpr int rightMotor = 14;
     constexpr double pulleyRatio = 30.0/18.0;

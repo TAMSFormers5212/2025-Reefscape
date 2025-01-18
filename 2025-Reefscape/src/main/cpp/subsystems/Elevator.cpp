@@ -1,28 +1,91 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// #include "subsystems/ExampleSubsystem.h"
+#include "subsystems/Elevator.h"
+#include <frc/smartdashboard/Mechanism2d.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
-// ExampleSubsystem::ExampleSubsystem() {
-//   // Implementation of subsystem constructor goes here.
-// }
+#include <cmath>
+#include <iostream>
 
-// frc2::CommandPtr ExampleSubsystem::ExampleMethodCommand() {
-//   // Inline construction of command goes here.
-//   // Subsystem::RunOnce implicitly requires `this` subsystem.
-//   return RunOnce([/* this */] { /* one-time action goes here */ });
-// }
+using namespace ElevatorConstants;
+using namespace rev;
+using namespace std;
+using namespace MathConstants;
 
-// bool ExampleSubsystem::ExampleCondition() {
-//   // Query some boolean state, such as a digital sensor.
-//   return false;
-// }
+Elevator::Elevator(int leftMotor, int rightMotor, int encoder, double encoderOffset):
+        m_leftMotor(leftMotor, rev::spark::SparkMax::MotorType::kBrushless),
+      m_rightMotor(rightMotor, rev::spark::SparkMax::MotorType::kBrushless),
+      m_leftConfig(),
+      m_rightConfig(),
+      m_elevatorFF(ElevatorConstants::kaS, ElevatorConstants::kaG, ElevatorConstants::kaV) {
+    resetMotors();
+    initialPosition=getPosition();
+    m_leftMotor.Configure(m_leftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    m_rightMotor.Configure(m_rightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+  // Implementation of subsystem constructor goes here.
+}
 
-// void ExampleSubsystem::Periodic() {
-//   // Implementation of subsystem periodic method goes here.
-// }
 
-// void ExampleSubsystem::SimulationPeriodic() {
-//   // Implementation of subsystem simulation periodic method goes here.
-// }
+
+void Elevator::resetMotors() {
+    m_leftConfig.closedLoop
+        .Pidf(kaP, kaI, kaD, kaFF)
+        .IZone(kaIz)
+        .OutputRange(kMinOutput, kMaxOutput);
+    m_leftConfig
+        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
+        .VoltageCompensation(12.0)
+        .SmartCurrentLimit(40);
+
+    m_leftConfig.encoder
+        .PositionConversionFactor(pi2 / elevatorRatio);
+    m_rightConfig.closedLoop
+        .Pidf(kaP, kaI, kaD, kaFF)
+        .IZone(kaIz)
+        .OutputRange(kMinOutput, kMaxOutput);
+    m_rightConfig
+        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
+        .VoltageCompensation(12.0)
+        .SmartCurrentLimit(40)
+        .Follow(m_leftMotor, true);
+    m_rightConfig.encoder
+        .PositionConversionFactor(pi2 / elevatorRatio);
+    m_leftEncoder.SetPosition(getPosition());
+    m_rightEncoder.SetPosition(getPosition());
+    resetEncoders();
+    m_leftMotor.Configure(m_leftConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_rightMotor.Configure(m_rightConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+  // Implementation of subsystem periodic method goes here.
+}
+
+void Elevator::resetEncoders(){
+    m_leftEncoder.SetPosition(getPosition());
+    m_rightEncoder.SetPosition(getPosition());
+    initialPosition = getPosition();
+}
+double Elevator::getPosition() { // returns the absolute encoder position with offset
+    // return abs(m_absoluteEncoder.GetAbsolutePosition()-0.75)*pi2;
+    return abs(m_absoluteEncoder.Get()-0.75)*pi2;
+
+}
+void Elevator::setPosition(double pose) { // sets the goal pose to given parameter
+    position = pose;
+    //smart motion implementation
+    // m_rightController.SetReference(pose,
+    //                                CANSparkLowLevel::ControlType::kSmartMotion);
+
+    // double ff = -sin((getPosition()-0.5)*MathConstants::pi2)*0.1;
+    // m_leftController.SetFF(ff);
+    // m_leftController.SetReference(pose, CANSparkLowLevel::ControlType::kPosition);
+}
+void Elevator::Periodic(){
+    units::meter_t ffP{position};
+    units::meters_per_second_t ffV{0};
+    units::meters_per_second_squared_t ffA(0);
+    m_leftController.SetReference(position, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+}
+void Elevator::SimulationPeriodic() {
+  // Implementation of subsystem simulation periodic method goes here.
+}

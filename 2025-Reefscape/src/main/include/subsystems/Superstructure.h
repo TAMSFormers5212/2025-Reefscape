@@ -18,6 +18,8 @@
 #include <vector>
 #include <Constants.h>
 #include "Intake.h"
+#include "Outtake.h"
+#include "Elevator.h"
 
 using namespace std;
 using namespace PoseConstants;
@@ -49,6 +51,8 @@ class Superstructure : public frc2::SubsystemBase {
    */
   void SimulationPeriodic() override;
     Intake m_intake;
+    Outtake m_outtake;
+    Elevator m_elevator;
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
