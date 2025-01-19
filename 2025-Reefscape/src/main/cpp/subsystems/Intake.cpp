@@ -50,7 +50,21 @@ void Intake::resetMotor() {
     m_intakeMotor.Configure(m_intakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
+void Intake::setSpeed(double speed) { m_intakeMotor.Set(speed); }
+void Intake::stopIntake() {  // in case of 2 notes and need to eject 
+    m_intakeMotor.Set(0);
+    
+}
+double Intake::getSpeed(){
+  return m_encoder.GetVelocity();
+}
+double Intake::getOutputCurrent(){ 
+  return m_intakeMotor.GetOutputCurrent(); 
+}
 
+int Intake::getState() { return state; }
+
+void Intake::setState(int state) { this->state = state; }
 
 void Intake::Periodic() {
   // Implementation of subsystem periodic method goes here.

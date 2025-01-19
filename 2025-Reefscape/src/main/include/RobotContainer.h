@@ -10,6 +10,7 @@
 #include "Constants.h"
 // #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/SwerveDrive.h" 
+#include "subsystems/Superstructure.h"
 #include <frc2/command/CommandPtr.h>
 #include <frc/GenericHID.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -35,6 +36,7 @@ class RobotContainer {
     double YAxis;
   frc2::CommandPtr GetAutonomousCommand();
   SwerveDrive m_drive;
+  Superstructure m_superstructure;
  void Periodic();
  private:
   frc::GenericHID m_driverController{kDriverControllerPort};

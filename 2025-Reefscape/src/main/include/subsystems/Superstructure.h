@@ -20,6 +20,7 @@
 #include "Intake.h"
 #include "Outtake.h"
 #include "Elevator.h"
+#include "VisionSubsystem.h"
 
 using namespace std;
 using namespace PoseConstants;
@@ -53,6 +54,7 @@ class Superstructure : public frc2::SubsystemBase {
     Intake m_intake;
     Outtake m_outtake;
     Elevator m_elevator;
+    VisionSubsystem m_vision; 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

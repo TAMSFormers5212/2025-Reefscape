@@ -23,7 +23,12 @@ class Intake: public frc2::SubsystemBase {
  public:
   Intake(int motor);
 void resetMotor();
+void setSpeed(double speed);
 double getSpeed();
+void stopIntake();
+double getOutputCurrent();
+ int getState();
+    void setState(int state);
 void Periodic() override;
   /**
    * Example command factory method.
@@ -55,6 +60,7 @@ void Periodic() override;
     SparkRelativeEncoder m_encoder = m_intakeMotor.GetEncoder();
 
     SparkClosedLoopController m_intakeController = m_intakeMotor.GetClosedLoopController();
+    int state = IntakeConstants::empty;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

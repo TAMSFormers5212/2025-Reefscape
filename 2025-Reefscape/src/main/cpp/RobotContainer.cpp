@@ -125,6 +125,58 @@ RobotContainer::RobotContainer() {
         },  
         {&m_drive}
     ));
+    m_superstructure.m_intake.SetDefaultCommand(RunCommand(
+        [this] { 
+            if(m_operatorController.GetRawButton(Controller::rightBumper)){
+                // if (m_superstructure.m_shooter.getSpeed()>400){
+                    // m_superstructure.m_intake.setSpeed(1.00);
+                // }
+                // else{
+                    m_superstructure.m_intake.setSpeed(0.8);    
+                // }
+            }  
+            if(m_operatorController.GetRawButton(Controller::leftBumper)){
+                m_superstructure.m_intake.setSpeed(-0.4);
+            } 
+            if(!m_operatorController.GetRawButton(Controller::leftBumper)&&!m_operatorController.GetRawButton(Controller::rightBumper)){
+                m_superstructure.m_intake.stopIntake();
+            }
+        },  
+        {&m_superstructure.m_intake}
+    ));
+    m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
+        [this] { 
+            
+        },  
+        {&m_superstructure.m_outtake}
+    ));
+    m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
+        [this] { 
+            
+        },  
+        {&m_superstructure.m_elevator}
+    ));
+    m_superstructure.m_vision.SetDefaultCommand(RunCommand(
+        [this] { 
+            if (m_driverController.GetRawButtonPressed(2)) {
+                frc::SmartDashboard::PutBoolean("led button pressed", m_driverController.GetRawButtonPressed(2));
+                if (m_superstructure.m_vision.getLedOn() == 3) {
+                    m_superstructure.m_vision.setLedOn(1);
+                } else if (m_superstructure.m_vision.getLedOn() == 1) {
+                    m_superstructure.m_vision.setLedOn(3);
+                }
+                //m_superstructure.aim(m_superstructure.m_vision.getDistance(),0,0);
+                
+            }
+            // if (m_driverController.GetRawButton(2)) {
+            //     m_superstructure.aim(m_superstructure.m_vision.getDistance(),0,0);
+            // }
+            // frc::SmartDashboard::PutNumber("di", m_superstructure.m_vision.getDistance());
+            frc::SmartDashboard::PutNumber("leds", m_superstructure.m_vision.getLedOn());
+            frc::SmartDashboard::PutBoolean("toggle offset", m_drive.getOffsetToggle());
+        },  
+        {&m_superstructure.m_vision}
+    ));
 }
 
 void RobotContainer::ConfigureBindings() {
