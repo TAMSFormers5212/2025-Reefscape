@@ -21,7 +21,7 @@ using namespace std;
 using namespace rev::spark;
 class Intake: public frc2::SubsystemBase {
  public:
-  Intake(int motor);
+  Intake(int intakeMotor, int pivotMotor);
 void resetMotor();
 void setSpeed(double speed);
 double getSpeed();
@@ -56,10 +56,16 @@ void Periodic() override;
     SparkMax m_intakeMotor; // may need to switch to 775 if neo550 is not fixed in time
 
     SparkMaxConfig m_intakeConfig;
-
+   
     SparkRelativeEncoder m_encoder = m_intakeMotor.GetEncoder();
 
     SparkClosedLoopController m_intakeController = m_intakeMotor.GetClosedLoopController();
+     SparkMax m_pivotMotor; // may need to switch to 775 if neo550 is not fixed in time
+
+    SparkMaxConfig m_pivotConfig;
+    SparkRelativeEncoder m_pivotEncoder = m_pivotMotor.GetEncoder();
+
+    SparkClosedLoopController m_pivotController = m_pivotMotor.GetClosedLoopController();
     int state = IntakeConstants::empty;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

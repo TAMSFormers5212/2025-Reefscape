@@ -14,10 +14,12 @@ using namespace IntakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
-Intake::Intake(int motor): m_intakeMotor(motor, rev::spark::SparkMax::MotorType::kBrushless),
-    m_intakeConfig() {
+Intake::Intake(int intakeMotor, int pivotMotor): m_intakeMotor(intakeMotor, rev::spark::SparkMax::MotorType::kBrushless),
+  m_pivotMotor(pivotMotor, rev::spark::SparkMax::MotorType::kBrushless),
+    m_intakeConfig(), m_pivotConfig() {
         resetMotor();
     m_intakeMotor.Configure(m_intakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_pivotMotor.Configure(m_pivotConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);  
   // Implementation of subsystem constructor goes here.
 }
 void Intake::resetMotor() {
@@ -30,6 +32,15 @@ void Intake::resetMotor() {
 
     m_intakeConfig.encoder
         .PositionConversionFactor(1.0 / intakeRatio);
+
+    m_pivotConfig
+       .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
+       .VoltageCompensation(12.0)
+       .SmartCurrentLimit(20, 25)
+       .Inverted(true);
+
+    m_pivotConfig.encoder
+        .PositionConversionFactor(1.0 / pivotRatio);
     // m_intakeController.SetP(kiP);
     // m_intakeController.SetI(kaI);
     // m_intakeController.SetD(kaD);
@@ -48,6 +59,7 @@ void Intake::resetMotor() {
     // m_intakeMotor.SetInverted(true);
 
     m_intakeMotor.Configure(m_intakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+     m_pivotMotor.Configure(m_pivotConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
 void Intake::setSpeed(double speed) { m_intakeMotor.Set(speed); }

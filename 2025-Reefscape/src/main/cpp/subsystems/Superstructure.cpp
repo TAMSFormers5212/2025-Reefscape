@@ -5,7 +5,7 @@
 #include "subsystems/Superstructure.h"
 
 Superstructure::Superstructure(): 
-m_intake(IntakeConstants::motor), m_outtake(OuttakeConstants::leftMotor), 
+m_intake(IntakeConstants::intakeMotor, IntakeConstants::pivotMotor), m_outtake(OuttakeConstants::motor), 
 m_elevator(ElevatorConstants::leftMotor, ElevatorConstants::rightMotor,ElevatorConstants::encoder, ElevatorConstants::encoderOffset ),
 m_vision() {
   resetSuperstructure();

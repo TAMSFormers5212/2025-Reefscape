@@ -243,8 +243,8 @@ namespace ElevatorConstants{
 }
 
 namespace OuttakeConstants{
-    constexpr int leftMotor = 15;
-    constexpr int rightMotor = 14;
+    constexpr int motor = 15;
+    
     constexpr double pulleyRatio = 30.0/18.0;
     constexpr units::inch_t wheelDiameter = 4_in; // may change based on rpm
     
@@ -278,12 +278,13 @@ namespace OuttakeConstants{
 }
 
 namespace IntakeConstants{
-    constexpr int motor = 13;
-
+    constexpr int intakeMotor = 13;
+    constexpr int pivotMotor = 14;
     constexpr int beamBreakIO = 0;  // digital io pins
 
     constexpr double intakeRatio = 2.0;
-
+    constexpr double pivotRatio = 2.0; 
+    
     constexpr double loadedCurrent = 10.0; // current when note is held
     constexpr double freeCurrent = 5.0; // current when no note is held
     //random guess numbers, experiement in order to prevent burning out the neo550
