@@ -96,16 +96,16 @@ RobotContainer::RobotContainer() {
             if (m_driverController.GetRawButton(7)) {
                m_drive.toggleOffset();
             }
-            // if (m_operatorController.GetRawAxis(Controller::leftTrigger)>0.05||m_driverController.GetRawButton(8)) {
-            //     if (m_superstructure.m_vision.isTagPresent()){
-            //     // if (m_vision.getDistanceError() > 0 &&
-            //     //     m_vision.getDistanceError() < 25) {
-            //          RotAxis += m_superstructure.m_vision.getOutput()* 0.2;
-            //         //  YAxis += m_superstructure.m_vision.getDistanceError() * speedMultiplier;  
-            //         //  }
-            //     }\
+            if (m_operatorController.GetRawButton(Controller::down)||m_driverController.GetRawButton(8)) {
+                if (m_superstructure.m_vision.isTagPresent()){
+                // if (m_vision.getDistanceError() > 0 &&
+                //     m_vision.getDistanceError() < 25) {
+                     RotAxis += m_superstructure.m_vision.getOutput()* 0.2;
+                    //  YAxis += m_superstructure.m_vision.getDistanceError() * speedMultiplier;  
+                    //  }
+                }
                 
-            // }
+            }
             if (m_driverController.GetRawButton(6)){
                 m_drive.resetAbsoluteEncoders();
             }
@@ -127,7 +127,7 @@ RobotContainer::RobotContainer() {
     ));
     m_superstructure.m_intake.SetDefaultCommand(RunCommand(
         [this] { 
-            if(m_operatorController.GetRawButton(Controller::rightBumper)){
+            if(m_operatorController.GetRawAxis(Controller::rightTrigger)>0.05){
                 // if (m_superstructure.m_shooter.getSpeed()>400){
                     // m_superstructure.m_intake.setSpeed(1.00);
                 // }
@@ -135,10 +135,10 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_intake.setSpeed(0.8);    
                 // }
             }  
-            if(m_operatorController.GetRawButton(Controller::leftBumper)){
+            if(m_operatorController.GetRawAxis(Controller::leftTrigger)>0.05){
                 m_superstructure.m_intake.setSpeed(-0.4);
             } 
-            if(!m_operatorController.GetRawButton(Controller::leftBumper)&&!m_operatorController.GetRawButton(Controller::rightBumper)){
+            if(m_operatorController.GetRawAxis(Controller::leftTrigger)<0.05&&m_operatorController.GetRawButton(Controller::rightBumper)<0.05){
                 m_superstructure.m_intake.stopIntake();
             }
         },  
@@ -146,7 +146,12 @@ RobotContainer::RobotContainer() {
     ));
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] { 
-            
+            if(m_operatorController.GetRawButton(Controller::leftBumper)){
+                m_superstructure.m_outtake.intakeCoral();
+            }
+            if(m_operatorController.GetRawButton(Controller::rightBumper)){
+                m_superstructure.m_outtake.setSpeed(-0.4);
+            }
         },  
         {&m_superstructure.m_outtake}
     ));

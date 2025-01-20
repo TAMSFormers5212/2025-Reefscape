@@ -21,9 +21,13 @@ using namespace std;
 using namespace rev::spark;
 class Outtake: public frc2::SubsystemBase {
  public:
-  Outtake(int motor);
+  Outtake(int motor, int sensor);
 void resetMotor();
 double getSpeed();
+void intakeCoral();
+void stopOuttake();
+bool getCoral();
+void setSpeed(double speed);
 void Periodic() override;
   /**
    * Example command factory method.
@@ -46,7 +50,7 @@ void Periodic() override;
    * simulation.
    */
     //void SimulationPeriodic() override;
-
+    bool coralHeld = false;
  private:
     SparkMax m_outtakeMotor; // may need to switch to 775 if neo550 is not fixed in time
 
@@ -55,6 +59,7 @@ void Periodic() override;
     SparkRelativeEncoder m_encoder = m_outtakeMotor.GetEncoder();
 
     SparkClosedLoopController m_outtakeController = m_outtakeMotor.GetClosedLoopController();
+    frc::DigitalInput m_beamBreak{4};
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

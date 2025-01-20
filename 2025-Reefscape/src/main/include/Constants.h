@@ -244,6 +244,7 @@ namespace ElevatorConstants{
 
 namespace OuttakeConstants{
     constexpr int motor = 15;
+    constexpr int beamBreakIO = 0;  // digital io pins
     
     constexpr double pulleyRatio = 30.0/18.0;
     constexpr units::inch_t wheelDiameter = 4_in; // may change based on rpm
@@ -280,7 +281,7 @@ namespace OuttakeConstants{
 namespace IntakeConstants{
     constexpr int intakeMotor = 13;
     constexpr int pivotMotor = 14;
-    constexpr int beamBreakIO = 0;  // digital io pins
+    
 
     constexpr double intakeRatio = 2.0;
     constexpr double pivotRatio = 2.0; 

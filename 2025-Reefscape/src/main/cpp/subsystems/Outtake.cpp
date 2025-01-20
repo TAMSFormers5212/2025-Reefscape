@@ -14,7 +14,7 @@ using namespace OuttakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
-Outtake::Outtake(int motor): m_outtakeMotor(motor, rev::spark::SparkMax::MotorType::kBrushless),
+Outtake::Outtake(int motor, int sensor): m_outtakeMotor(motor, rev::spark::SparkMax::MotorType::kBrushless),
     m_outtakeConfig() {
         resetMotor();
     m_outtakeMotor.Configure(m_outtakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
@@ -51,10 +51,36 @@ void Outtake::resetMotor() {
     m_outtakeMotor.Configure(m_outtakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
+void Outtake::stopOuttake() {  // in case of 2 notes and need to eject 
+    m_outtakeMotor.Set(0);
+}
+void Outtake::intakeCoral(){
+  while(!coralHeld){
+   setSpeed(0.4);
+  }
+  stopOuttake();
+}
+void Outtake::setSpeed(double speed){
+  m_outtakeMotor.Set(speed);
+}
+double Outtake::getSpeed(){
+  return m_encoder.GetVelocity();
+  }
 
-
+bool Outtake::getCoral(){
+  return coralHeld;
+}
 void Outtake::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  if (m_beamBreak.Get()==0){
+        coralHeld = true;
+        //m_LEDs.setColor(0.65);
+    }
+    else{
+        coralHeld= false;
+        //m_LEDs.setColor(0.77);
+    }
+    frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
 }
 
 // void ExampleSubsystem::SimulationPeriodic() {
