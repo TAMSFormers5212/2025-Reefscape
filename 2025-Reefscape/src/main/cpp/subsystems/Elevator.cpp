@@ -67,7 +67,7 @@ void Elevator::resetEncoders(){
 }
 double Elevator::getPosition() { // returns the absolute encoder position with offset
     // return abs(m_absoluteEncoder.GetAbsolutePosition()-0.75)*pi2;
-    return abs(m_absoluteEncoder.Get()-0.75)*pi2;
+    return abs(m_absoluteEncoder.Get()-elevatorOffset)*pi2;
 
 }
 void Elevator::setPosition(double pose) { // sets the goal pose to given parameter

@@ -209,6 +209,8 @@ namespace ElevatorConstants{
 
     constexpr double encoderOffset = 0;
 
+    constexpr double elevatorOffset = 0.75;
+
     constexpr double sprocketRatio = 5.5;
     constexpr int planetaryRatio = 20;
     constexpr int elevatorRatio = 110; // 20:1 maxplanetary * 66:12 sprocket
@@ -281,11 +283,21 @@ namespace OuttakeConstants{
 namespace IntakeConstants{
     constexpr int intakeMotor = 13;
     constexpr int pivotMotor = 14;
-    
+    //might change
+    constexpr int pivotEncoder = 2;
+    constexpr double encoderOffset = 0;
 
+    constexpr double pivotOffset = 0.75;
     constexpr double intakeRatio = 2.0;
     constexpr double pivotRatio = 2.0; 
-    
+
+    constexpr double kiP = 0.50;
+    constexpr double kiI = 0.0000;
+    constexpr double kiD = 0.00;
+    constexpr double kiFF = 0.0;
+    constexpr double kiIz = 0.0;
+    constexpr int kiMaxOutput = 1;
+    constexpr int kiMinOutput = -1;
     constexpr double loadedCurrent = 10.0; // current when note is held
     constexpr double freeCurrent = 5.0; // current when no note is held
     //random guess numbers, experiement in order to prevent burning out the neo550
