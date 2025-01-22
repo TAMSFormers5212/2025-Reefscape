@@ -36,6 +36,7 @@ class RobotContainer {
     double YAxis;
 
     SwerveDrive m_drive;
+    Elevator m_elevator{1, 2, 3, 4/* temp values */};
     Superstructure m_superstructure;
 
     frc2::CommandPtr m_testAuto1 = PathPlannerAuto("Test Auto 1").ToPtr();

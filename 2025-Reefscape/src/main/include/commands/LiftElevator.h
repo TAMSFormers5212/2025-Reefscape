@@ -11,6 +11,8 @@ class LiftElevator : public frc2::CommandHelper<frc2::Command, LiftElevator> {
    public:
     void Initialize() override;
 
+    void Execute() override;
+
     void End(bool interrupted) override;
 
     explicit LiftElevator(Elevator* elevator);
@@ -19,4 +21,4 @@ class LiftElevator : public frc2::CommandHelper<frc2::Command, LiftElevator> {
     Elevator* m_elevator;
 };
 
-}  // namespace cmds
+}

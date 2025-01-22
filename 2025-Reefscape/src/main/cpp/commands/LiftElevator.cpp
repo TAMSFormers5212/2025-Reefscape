@@ -7,8 +7,8 @@ LiftElevator::LiftElevator(Elevator* elevator) : m_elevator{elevator} {
     AddRequirements(m_elevator);
 }
 
-void LiftElevator::Initialize() {
-    //
-}
+void LiftElevator::Initialize() {}
+
+void LiftElevator::Execute() {}
 
 void LiftElevator::End(bool interrupted) {}

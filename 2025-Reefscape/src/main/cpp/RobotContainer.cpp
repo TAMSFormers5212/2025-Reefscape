@@ -30,6 +30,7 @@
 
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
+#include "commands/LiftElevator.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
@@ -41,7 +42,8 @@ using namespace frc2;
 using namespace OIConstants;
 
 RobotContainer::RobotContainer() {
-    // Configure the button bindings
+    NamedCommands::registerCommand("Lift Elevator", cmds::LiftElevator(&m_elevator).ToPtr());
+
     ConfigureBindings();
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
