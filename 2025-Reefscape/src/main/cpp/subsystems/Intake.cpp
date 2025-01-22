@@ -16,7 +16,7 @@ using namespace std;
 using namespace MathConstants;
 Intake::Intake(int intakeMotor, int pivotMotor, int encoder, double encoderOffset): m_intakeMotor(intakeMotor, rev::spark::SparkMax::MotorType::kBrushless),
   m_pivotMotor(pivotMotor, rev::spark::SparkMax::MotorType::kBrushless),
-    m_intakeConfig(), m_pivotConfig(), m_pivotFF() {
+    m_intakeConfig(), m_pivotConfig(), m_pivotFF(kiS, kiA, kiV) {
         resetMotor();
     m_intakeMotor.Configure(m_intakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
     m_pivotMotor.Configure(m_pivotConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);  
