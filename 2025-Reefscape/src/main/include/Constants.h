@@ -301,7 +301,7 @@ namespace IntakeConstants{
     constexpr double loadedCurrent = 10.0; // current when note is held
     constexpr double freeCurrent = 5.0; // current when no note is held
     //random guess numbers, experiement in order to prevent burning out the neo550
-      constexpr units::volt_t kiS{0.0};
+    constexpr units::volt_t kiS{0.0};
     constexpr units::volt_t kiG{0.50};
     constexpr units::volt_t vkiV{0.014};
     constexpr units::radians_per_second_t akiV{1};
