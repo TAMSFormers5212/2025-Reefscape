@@ -26,6 +26,7 @@
 using namespace std;
 using namespace rev::spark;
 using namespace IntakeConstants;
+
 class Intake: public frc2::SubsystemBase {
  public:
   Intake(int intakeMotor, int pivotMotor, int encoder, double encoderOffset);
@@ -81,8 +82,8 @@ void Periodic() override;
     SparkClosedLoopController m_pivotController = m_pivotMotor.GetClosedLoopController();
     int state = IntakeConstants::empty;
 
-    DutyCycleEncoder m_absoluteEncoder{pivotEncoder};
-    ArmFeedforward m_pivotFF;
+    frc::DutyCycleEncoder m_absoluteEncoder{pivotEncoder};
+    frc::ArmFeedforward m_pivotFF;
     double position = 0.0;  
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
