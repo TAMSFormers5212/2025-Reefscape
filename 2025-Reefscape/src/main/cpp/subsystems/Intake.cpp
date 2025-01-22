@@ -110,6 +110,9 @@ void Intake::Periodic() {
     units::radian_t ffP{position+getPosition()-m_pivotEncoder.GetPosition()};
     units::radians_per_second_t ffV{0};
     units::radians_per_second_squared_t ffA(0);
+    m_pivotController.SetReference(position, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, m_pivotFF.Calculate(ffP, ffV, ffA).value());
+    frc::SmartDashboard::PutNumber("intake pos", position);
+    frc::SmartDashboard::PutNumber("intake init pos", initalPosition);
   // Implementation of subsystem periodic method goes here.
 }
 

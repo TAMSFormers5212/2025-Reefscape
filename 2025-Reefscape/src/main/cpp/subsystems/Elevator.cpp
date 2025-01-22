@@ -22,6 +22,7 @@ Elevator::Elevator(int leftMotor, int rightMotor, int encoder, double encoderOff
       m_elevatorFF(ElevatorConstants::kaS, ElevatorConstants::kaG, ElevatorConstants::kaV) {
     resetMotors();
     initialPosition=getPosition();
+    frc::SmartDashboard::PutNumber("elevator init pos", initialPosition);
     m_leftMotor.Configure(m_leftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     m_rightMotor.Configure(m_rightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
   // Implementation of subsystem constructor goes here.
@@ -85,6 +86,7 @@ void Elevator::Periodic(){
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
     m_leftController.SetReference(position, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+    frc::SmartDashboard::PutNumber("elevator pos", position);
 }
 void Elevator::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.
