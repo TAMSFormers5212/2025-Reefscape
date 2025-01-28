@@ -71,6 +71,24 @@ double Elevator::getPosition() { // returns the absolute encoder position with o
     return abs(m_absoluteEncoder.Get()-elevatorOffset)*pi2;
 
 }
+double Elevator::getRelativePosition(){
+    return m_leftEncoder.GetPosition();
+}
+void Elevator::levelOne(){
+    position = levelOneHeight;
+}
+void Elevator::levelTwo(){
+    position = levelTwoHeight;
+}
+void Elevator::levelThree(){
+    position = levelThreeHeight;
+}
+void Elevator::levelFour(){
+    position = levelFourthHeight;
+}
+void Elevator::sourcePos(){
+    position = sourceIntakeHeight;
+}
 void Elevator::setPosition(double pose) { // sets the goal pose to given parameter
     position = pose;
     //smart motion implementation

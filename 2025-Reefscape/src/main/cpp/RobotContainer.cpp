@@ -65,38 +65,39 @@ RobotContainer::RobotContainer() {
     }
     //frc::SmartDashboard::PutNumber("roa t", rot.Degrees().value());
     //frc::SmartDashboard::PutNumber("gyro offset", m_drive.getGyroHeading2().Degrees().value());
-            speedMultiplier = (1 - m_driverController.GetRawAxis(Joystick::ThrottleSlider)) * 0.5;
-            XAxis = -m_driverController.GetRawAxis(Joystick::XAxis) * speedMultiplier;
-            YAxis = m_driverController.GetRawAxis(Joystick::YAxis) * speedMultiplier;
-            RotAxis = -m_driverController.GetRawAxis(Joystick::RotAxis) * speedMultiplier*2;
-            frc::SmartDashboard::PutNumber("speedToggle", m_driverController.GetRawAxis(Joystick::ThrottleSlider));
+            speedMultiplier = 0.5;//(1 - m_driverController.GetRawAxis(Joystick::ThrottleSlider)) * 0.5;
+            XAxis = m_driverController.GetRawAxis(Controller::leftXAxis)*speedMultiplier;//-m_driverController.GetRawAxis(Joystick::XAxis) * speedMultiplier;
+            YAxis =  m_driverController.GetRawAxis(Controller::leftYAxis)*speedMultiplier;//m_driverController.GetRawAxis(Joystick::YAxis) * speedMultiplier;
+            RotAxis =  m_driverController.GetRawAxis(Controller::rightXAxis)*speedMultiplier*2;//-m_driverController.GetRawAxis(Joystick::RotAxis) * speedMultiplier*2;
+            // frc::SmartDashboard::PutNumber("speedToggle", m_driverController.GetRawAxis(Joystick::ThrottleSlider));
             frc::SmartDashboard::PutNumber("speed", speedMultiplier * 100);
-            double rotDeadband = Joystick::deadband*2;
-            if (abs(XAxis) < (Joystick::deadband*speedMultiplier)) {    
+            double rotDeadband = Controller::deadband*2;
+            if (abs(XAxis) < (Controller::deadband*speedMultiplier)) {    
                 XAxis = 0;
             }
-            if (abs(YAxis) < (Joystick::deadband*speedMultiplier)) {
+            if (abs(YAxis) < (Controller::deadband*speedMultiplier)) {
                 YAxis = 0;
             }
             if (abs(RotAxis) < (rotDeadband*speedMultiplier)) {
                 RotAxis = 0;
             }
 
+           
             //frc::SmartDashboard::PutNumber("x", XAxis);
             //frc::SmartDashboard::PutNumber("y", YAxis);
             //frc::SmartDashboard::PutNumber("rot", RotAxis);
 
-            if (m_driverController.GetRawButton(11)) {
-                m_drive.moveToAngle(XAxis, YAxis);
-            } else if (m_driverController.GetRawButton(12)) {
-                m_drive.moveToAngle(0, 0.3);
-            }
+            // if (m_driverController.GetRawButton(11)) {
+            //     m_drive.moveToAngle(XAxis, YAxis);
+            // } else if (m_driverController.GetRawButton(12)) {
+            //     m_drive.moveToAngle(0, 0.3);
+            // }
             std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
-            if (m_driverController.GetRawButton(7)) {
+            if (m_driverController.GetRawButton(Controller::left)) {
                m_drive.toggleOffset();
             }
-            if (m_operatorController.GetRawButton(Controller::down)||m_driverController.GetRawButton(8)) {
+            if (m_operatorController.GetRawButton(Controller::down)||m_driverController.GetRawButton(Controller::down)) {
                 if (m_superstructure.m_vision.isTagPresent()){
                 // if (m_vision.getDistanceError() > 0 &&
                 //     m_vision.getDistanceError() < 25) {
@@ -106,7 +107,7 @@ RobotContainer::RobotContainer() {
                 }
                 
             }
-            if (m_driverController.GetRawButton(6)){
+            if (m_driverController.GetRawButton(Controller::right)){
                 m_drive.resetAbsoluteEncoders();
             }
             // if (m_driverController.GetRawButton(6)) {
@@ -157,14 +158,39 @@ RobotContainer::RobotContainer() {
     ));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] { 
-            
+        if(abs(m_operatorController.GetRawAxis(Controller::leftYAxis))>0.05){
+             if(m_superstructure.m_elevator.getPosition() <= 1.65 || m_operatorController.GetRawAxis(Controller::leftYAxis) < -0.05) {
+                    m_superstructure.m_elevator.setPosition(m_superstructure.m_elevator.getRelativePosition() + m_operatorController.GetRawAxis(Controller::leftYAxis));
+            }
+            else {
+                    m_superstructure.m_elevator.sourcePos(); 
+            }
+        }
+        else{
+        if(m_operatorController.GetRawButton(Controller::Y)){
+            m_superstructure.m_elevator.levelOne();
+        }
+        if(m_operatorController.GetRawButton(Controller::X)){
+            m_superstructure.m_elevator.levelTwo();
+        }
+        if(m_operatorController.GetRawButton(Controller::B)){
+            m_superstructure.m_elevator.levelThree();
+        }
+        if(m_operatorController.GetRawButton(Controller::A)){
+            m_superstructure.m_elevator.levelFour();
+        }
+        if(m_operatorController.GetRawButton(Controller::down)){
+            m_superstructure.m_elevator.sourcePos();
+        }
+        }
+
         },  
         {&m_superstructure.m_elevator}
     ));
     m_superstructure.m_vision.SetDefaultCommand(RunCommand(
         [this] { 
-            if (m_driverController.GetRawButtonPressed(2)) {
-                frc::SmartDashboard::PutBoolean("led button pressed", m_driverController.GetRawButtonPressed(2));
+            if (m_driverController.GetRawButtonPressed(Controller::up)) {
+                frc::SmartDashboard::PutBoolean("led button pressed", m_driverController.GetRawButtonPressed(Controller::up));
                 if (m_superstructure.m_vision.getLedOn() == 3) {
                     m_superstructure.m_vision.setLedOn(1);
                 } else if (m_superstructure.m_vision.getLedOn() == 1) {

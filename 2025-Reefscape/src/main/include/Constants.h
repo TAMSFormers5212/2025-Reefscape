@@ -107,6 +107,8 @@ namespace OIConstants {//Controller buttons
         constexpr int down = 1;
         constexpr int right = 2;
         constexpr int up = 3;
+
+        constexpr double deadband = 0.10; 
     }
 
 
@@ -206,7 +208,12 @@ namespace ElevatorConstants{
 
     constexpr int encoder = 3; // depends on what encoder. planning for a rev through bore 
     // constexpr int limitSwitch = 1;
-
+    constexpr double levelOneHeight = 0;
+    constexpr double levelTwoHeight = 0;
+    constexpr double levelThreeHeight = 0;
+    constexpr double levelFourthHeight = 0;
+    constexpr double sourceIntakeHeight = 0;
+    
     constexpr double encoderOffset = 0;
 
     constexpr double elevatorOffset = 0.75;

@@ -32,9 +32,14 @@ class Elevator : public frc2::SubsystemBase {
     void setPosition(double elevatorPose);
 
     double getPosition();
+    double getRelativePosition();
     void resetMotors();
     void resetEncoders();
-    
+    void levelOne();
+    void levelTwo();
+    void levelThree();
+    void levelFour();
+    void sourcePos();
 
   void Periodic() override;
 
