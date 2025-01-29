@@ -146,7 +146,7 @@ RobotContainer::RobotContainer() {
             }
             if (m_operatorController.GetRawAxis(Controller::leftTrigger) <
                     0.05 &&
-                m_operatorController.GetRawButton(Controller::rightBumper) <
+                m_operatorController.GetRawAxis(Controller::rightTrigger) <
                     0.05) {
                 m_superstructure.m_intake.stopIntake();
             }
