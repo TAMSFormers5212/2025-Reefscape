@@ -34,10 +34,13 @@ void resetMotor();
 void resetEncoder();
 void setSpeed(double speed);
 void setPosition(double pivotPose);
+double getRelativePosition();
 double getPosition();
 void set(double value);
 double groundPreset();
 double processorPreset();
+double firstAlgaePreset();
+double secondAlgaePreset();
 double getSpeed();
 void stopIntake();
 double getOutputCurrent();
@@ -55,7 +58,7 @@ void Periodic() override;
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
   
-
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

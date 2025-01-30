@@ -73,6 +73,30 @@ RobotContainer::RobotContainer() {
     //frc::SmartDashboard::PutNumber("roa t", rot.Degrees().value());
     //frc::SmartDashboard::PutNumber("gyro offset", m_drive.getGyroHeading2().Degrees().value());
             speedMultiplier = 0.5;//(1 - m_driverController.GetRawAxis(Joystick::ThrottleSlider)) * 0.5;
+            //speed 0
+            if(m_driverController.GetRawButton(Controller::Y)){
+                speedMultiplier = 0;
+            }
+            //speed 25%
+            if(m_driverController.GetRawButton(Controller::B)){
+                speedMultiplier = 0.25;
+            }
+            //speed 60%
+            if(m_driverController.GetRawButton(Controller::A)){
+                speedMultiplier = 0.5;
+            }
+            //speed 85%
+            if(m_driverController.GetRawButton(Controller::X)){
+                speedMultiplier = 0.85;
+            }
+            //slowdown
+            if(m_driverController.GetRawButton(Controller::leftBumper)&&speedMultiplier>=0.15){
+                speedMultiplier-=0.15;
+            }
+            //speedup
+            if(m_driverController.GetRawButton(Controller::rightBumper)&&speedMultiplier<=0.85){
+                speedMultiplier+=0.15;
+            }
             XAxis = m_driverController.GetRawAxis(Controller::leftXAxis)*speedMultiplier;//-m_driverController.GetRawAxis(Joystick::XAxis) * speedMultiplier;
             YAxis =  m_driverController.GetRawAxis(Controller::leftYAxis)*speedMultiplier;//m_driverController.GetRawAxis(Joystick::YAxis) * speedMultiplier;
             RotAxis =  m_driverController.GetRawAxis(Controller::rightXAxis)*speedMultiplier*2;//-m_driverController.GetRawAxis(Joystick::RotAxis) * speedMultiplier*2;
@@ -104,7 +128,7 @@ RobotContainer::RobotContainer() {
             if (m_driverController.GetRawButton(Controller::left)) {
                m_drive.toggleOffset();
             }
-            if (m_operatorController.GetRawButton(Controller::down)||m_driverController.GetRawButton(Controller::down)) {
+            if (m_driverController.GetRawButton(Controller::down)) {
                 if (m_superstructure.m_vision.isTagPresent()){
                 // if (m_vision.getDistanceError() > 0 &&
                 //     m_vision.getDistanceError() < 25) {
@@ -129,6 +153,23 @@ RobotContainer::RobotContainer() {
             m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
         },
         {&m_drive}));
+    m_superstructure.SetDefaultCommand(RunCommand(
+        [this] {
+            if(m_operatorController.GetRawButton(Controller::left)){
+                m_superstructure.algaeGround();
+            }
+            if(m_operatorController.GetRawButton(Controller::right)){
+                m_superstructure.algaeProcessor();
+            }
+            if(m_operatorController.GetRawButton(Controller::down)){
+                m_superstructure.algaeFirst();
+            }
+            if(m_operatorController.GetRawButton(Controller::up)){
+                m_superstructure.algaeSecond();
+            }
+        }, 
+    {&m_superstructure}
+    ));
     m_superstructure.m_intake.SetDefaultCommand(RunCommand(
         [this] {
             if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
@@ -149,6 +190,10 @@ RobotContainer::RobotContainer() {
                 m_operatorController.GetRawAxis(Controller::rightTrigger) <
                     0.05) {
                 m_superstructure.m_intake.stopIntake();
+            }
+            
+            if(m_operatorController.GetRawAxis(Controller::rightYAxis)>0.05){
+                m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition()+m_operatorController.GetRawAxis(Controller::rightYAxis));
             }
         },
         {&m_superstructure.m_intake}));
@@ -185,7 +230,7 @@ RobotContainer::RobotContainer() {
         if(m_operatorController.GetRawButton(Controller::A)){
             m_superstructure.m_elevator.levelFour();
         }
-        if(m_operatorController.GetRawButton(Controller::down)){
+        if(m_operatorController.GetRawAxis(Controller::rightXAxis)>0.1){
             m_superstructure.m_elevator.sourcePos();
         }
         }

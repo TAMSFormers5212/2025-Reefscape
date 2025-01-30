@@ -74,6 +74,7 @@ double Elevator::getPosition() { // returns the absolute encoder position with o
 double Elevator::getRelativePosition(){
     return m_leftEncoder.GetPosition();
 }
+
 void Elevator::levelOne(){
     position = levelOneHeight;
 }
@@ -89,6 +90,19 @@ void Elevator::levelFour(){
 void Elevator::sourcePos(){
     position = sourceIntakeHeight;
 }
+void Elevator::groundAlgae(){
+    position = groundAlgaeHeight;
+}
+void Elevator::firstAlgae(){
+    position = firstAlgaeHeight;
+}
+void Elevator::secondAlgae(){
+    position = secondAlgaeHeight;
+}
+void Elevator::processor(){
+    position = processorHeight;
+}
+
 void Elevator::setPosition(double pose) { // sets the goal pose to given parameter
     position = pose;
     //smart motion implementation

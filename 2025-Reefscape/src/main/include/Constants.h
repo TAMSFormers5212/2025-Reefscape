@@ -213,7 +213,11 @@ namespace ElevatorConstants{
     constexpr double levelThreeHeight = 0;
     constexpr double levelFourthHeight = 0;
     constexpr double sourceIntakeHeight = 0;
-    
+    constexpr double groundAlgaeHeight = 0;
+    constexpr double firstAlgaeHeight = 0;
+    constexpr double secondAlgaeHeight = 0;
+    constexpr double processorHeight = 0;
+
     constexpr double encoderOffset = 0;
 
     constexpr double elevatorOffset = 0.75;
@@ -297,6 +301,11 @@ namespace IntakeConstants{
     constexpr double pivotOffset = 0.75;
     constexpr double intakeRatio = 2.0;
     constexpr double pivotRatio = 2.0; 
+
+    constexpr double groundPresetHeight = 0;
+    constexpr double processorPresetHeight = 0;
+    constexpr double firstAlgaePresetHeight = 0;
+    constexpr double secondAlgaePresetHeight = 0;
 
     constexpr double kiP = 0.50;
     constexpr double kiI = 0.0000;

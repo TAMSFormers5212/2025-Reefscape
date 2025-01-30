@@ -29,21 +29,10 @@ class Superstructure : public frc2::SubsystemBase {
   Superstructure();
 
     void resetSuperstructure();
-  /**
-   * Example command factory method.
-   */
-//   frc2::CommandPtr ExampleMethodCommand();
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a
-   * digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
+    void algaeGround();
+    void algaeProcessor();
+    void algaeFirst();
+    void algaeSecond();
   void Periodic() override;
 
   /**

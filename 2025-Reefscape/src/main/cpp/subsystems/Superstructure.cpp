@@ -22,6 +22,25 @@ void Superstructure::resetSuperstructure(){
     // m_rightWinch.resetMotor();
 }
 
+void Superstructure::algaeGround(){
+  m_elevator.groundAlgae();
+  m_intake.setPosition(m_intake.groundPreset());
+}
+
+void Superstructure::algaeProcessor(){
+  m_elevator.processor();
+  m_intake.setPosition(m_intake.processorPreset());
+}
+
+void Superstructure::algaeFirst(){
+  m_elevator.firstAlgae();
+  m_intake.setPosition(m_intake.firstAlgaePreset());
+}
+
+void Superstructure::algaeSecond(){
+  m_elevator.secondAlgae();
+  m_intake.setPosition(m_intake.secondAlgaePreset());
+}
 
 void Superstructure::Periodic() {
   // Implementation of subsystem periodic method goes here.
