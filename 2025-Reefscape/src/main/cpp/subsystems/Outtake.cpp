@@ -14,21 +14,31 @@ using namespace OuttakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
-Outtake::Outtake(int motor, int sensor): m_outtakeMotor(motor, rev::spark::SparkMax::MotorType::kBrushless),
-    m_outtakeConfig() {
+Outtake::Outtake(int leftMotor, int rightMotor, int sensor): m_leftOuttakeMotor(leftMotor, rev::spark::SparkMax::MotorType::kBrushless),
+    m_rightOuttakeMotor(rightMotor, rev::spark::SparkMax::MotorType::kBrushless),
+    m_leftOuttakeConfig(), m_rightOuttakeConfig() {
         resetMotor();
-    m_outtakeMotor.Configure(m_outtakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_leftOuttakeMotor.Configure(m_leftOuttakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_rightOuttakeMotor.Configure(m_rightOuttakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
   // Implementation of subsystem constructor goes here.
 }
 void Outtake::resetMotor() {
 
-    m_outtakeConfig
+    m_leftOuttakeConfig
+       .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
+       .VoltageCompensation(12.0)
+       .SmartCurrentLimit(20, 25)
+       .Inverted(true);
+    m_rightOuttakeConfig
        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
        .VoltageCompensation(12.0)
        .SmartCurrentLimit(20, 25)
        .Inverted(true);
 
-    m_outtakeConfig.encoder
+    m_leftOuttakeConfig.encoder
+    //replace intakeRatio
+        .PositionConversionFactor(1.0 / pulleyRatio);
+    m_rightOuttakeConfig.encoder
     //replace intakeRatio
         .PositionConversionFactor(1.0 / pulleyRatio);
     // m_intakeController.SetP(kiP);
@@ -48,11 +58,13 @@ void Outtake::resetMotor() {
     // m_intakeMotor.SetSmartCurrentLimit(20, 25);
     // m_intakeMotor.SetInverted(true);
 
-    m_outtakeMotor.Configure(m_outtakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_leftOuttakeMotor.Configure(m_leftOuttakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
+    m_rightOuttakeMotor.Configure(m_rightOuttakeConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
 void Outtake::stopOuttake() {  // in case of 2 notes and need to eject 
-    m_outtakeMotor.Set(0);
+    m_leftOuttakeMotor.Set(0);
+    m_rightOuttakeMotor.Set(0);
 }
 void Outtake::intakeCoral(){
   while(!coralHeld){
@@ -61,10 +73,11 @@ void Outtake::intakeCoral(){
   stopOuttake();
 }
 void Outtake::setSpeed(double speed){
-  m_outtakeMotor.Set(speed);
+  m_leftOuttakeMotor.Set(speed);
+  m_rightOuttakeMotor.Set(speed);
 }
 double Outtake::getSpeed(){
-  return m_encoder.GetVelocity();
+  return m_leftEncoder.GetVelocity();
   }
 
 bool Outtake::getCoral(){

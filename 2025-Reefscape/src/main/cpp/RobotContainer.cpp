@@ -192,7 +192,7 @@ RobotContainer::RobotContainer() {
                 m_superstructure.m_intake.stopIntake();
             }
             
-            if(m_operatorController.GetRawAxis(Controller::rightYAxis)>0.05){
+            if(abs(m_operatorController.GetRawAxis(Controller::rightYAxis))>0.05){
                 m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition()+m_operatorController.GetRawAxis(Controller::rightYAxis));
             }
         },
@@ -230,7 +230,7 @@ RobotContainer::RobotContainer() {
         if(m_operatorController.GetRawButton(Controller::A)){
             m_superstructure.m_elevator.levelFour();
         }
-        if(m_operatorController.GetRawAxis(Controller::rightXAxis)>0.1){
+        if(abs(m_operatorController.GetRawAxis(Controller::rightXAxis))>0.1){
             m_superstructure.m_elevator.sourcePos();
         }
         }

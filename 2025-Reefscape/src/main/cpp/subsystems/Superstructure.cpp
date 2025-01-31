@@ -3,9 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Superstructure.h"
-
 Superstructure::Superstructure(): 
-m_intake(IntakeConstants::intakeMotor, IntakeConstants::pivotMotor, IntakeConstants::pivotEncoder, IntakeConstants::pivotOffset), m_outtake(OuttakeConstants::motor, OuttakeConstants::beamBreakIO), 
+m_intake(IntakeConstants::intakeMotor, IntakeConstants::pivotMotor, IntakeConstants::pivotEncoder, IntakeConstants::pivotOffset), m_outtake(OuttakeConstants::leftMotor, OuttakeConstants::rightMotor, OuttakeConstants::beamBreakIO), 
 m_elevator(ElevatorConstants::leftMotor, ElevatorConstants::rightMotor,ElevatorConstants::encoder, ElevatorConstants::encoderOffset ),
 m_vision() {
   resetSuperstructure();
