@@ -341,7 +341,6 @@ namespace IntakeConstants
 namespace WinchConstants
 {
     constexpr int leftWinchMotor = 1;
-    constexpr int rightWinchMotor = 10;
 
     constexpr double winchRatio = 60;
     constexpr units::inch_t winchDiameter = 0.5_in;
