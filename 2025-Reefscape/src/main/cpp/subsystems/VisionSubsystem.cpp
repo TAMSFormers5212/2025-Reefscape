@@ -8,6 +8,7 @@
 #include "networktables/NetworkTableInstance.h"
 #include "networktables/NetworkTableValue.h"
 
+
 using namespace VisionConstants;
 using namespace MathConstants;
 
@@ -27,7 +28,7 @@ bool VisionSubsystem::VisionCondition() {
 }
 
 void VisionSubsystem::Periodic() {
-    table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     table2 = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumberArray("tid", std::vector<double>(6));
     nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", ledOn);
 
@@ -86,12 +87,13 @@ void VisionSubsystem::Periodic() {
     // frc::SmartDashboard::PutNumber("actualdistance", distanceFromCenterToGoalInches);
     frc::SmartDashboard::PutNumber("id", id);
     double targetOffsetAngle_Horizontal = table->GetNumber("tx", 0.0);
+    // double targetOffsetAngle_Horizontal = LimelightHelpers::getTX("")
     double heading_error = targetOffsetAngle_Horizontal;//+VisionConstants::subWooferAngleOffset;//asin(VisionConstants::limelightHorizontalOffset.value()/distanceFromLimelightToGoalInches);
     // pid.SetSetpoint(0);
-    //frc::SmartDashboard::PutNumber("heading", heading_error);
-    //frc::SmartDashboard::PutNumber("tx", targetOffsetAngle_Horizontal);
+    frc::SmartDashboard::PutNumber("heading", heading_error);
+    frc::SmartDashboard::PutNumber("tx", targetOffsetAngle_Horizontal);
     double output = pid.Calculate(heading_error, 0);
-    //frc::SmartDashboard::PutNumber("pid", output);
+    frc::SmartDashboard::PutNumber("pid", output);
     if (targetOffsetAngle_Horizontal != 0){
       setOutput(output);
     }

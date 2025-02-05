@@ -110,7 +110,7 @@ namespace OIConstants
         constexpr int right = 2;
         constexpr int up = 3;
 
-        constexpr double deadband = 0.10;
+        constexpr double deadband = 0.05;
     }
 
 }
@@ -371,9 +371,9 @@ namespace VisionConstants
 {
 
     // vision pid constants for aiming
-    constexpr double kvP = 0.05;
+    constexpr double kvP = 0.06;
     constexpr double kvI = 0.00;
-    constexpr double kvD = 0.01;
+    constexpr double kvD = 0.00;
     constexpr double kvFF = 0.0;
 
     constexpr double stableSpeed = 1.0; // random value for now
