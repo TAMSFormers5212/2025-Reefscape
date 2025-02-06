@@ -371,9 +371,9 @@ namespace VisionConstants
 {
 
     // vision pid constants for aiming
-    constexpr double kvP = 0.06;
-    constexpr double kvI = 0.00;
-    constexpr double kvD = 0.00;
+    constexpr double kvP = 0.15;
+    constexpr double kvI = 0.001;
+    constexpr double kvD = 0.01;
     constexpr double kvFF = 0.0;
 
     constexpr double stableSpeed = 1.0; // random value for now

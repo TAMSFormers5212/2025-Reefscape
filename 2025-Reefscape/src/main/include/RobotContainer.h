@@ -50,5 +50,12 @@ class RobotContainer {
     // frc2::CommandXboxController m_driverController{
     //     OperatorConstants::kDriverControllerPort};
 
+    bool runAlign = false;
+
+    bool prevDown = false;
+    bool prevUp = false;
+    bool prevLeft = false;
+    bool prevRight = false;
+
     void ConfigureBindings();
 };
