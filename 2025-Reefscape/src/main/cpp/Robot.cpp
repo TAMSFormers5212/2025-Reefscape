@@ -3,7 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-
+#include "wpinet/WebServer.h"
+#include <string>
 #include <frc2/command/CommandScheduler.h>
 
 void Robot::RobotInit() {}
