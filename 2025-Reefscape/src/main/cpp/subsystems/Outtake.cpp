@@ -28,7 +28,7 @@ void Outtake::resetMotor() {
        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
        .VoltageCompensation(12.0)
        .SmartCurrentLimit(20, 25)
-       .Inverted(true);
+       .Inverted(false);
     m_rightOuttakeConfig
        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
        .VoltageCompensation(12.0)
@@ -67,9 +67,9 @@ void Outtake::stopOuttake() {  // in case of 2 notes and need to eject
     m_rightOuttakeMotor.Set(0);
 }
 void Outtake::intakeCoral(){
-  while(!coralHeld){
-   setSpeed(0.4);
-  }
+  // while(!coralHeld){
+  //  setSpeed(0.4);
+  // }
   stopOuttake();
 }
 void Outtake::setSpeed(double speed){

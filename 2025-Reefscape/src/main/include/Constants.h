@@ -127,7 +127,7 @@ namespace SwerveModuleConstants
     constexpr double kdD = 0.0;
     constexpr double kdFF = 0.225;
 
-    constexpr auto maxSpeed = 1.00_mps;         // max free speed of SDS mk4 L1 withs neos
+    constexpr auto maxSpeed = 3.00_mps;         // max free speed of SDS mk4 L1 withs neos
     constexpr auto maxRotation = 2.0_rad_per_s; // figure this out later
     constexpr double driveRatio = 8.14;         // SDS Mk4 L1
     constexpr double steerRatio = 12.8;         // SDS Mk4 L1
@@ -233,7 +233,7 @@ namespace ElevatorConstants
     constexpr int planetaryRatio = 15;
     constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
-    constexpr double kaP = 0.50;
+    constexpr double kaP = 0.5;
     constexpr double kaI = 0.0000;
     constexpr double kaD = 0.00;
     constexpr double kaFF = 0.0;

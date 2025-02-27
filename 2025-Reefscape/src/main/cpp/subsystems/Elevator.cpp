@@ -38,7 +38,8 @@ void Elevator::resetMotors() {
     m_leftConfig
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(40);
+        .SmartCurrentLimit(40)
+        .Follow(m_rightMotor, true);
 
     // m_leftConfig.encoder
     //     .PositionConversionFactor(pi2 / elevatorRatio);
@@ -49,8 +50,8 @@ void Elevator::resetMotors() {
     m_rightConfig
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(40)
-        .Follow(m_leftMotor, true);
+        .SmartCurrentLimit(40);
+        
     m_rightConfig.encoder
         .PositionConversionFactor(pi2 / elevatorRatio);
     // m_leftEncoder.SetPosition(getPosition());
@@ -65,6 +66,10 @@ void Elevator::resetEncoders(){
     // m_leftEncoder.SetPosition(getPosition());
     m_rightEncoder.SetPosition(getPosition());
     initialPosition = getPosition();
+}
+void Elevator::setSpeed(int speed){
+    m_leftMotor.Set(speed);
+    m_rightMotor.Set(speed);
 }
 double Elevator::getPosition() { // returns the absolute encoder position with offset
     // return abs(m_absoluteEncoder.GetAbsolutePosition()-0.75)*pi2;
@@ -117,8 +122,8 @@ void Elevator::Periodic(){
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
-    m_leftController.SetReference(position, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
-    frc::SmartDashboard::PutNumber("elevator pos", position);
+    m_rightController.SetReference(position, rev::spark::SparkLowLevel::ControlType::kPosition, rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+    frc::SmartDashboard::PutNumber("elevator pos", m_absoluteEncoder.Get());
 }
 void Elevator::SimulationPeriodic() {
   // Implementation of subsystem simulation periodic method goes here.

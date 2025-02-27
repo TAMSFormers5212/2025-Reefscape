@@ -33,6 +33,7 @@ class Elevator : public frc2::SubsystemBase {
 
     double getPosition();
     double getRelativePosition();
+    void setSpeed(int speed);
     void resetMotors();
     void resetEncoders();
     void levelOne();
