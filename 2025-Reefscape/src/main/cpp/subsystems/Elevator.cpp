@@ -40,8 +40,8 @@ void Elevator::resetMotors() {
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(40);
 
-    m_leftConfig.encoder
-        .PositionConversionFactor(pi2 / elevatorRatio);
+    // m_leftConfig.encoder
+    //     .PositionConversionFactor(pi2 / elevatorRatio);
     m_rightConfig.closedLoop
         .Pidf(kaP, kaI, kaD, kaFF)
         .IZone(kaIz)
@@ -53,7 +53,7 @@ void Elevator::resetMotors() {
         .Follow(m_leftMotor, true);
     m_rightConfig.encoder
         .PositionConversionFactor(pi2 / elevatorRatio);
-    m_leftEncoder.SetPosition(getPosition());
+    // m_leftEncoder.SetPosition(getPosition());
     m_rightEncoder.SetPosition(getPosition());
     resetEncoders();
     m_leftMotor.Configure(m_leftConfig, SparkMax::ResetMode::kResetSafeParameters, SparkMax::PersistMode::kPersistParameters);
@@ -62,7 +62,7 @@ void Elevator::resetMotors() {
 }
 
 void Elevator::resetEncoders(){
-    m_leftEncoder.SetPosition(getPosition());
+    // m_leftEncoder.SetPosition(getPosition());
     m_rightEncoder.SetPosition(getPosition());
     initialPosition = getPosition();
 }
@@ -72,7 +72,7 @@ double Elevator::getPosition() { // returns the absolute encoder position with o
 
 }
 double Elevator::getRelativePosition(){
-    return m_leftEncoder.GetPosition();
+    return m_rightEncoder.GetPosition();
 }
 
 void Elevator::levelOne(){

@@ -60,7 +60,7 @@ class Elevator : public frc2::SubsystemBase {
      SparkMaxConfig m_leftConfig;
     SparkMaxConfig m_rightConfig;
 
-    SparkRelativeEncoder m_leftEncoder = m_leftMotor.GetEncoder();
+    // SparkRelativeEncoder m_leftEncoder = m_leftMotor.GetEncoder();
     SparkRelativeEncoder m_rightEncoder = m_rightMotor.GetEncoder();
 
      SparkClosedLoopController m_leftController = m_leftMotor.GetClosedLoopController(); // leader
