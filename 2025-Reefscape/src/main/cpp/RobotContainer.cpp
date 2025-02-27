@@ -65,7 +65,7 @@ RobotContainer::RobotContainer() {
             //         speedMultiplier;
             // YAxis = m_driverController.GetRawAxis(Joystick::YAxis) *
             //         speedMultiplier;
-            // RotAxis = -m_driverController.GetRawAxis(Joystick::RotAxis) *
+            // RotAxis = -m_driverController.GetRawAxis(Joystick::RotAxis) * 
             //           speedMultiplier * 2;
             // frc::SmartDashboard::PutNumber(
             //     "speedToggle",

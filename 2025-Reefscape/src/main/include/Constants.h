@@ -229,9 +229,9 @@ namespace ElevatorConstants
 
     constexpr double elevatorOffset = 0.75;
 
-    constexpr double sprocketRatio = 5.5;
-    constexpr int planetaryRatio = 20;
-    constexpr int elevatorRatio = 110; // 20:1 maxplanetary * 66:12 sprocket
+    constexpr double sprocketRatio = 1;
+    constexpr int planetaryRatio = 15;
+    constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
     constexpr double kaP = 0.50;
     constexpr double kaI = 0.0000;
@@ -267,34 +267,34 @@ namespace OuttakeConstants
     constexpr int rightMotor = 14;
     constexpr int beamBreakIO = 0; // digital io pins
 
-    constexpr double pulleyRatio = 30.0 / 18.0;
+    constexpr double pulleyRatio = 16.0 / 22.0;
     constexpr units::inch_t wheelDiameter = 4_in; // may change based on rpm
 
     // velocity pid
-    constexpr double ksS = 0.1;
-    constexpr double ksV = 0.1;
-    constexpr double ksA = 0.0;
+    // constexpr double ksS = 0.1;
+    // constexpr double ksV = 0.1;
+    // constexpr double ksA = 0.0;
 
     // idk abt these values so making new ones
-    constexpr double ksP = 0.001;  // shooter uses a velocity PID 0.001
-    constexpr double ksI = 0.0;    // since the shooter motors are completely separate, it may be useful to tune them separately
-    constexpr double ksD = 0.0005; // 0.0005
-    constexpr double ksFF = 0.0;
+    // constexpr double ksP = 0.001;  // shooter uses a velocity PID 0.001
+    // constexpr double ksI = 0.0;    // since the shooter motors are completely separate, it may be useful to tune them separately
+    // constexpr double ksD = 0.0005; // 0.0005
+    // constexpr double ksFF = 0.0;
 
-    constexpr units::revolutions_per_minute_t maxNeoRpm = 5700_rpm;
-    constexpr units::revolutions_per_minute_t maxWheelRpm = 9000_rpm; // replace this value with whatever max andymark says
-    constexpr units::feet_per_second_t maxExitVelocity = 90_fps;
+    // constexpr units::revolutions_per_minute_t maxNeoRpm = 5700_rpm;
+    // constexpr units::revolutions_per_minute_t maxWheelRpm = 9000_rpm; // replace this value with whatever max andymark says
+    // constexpr units::feet_per_second_t maxExitVelocity = 90_fps;
 
-    constexpr units::volt_t KlsS{0.16};   // friction term`
-    constexpr units::volt_t vKlsV{0.019}; // velocity term
-    constexpr units::meter_t aKlsV{1};
-    constexpr units::second_t sKlsV{1};
-    constexpr auto KlsV = vKlsV * sKlsV / aKlsV;
+    // constexpr units::volt_t KlsS{0.16};   // friction term`
+    // constexpr units::volt_t vKlsV{0.019}; // velocity term
+    // constexpr units::meter_t aKlsV{1};
+    // constexpr units::second_t sKlsV{1};
+    // constexpr auto KlsV = vKlsV * sKlsV / aKlsV;
 
-    constexpr units::volt_t KrsS{0.195};  // friction term
-    constexpr units::volt_t vKrsV{0.019}; // velocity term
-    constexpr units::meter_t aKrsV{1};
-    constexpr auto KrsV = vKrsV * sKlsV / aKrsV;
+    // constexpr units::volt_t KrsS{0.195};  // friction term
+    // constexpr units::volt_t vKrsV{0.019}; // velocity term
+    // constexpr units::meter_t aKrsV{1};
+    // constexpr auto KrsV = vKrsV * sKlsV / aKrsV;
 
 }
 
@@ -308,7 +308,10 @@ namespace IntakeConstants
 
     constexpr double pivotOffset = 0.75;
     constexpr double intakeRatio = 2.0;
-    constexpr double pivotRatio = 2.0;
+
+    constexpr double pivotSprocketRatio = 5.5;
+    constexpr int pivotPlanetaryRatio = 20;
+    constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
 
     constexpr double groundPresetHeight = 0;
     constexpr double processorPresetHeight = 0;
