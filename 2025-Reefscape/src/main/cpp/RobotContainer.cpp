@@ -47,7 +47,9 @@ RobotContainer::RobotContainer() {
         cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
 
     ConfigureBindings();
+    m_rotationTest = PathPlannerAuto("Two Meter Test").ToPtr();
 
+    m_chooser.AddOption("Rotation Auto", m_rotationTest.get());
     // BooleanEvent povDown;
     // m_driverController.POVDown()
     m_drive.SetDefaultCommand(RunCommand(
@@ -334,13 +336,15 @@ void RobotContainer::ConfigureBindings() {
     // // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
     // // pressed, cancelling on release.
     // m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+frc2::Command* RobotContainer::GetAutonomousCommand() {
     // An example command will be run in autonomous
     // return autos::ExampleAuto(&m_subsystem);
-    auto path = PathPlannerPath::fromPathFile("Example Path");
-    return AutoBuilder::followPath(path);
+    // auto path = PathPlannerPath::fromPathFile("Example Path");
+    // return AutoBuilder::followPath(path);
+    return (m_chooser.GetSelected());
 }
 
 void RobotContainer::Periodic() {}
