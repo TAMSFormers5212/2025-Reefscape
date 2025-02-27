@@ -233,14 +233,14 @@ RobotContainer::RobotContainer() {
                 m_superstructure.m_intake.setSpeed(0.8);
                 // }
             }
-            if (m_operatorController.GetRawAxis(Controller::leftTrigger) >
+            else if (m_operatorController.GetRawAxis(Controller::leftTrigger) >
                 0.05) {
                 m_superstructure.m_intake.setSpeed(-0.4);
             }
-            if (m_operatorController.GetRawAxis(Controller::leftTrigger) <
+            else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
                     0.05 &&
                 m_operatorController.GetRawAxis(Controller::rightTrigger) <
-                    0.05) {
+                    0.05)*/ {
                 m_superstructure.m_intake.stopIntake();
             }
 
@@ -255,11 +255,19 @@ RobotContainer::RobotContainer() {
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
             if (m_operatorController.GetRawButton(Controller::leftBumper)) {
-                m_superstructure.m_outtake.intakeCoral();
-                m_superstructure.m_outtake.setSpeed(0.4);
+                // m_superstructure.m_outtake.intakeCoral();
+                m_superstructure.m_outtake.setLeftSpeed(-0.4);
             }
             else if (m_operatorController.GetRawButton(Controller::rightBumper)) {
-                m_superstructure.m_outtake.setSpeed(-0.4);
+                m_superstructure.m_outtake.setRightSpeed(-0.4);
+            }
+            else if(m_operatorController.GetRawButton(Controller::leftPaddle)){
+                m_superstructure.m_outtake.setLeftSpeed(0.4);
+            
+            }
+            else if(m_operatorController.GetRawButton(Controller::rightPaddle)){
+                m_superstructure.m_outtake.setRightSpeed(0.4);
+            
             }
             else {
                 m_superstructure.m_outtake.setSpeed(0);

@@ -96,8 +96,8 @@ namespace OIConstants
         constexpr int Y = 4;
         constexpr int leftBumper = 5;
         constexpr int rightBumper = 6;
-        constexpr int View = 7;
-        constexpr int Menu = 8;
+        constexpr int rightPaddle = 7;
+        constexpr int leftPaddle = 8;
         constexpr int LPress = 9;
         constexpr int RPress = 10;
         // POV buttons (the d-pad)

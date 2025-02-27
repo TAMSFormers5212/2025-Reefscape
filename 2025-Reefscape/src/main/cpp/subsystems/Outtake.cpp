@@ -27,12 +27,12 @@ void Outtake::resetMotor() {
     m_leftOuttakeConfig
        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
        .VoltageCompensation(12.0)
-       .SmartCurrentLimit(20, 25)
+       .SmartCurrentLimit(40)
        .Inverted(false);
     m_rightOuttakeConfig
        .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
        .VoltageCompensation(12.0)
-       .SmartCurrentLimit(20, 25)
+       .SmartCurrentLimit(40)
        .Inverted(true);
 
     m_leftOuttakeConfig.encoder
@@ -76,6 +76,15 @@ void Outtake::setSpeed(double speed){
   m_leftOuttakeMotor.Set(speed);
   m_rightOuttakeMotor.Set(speed);
 }
+
+void Outtake::setLeftSpeed(double speed){
+  m_leftOuttakeMotor.Set(speed);
+}
+void Outtake::setRightSpeed(double speed){
+  m_rightOuttakeMotor.Set(speed);
+}
+
+
 double Outtake::getSpeed(){
   return m_leftEncoder.GetVelocity();
   }

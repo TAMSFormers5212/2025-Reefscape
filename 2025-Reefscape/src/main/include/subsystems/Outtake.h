@@ -28,6 +28,8 @@ void intakeCoral();
 void stopOuttake();
 bool getCoral();
 void setSpeed(double speed);
+void setLeftSpeed(double speed);
+void setRightSpeed(double speed);
 void Periodic() override;
   /**
    * Example command factory method.
