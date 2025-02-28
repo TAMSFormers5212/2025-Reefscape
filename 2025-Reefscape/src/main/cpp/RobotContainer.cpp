@@ -47,10 +47,11 @@ RobotContainer::RobotContainer() {
         cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
 
     ConfigureBindings();
-    m_rotationTest = PathPlannerAuto("Two Meter Test").ToPtr();
+    m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
+    m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
 
     m_chooser.SetDefaultOption("Rotation Auto", m_rotationTest.get());
-
+    m_chooser.AddOption("Mobility Auton", m_mobility.get());
     frc::SmartDashboard::PutData(&m_chooser);
     // BooleanEvent povDown;
     // m_driverController.POVDown()

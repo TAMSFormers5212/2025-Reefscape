@@ -53,6 +53,8 @@ class RobotContainer {
 
     frc2::CommandPtr m_rotationTest =
         PathPlannerAuto("Rotation Testing").ToPtr();
+    frc2::CommandPtr m_mobility =
+        PathPlannerAuto("Mobility Auton").ToPtr();
     frc::SendableChooser<frc2::Command*> m_chooser;
 
     bool runAlign = false;

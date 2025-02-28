@@ -85,7 +85,8 @@ void Intake::resetEncoder() {
 void Intake::setPosition(double pivotPose) { position = pivotPose; }
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 double Intake::getPosition() {
-    return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
+    // return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
+    return m_pivotEncoder.GetPosition();
 }
 void Intake::set(double value) { m_pivotMotor.Set(value); }
 
