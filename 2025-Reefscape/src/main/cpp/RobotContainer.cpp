@@ -49,7 +49,9 @@ RobotContainer::RobotContainer() {
     ConfigureBindings();
     m_rotationTest = PathPlannerAuto("Two Meter Test").ToPtr();
 
-    m_chooser.AddOption("Rotation Auto", m_rotationTest.get());
+    m_chooser.SetDefaultOption("Rotation Auto", m_rotationTest.get());
+
+    frc::SmartDashboard::PutData(&m_chooser);
     // BooleanEvent povDown;
     // m_driverController.POVDown()
     m_drive.SetDefaultCommand(RunCommand(
@@ -112,15 +114,15 @@ RobotContainer::RobotContainer() {
             }
             XAxis =
                 m_driverController.GetRawAxis(Controller::leftXAxis) *
-                speedMultiplier;  //-m_driverController.GetRawAxis(Joystick::XAxis)
+                -speedMultiplier;  //-m_driverController.GetRawAxis(Joystick::XAxis)
                                   //* speedMultiplier;
             YAxis =
                 m_driverController.GetRawAxis(Controller::leftYAxis) *
                 speedMultiplier;  // m_driverController.GetRawAxis(Joystick::YAxis)
                                   // * speedMultiplier;
-            RotAxis = -m_driverController.GetRawAxis(Controller::rightXAxis) *
+            RotAxis = m_driverController.GetRawAxis(Controller::rightXAxis) *
                       speedMultiplier *
-                      2;  //-m_driverController.GetRawAxis(Joystick::RotAxis)
+                      -2;  //-m_driverController.GetRawAxis(Joystick::RotAxis)
                           //* speedMultiplier*2;
             // frc::SmartDashboard::PutNumber("speedToggle",
             // m_driverController.GetRawAxis(Joystick::ThrottleSlider));
