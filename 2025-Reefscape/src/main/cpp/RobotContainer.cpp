@@ -231,7 +231,7 @@ RobotContainer::RobotContainer() {
             }
 
             if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
-                0.05) {
+                0.05 && !opPrevDown && !opPrevUp && !opPrevLeft && !opPrevRight) {
                 m_superstructure.m_intake.setPosition(
                     m_superstructure.m_intake.getRelativePosition() +
                     m_operatorController.GetRawAxis(Controller::rightYAxis));
@@ -280,16 +280,16 @@ RobotContainer::RobotContainer() {
                 if (m_operatorController.GetRawButton(Controller::Y)) {
                     m_superstructure.m_elevator.levelOne();
                 }
-                if (m_operatorController.GetRawButton(Controller::X)) {
+                else if (m_operatorController.GetRawButton(Controller::X)) {
                     m_superstructure.m_elevator.levelTwo();
                 }
-                if (m_operatorController.GetRawButton(Controller::B)) {
+                else if (m_operatorController.GetRawButton(Controller::B)) {
                     m_superstructure.m_elevator.levelThree();
                 }
-                if (m_operatorController.GetRawButton(Controller::A)) {
+                else if (m_operatorController.GetRawButton(Controller::A)) {
                     m_superstructure.m_elevator.levelFour();
                 }
-                if (abs(m_operatorController.GetRawAxis(
+                else if (abs(m_operatorController.GetRawAxis(
                         Controller::rightXAxis)) > 0.1) {
                     m_superstructure.m_elevator.sourcePos();
                 }
