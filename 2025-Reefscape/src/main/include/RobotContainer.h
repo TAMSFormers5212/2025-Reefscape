@@ -10,21 +10,13 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 
 #include "Constants.h"
 #include "subsystems/Superstructure.h"
 #include "subsystems/SwerveDrive.h"
-#include <frc2/command/CommandPtr.h>
-#include <pathplanner/lib/commands/PathPlannerAuto.h>
-#include <pathplanner/lib/auto/AutoBuilder.h>
-#include <pathplanner/lib/path/PathPlannerPath.h>
-#include <frc2/command/Command.h>
-#include <frc/smartdashboard/SendableChooser.h>
-
-#include <pathplanner/lib/auto/NamedCommands.h>
-
 
 using namespace OIConstants;
 using namespace pathplanner;
@@ -59,7 +51,8 @@ class RobotContainer {
     // frc2::CommandXboxController m_driverController{
     //     OperatorConstants::kDriverControllerPort};
 
-    frc2::CommandPtr m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
+    frc2::CommandPtr m_rotationTest =
+        PathPlannerAuto("Rotation Testing").ToPtr();
     frc::SendableChooser<frc2::Command*> m_chooser;
 
     bool runAlign = false;
@@ -68,6 +61,11 @@ class RobotContainer {
     bool prevUp = false;
     bool prevLeft = false;
     bool prevRight = false;
+
+    bool opPrevDown = false;
+    bool opPrevUp = false;
+    bool opPrevLeft = false;
+    bool opPrevRight = false;
 
     void ConfigureBindings();
 };
