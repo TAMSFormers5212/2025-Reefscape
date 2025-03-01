@@ -31,6 +31,8 @@
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
 #include "commands/LiftElevator.h"
+#include "commands/OuttakeCmd.h"
+#include "commands/StopOuttake.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
@@ -42,18 +44,19 @@ using namespace frc2;
 using namespace OIConstants;
 
 RobotContainer::RobotContainer() {
-    // NamedCommands::registerCommand(
-    //     "Lift Elevator",
-    //     cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
-    // NamedCommands::registerCommand("Reverse Shooter", ReverseShooter(&m_superstructure.m_shooter).ToPtr());
-    // NamedCommands::registerCommand("Ready Shooter", ReadyShooter(&m_superstructure.m_shooter).ToPtr());
+    NamedCommands::registerCommand(
+        "Lift Elevator",
+        cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand("Outtake L1", OuttakeCmd(&m_superstructure.m_outtake).ToPtr());
+    NamedCommands::registerCommand("Stop Outtake", StopOuttake(&m_superstructure.m_outtake).ToPtr());
 
     ConfigureBindings();
     m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
     m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
+    m_oneCoral = PathPlannerAuto("1 Coral Auton").ToPtr();
 
     m_chooser.SetDefaultOption("Mobility Auton", m_mobility.get());
-    // m_chooser.AddOption("Mobility Auton", m_mobility.get());
+    m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
     // m_chooser.AddOption("Test Auto 1", m_testAu)
     frc::SmartDashboard::PutData(&m_chooser);
     // BooleanEvent povDown;
