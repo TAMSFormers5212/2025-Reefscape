@@ -47,8 +47,10 @@ RobotContainer::RobotContainer() {
     NamedCommands::registerCommand(
         "Lift Elevator",
         cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
-    NamedCommands::registerCommand("Outtake L1", OuttakeCmd(&m_superstructure.m_outtake).ToPtr());
-    NamedCommands::registerCommand("Stop Outtake", StopOuttake(&m_superstructure.m_outtake).ToPtr());
+    NamedCommands::registerCommand(
+        "Outtake L1", OuttakeCmd(&m_superstructure.m_outtake).ToPtr());
+    NamedCommands::registerCommand(
+        "Stop Outtake", StopOuttake(&m_superstructure.m_outtake).ToPtr());
 
     ConfigureBindings();
     m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
@@ -89,9 +91,9 @@ RobotContainer::RobotContainer() {
             // frc::SmartDashboard::PutNumber("roa t", rot.Degrees().value());
             // frc::SmartDashboard::PutNumber("gyro offset",
             // m_drive.getGyroHeading2().Degrees().value());
-             //(1 -
-                      // m_driverController.GetRawAxis(Joystick::ThrottleSlider))
-                      //* 0.5;
+            //(1 -
+            // m_driverController.GetRawAxis(Joystick::ThrottleSlider))
+            //* 0.5;
             // speed 0
             if (m_driverController.GetRawButton(Controller::Y)) {
                 speedMultiplier = 0;
@@ -234,34 +236,38 @@ RobotContainer::RobotContainer() {
             {
                 m_superstructure.m_intake.stopIntake();
             }
-                m_superstructure.m_intake.setSpeed(m_operatorController.GetRawAxis(Controller::rightYAxis)/6);
-            // if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
+            m_superstructure.m_intake.setSpeed(
+                m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
+            // if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))
+            // >
             //     0.05) {
-                    
+
             //     // m_superstructure.m_intake.setPosition(
-                //     m_superstructure.m_intake.getRelativePosition() +
-                //     m_operatorController.GetRawAxis(Controller::rightYAxis));
+            //     m_superstructure.m_intake.getRelativePosition() +
+            //     m_operatorController.GetRawAxis(Controller::rightYAxis));
             // }
         },
         {&m_superstructure.m_intake}));
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
-            if (m_operatorController.GetRawButton(Controller::leftBumper)&&m_operatorController.GetRawButton(Controller::rightBumper)){
+            if (m_operatorController.GetRawButton(Controller::leftBumper) &&
+                m_operatorController.GetRawButton(Controller::rightBumper)) {
                 m_superstructure.m_outtake.setLeftSpeed(-0.2);
                 m_superstructure.m_outtake.setRightSpeed(-0.2);
             }
             if (m_operatorController.GetRawButton(Controller::leftBumper)) {
                 // m_superstructure.m_outtake.intakeCoral();
-                m_superstructure.m_outtake.setLeftSpeed(-0.2        );
+                m_superstructure.m_outtake.setLeftSpeed(-0.2);
             } else if (m_operatorController.GetRawButton(
                            Controller::rightBumper)) {
                 m_superstructure.m_outtake.setRightSpeed(-0.2);
-            }
-            else if (m_operatorController.GetRawButton(Controller::leftPaddle)&&m_operatorController.GetRawButton(Controller::rightPaddle)){
+            } else if (m_operatorController.GetRawButton(
+                           Controller::leftPaddle) &&
+                       m_operatorController.GetRawButton(
+                           Controller::rightPaddle)) {
                 m_superstructure.m_outtake.setLeftSpeed(0.2);
                 m_superstructure.m_outtake.setRightSpeed(0.2);
-            } 
-            else if (m_operatorController.GetRawButton(
+            } else if (m_operatorController.GetRawButton(
                            Controller::leftPaddle)) {
                 m_superstructure.m_outtake.setLeftSpeed(0.2);
 
@@ -276,24 +282,31 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_outtake}));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
-            m_superstructure.m_elevator.setSpeed(m_operatorController.GetRawAxis(Controller::leftYAxis));
+            
+            m_superstructure.m_elevator.setSpeed(
+                m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
+                -0.02);
+
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
             //     0.05) {
-                
+
             //     // if (m_superstructure.m_elevator.getPosition() <= 1.65 ||
-            //     //     m_operatorController.GetRawAxis(Controller::leftYAxis) <
+            //     //     m_operatorController.GetRawAxis(Controller::leftYAxis)
+            //     <
             //     //         -0.05) {
             //     //     m_superstructure.m_elevator.setPosition(
-            //     //         m_superstructure.m_elevator.getRelativePosition() +
-            //     //         m_operatorController.GetRawAxis(Controller::leftYAxis));
+            //     //         m_superstructure.m_elevator.getRelativePosition()
+            //     +
+            //     // m_operatorController.GetRawAxis(Controller::leftYAxis));
             //     // } else {
             //     //     m_superstructure.m_elevator.sourcePos();
             //     // }
-            //     // m_superstructure.m_elevator.setSpeed(m_operatorController.GetRawAxis(Controller::leftYAxis));
+            //     //
+            //     m_superstructure.m_elevator.setSpeed(m_operatorController.GetRawAxis(Controller::leftYAxis));
             //     // m_superstructure.m_elevator.setPosition(
             //     //     m_superstructure.m_elevator.getRelativePosition() +
-            //     //     m_operatorController.GetRawAxis(Controller::leftYAxis)/6);
-                
+            //     // m_operatorController.GetRawAxis(Controller::leftYAxis)/6);
+
             // } else {
             //     if (m_operatorController.GetRawButton(Controller::Y)) {
             //         m_superstructure.m_elevator.levelOne();
