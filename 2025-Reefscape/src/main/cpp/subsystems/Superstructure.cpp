@@ -9,7 +9,7 @@ Superstructure::Superstructure()
       m_outtake(OuttakeConstants::leftMotor, OuttakeConstants::rightMotor,
                 OuttakeConstants::beamBreakIO),
       m_elevator(ElevatorConstants::leftMotor, ElevatorConstants::rightMotor,
-                 ElevatorConstants::encoder, ElevatorConstants::encoderOffset),
+                 ElevatorConstants::encoderOne, ElevatorConstants::encoderTwo, ElevatorConstants::encoderOffset),
       m_vision() {
     resetSuperstructure();
     // Implementation of subsystem constructor goes here.

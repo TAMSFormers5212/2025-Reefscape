@@ -32,7 +32,7 @@ class RobotContainer {
    public:
     RobotContainer();
     double RotAxis;
-    double speedMultiplier;
+    double speedMultiplier=0.85;
     double XAxis;
     double YAxis;
 

@@ -6,7 +6,7 @@
 
 #include <Constants.h>
 #include <frc/AnalogEncoder.h>
-#include <frc/DutyCycleEncoder.h>
+#include <frc/Encoder.h>
 #include <frc/controller/ElevatorFeedforward.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
@@ -25,7 +25,7 @@ using namespace ElevatorConstants;
 
 class Elevator : public frc2::SubsystemBase {
    public:
-    Elevator(int leftMotor, int rightMotor, int encoder, double encoderOffset);
+    Elevator(int leftMotor, int rightMotor, int encoderOne, int encoderTwo, double encoderOffset);
     void setPosition(double elevatorPose);
 
     double getPosition();
@@ -66,7 +66,7 @@ class Elevator : public frc2::SubsystemBase {
     SparkClosedLoopController m_rightController =
         m_rightMotor.GetClosedLoopController();  // follower
 
-    DutyCycleEncoder m_absoluteEncoder{encoder};
+    Encoder m_absoluteEncoder{encoderOne, encoderTwo};
     double position = 0.0;
     ElevatorFeedforward m_elevatorFF;
     // Components (e.g. motor controllers and sensors) should generally be

@@ -79,7 +79,7 @@ void Intake::resetMotor() {
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
 void Intake::resetEncoder() {
-    m_pivotEncoder.SetPosition(getPosition());
+    m_pivotEncoder.SetPosition(0);
     initalPosition = getPosition();
 }
 void Intake::setPosition(double pivotPose) { position = pivotPose; }
@@ -96,6 +96,7 @@ double Intake::firstAlgaePreset() { return firstAlgaePresetHeight; }
 double Intake::secondAlgaePreset() { return secondAlgaePresetHeight; }
 
 void Intake::setSpeed(double speed) { m_intakeMotor.Set(speed); }
+void Intake::setPivotSpeed(double speed){m_pivotMotor.Set(speed);}
 void Intake::stopIntake() {  // in case of 2 notes and need to eject
     m_intakeMotor.Set(0);
 }

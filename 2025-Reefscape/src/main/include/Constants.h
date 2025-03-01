@@ -127,7 +127,7 @@ namespace SwerveModuleConstants
     constexpr double kdD = 0.0;
     constexpr double kdFF = 0.225;
 
-    constexpr auto maxSpeed = 3.00_mps;         // max free speed of SDS mk4 L1 withs neos
+    constexpr auto maxSpeed = 3.30_mps;         // max free speed of SDS mk4 L1 withs neos
     constexpr auto maxRotation = 2.0_rad_per_s; // figure this out later
     constexpr double driveRatio = 8.14;         // SDS Mk4 L1
     constexpr double steerRatio = 12.8;         // SDS Mk4 L1
@@ -213,7 +213,8 @@ namespace ElevatorConstants
     constexpr int leftMotor = 10;
     constexpr int rightMotor = 11;
 
-    constexpr int encoder = 3; // depends on what encoder. planning for a rev through bore
+    constexpr int encoderOne = 2; // depends on what encoder. planning for a rev through bore
+    constexpr int encoderTwo = 3;
     // constexpr int limitSwitch = 1;
     constexpr double levelOneHeight = 0;
     constexpr double levelTwoHeight = 0;
@@ -227,16 +228,16 @@ namespace ElevatorConstants
 
     constexpr double encoderOffset = 0;
 
-    constexpr double elevatorOffset = 0.75;
+    constexpr double elevatorOffset = 0;
 
     constexpr double sprocketRatio = 1;
     constexpr int planetaryRatio = 15;
     constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
-    constexpr double kaP = 0.5;
+    constexpr double kaP = 0.25;
     constexpr double kaI = 0.0000;
     constexpr double kaD = 0.00;
-    constexpr double kaFF = 0.0;
+    constexpr double kaFF = 0.03;
     constexpr double kaIz = 0.0;
     constexpr units::second_t kaT = 20_ms;
 
@@ -303,11 +304,11 @@ namespace IntakeConstants
     constexpr int intakeMotor = 13;
     constexpr int pivotMotor = 12;
     // might change
-    constexpr int pivotEncoder = 2;
+    constexpr int pivotEncoder = 5;
     constexpr double encoderOffset = 0;
 
-    constexpr double pivotOffset = 0.75;
-    constexpr double intakeRatio = 2.0;
+    constexpr double pivotOffset = 0;
+    constexpr double intakeRatio = 16.0;
 
     constexpr double pivotSprocketRatio = 5.5;
     constexpr int pivotPlanetaryRatio = 20;
@@ -321,7 +322,7 @@ namespace IntakeConstants
     constexpr double kiP = 0.50;
     constexpr double kiI = 0.0000;
     constexpr double kiD = 0.00;
-    constexpr double kiFF = 0.0;
+    constexpr double kiFF = 0.01;
     constexpr double kiIz = 0.0;
     constexpr int kiMaxOutput = 1;
     constexpr int kiMinOutput = -1;

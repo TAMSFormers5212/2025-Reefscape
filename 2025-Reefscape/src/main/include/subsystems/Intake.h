@@ -33,6 +33,7 @@ class Intake: public frc2::SubsystemBase {
 void resetMotor();
 void resetEncoder();
 void setSpeed(double speed);
+void setPivotSpeed(double speed);
 void setPosition(double pivotPose);
 double getRelativePosition();
 double getPosition();
