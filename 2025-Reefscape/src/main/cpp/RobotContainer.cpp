@@ -246,13 +246,22 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_intake}));
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
+            if (m_operatorController.GetRawButton(Controller::leftBumper)&&m_operatorController.GetRawButton(Controller::rightBumper)){
+                m_superstructure.m_outtake.setLeftSpeed(-0.2);
+                m_superstructure.m_outtake.setRightSpeed(-0.2);
+            }
             if (m_operatorController.GetRawButton(Controller::leftBumper)) {
                 // m_superstructure.m_outtake.intakeCoral();
                 m_superstructure.m_outtake.setLeftSpeed(-0.2        );
             } else if (m_operatorController.GetRawButton(
                            Controller::rightBumper)) {
                 m_superstructure.m_outtake.setRightSpeed(-0.2);
-            } else if (m_operatorController.GetRawButton(
+            }
+            else if (m_operatorController.GetRawButton(Controller::leftPaddle)&&m_operatorController.GetRawButton(Controller::rightPaddle)){
+                m_superstructure.m_outtake.setLeftSpeed(0.2);
+                m_superstructure.m_outtake.setRightSpeed(0.2);
+            } 
+            else if (m_operatorController.GetRawButton(
                            Controller::leftPaddle)) {
                 m_superstructure.m_outtake.setLeftSpeed(0.2);
 
