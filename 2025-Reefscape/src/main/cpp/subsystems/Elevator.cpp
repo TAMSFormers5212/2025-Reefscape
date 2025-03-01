@@ -50,7 +50,7 @@ void Elevator::resetMotors() {
     m_leftConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(40)
-        .Follow(m_rightMotor, true);
+        .Follow(m_rightMotor, false);
 
     m_leftConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     // m_rightConfig.closedLoop.Pidf(kaP, kaI, kaD, kaFF)
