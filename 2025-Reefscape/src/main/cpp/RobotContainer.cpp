@@ -282,10 +282,15 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_outtake}));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
-            
-            m_superstructure.m_elevator.setSpeed(
+            double elevatorPos = m_superstructure.m_elevator.getPosition();
+            double opInput =
                 m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
-                -0.02);
+                -0.02;
+            if (elevatorPos < -8500 && opInput < 0.0) {
+                // software limit
+            } else {
+                m_superstructure.m_elevator.setSpeed(opInput);
+            }
 
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
             //     0.05) {

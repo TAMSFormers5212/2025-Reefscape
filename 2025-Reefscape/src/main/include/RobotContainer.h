@@ -32,7 +32,7 @@ class RobotContainer {
    public:
     RobotContainer();
     double RotAxis;
-    double speedMultiplier=0.85;
+    double speedMultiplier=1;
     double XAxis;
     double YAxis;
 
@@ -51,8 +51,7 @@ class RobotContainer {
     // frc2::CommandXboxController m_driverController{
     //     OperatorConstants::kDriverControllerPort};
 
-    frc2::CommandPtr m_rotationTest =
-        PathPlannerAuto("Rotation Testing").ToPtr();
+    frc2::CommandPtr m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
     frc2::CommandPtr m_mobility =
         PathPlannerAuto("Mobility Auton").ToPtr();
     frc2::CommandPtr m_oneCoral =
