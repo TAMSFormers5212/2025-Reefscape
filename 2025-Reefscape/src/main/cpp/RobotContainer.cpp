@@ -57,8 +57,8 @@ RobotContainer::RobotContainer() {
     m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     m_oneCoral = PathPlannerAuto("1 Coral Auton").ToPtr();
 
-    m_chooser.SetDefaultOption("Mobility Auton", m_mobility.get());
-    m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
+    m_chooser.SetDefaultOption("1 Coral Auton", m_oneCoral.get());
+    // m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
     // m_chooser.AddOption("Test Auto 1", m_testAu)
     frc::SmartDashboard::PutData(&m_chooser);
     // BooleanEvent povDown;
@@ -164,8 +164,8 @@ RobotContainer::RobotContainer() {
                 }
             } else if (povDown && !prevDown) {
                 runAlign = !runAlign;
-            } else if (povLeft && !povLeft) {
-                //
+            } else if (povLeft && !prevLeft) {
+                m_drive.resetHeading();
             } else if (povRight && !prevRight) {
                 m_drive.resetAbsoluteEncoders();
             }
