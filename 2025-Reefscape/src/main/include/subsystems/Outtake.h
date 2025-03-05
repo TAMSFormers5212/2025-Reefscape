@@ -69,6 +69,7 @@ void Periodic() override;
 
     SparkClosedLoopController m_rightOuttakeController = m_rightOuttakeMotor.GetClosedLoopController();
     frc::DigitalInput m_beamBreak{0};
+    frc::DigitalInput m_beamBreak2{1};
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

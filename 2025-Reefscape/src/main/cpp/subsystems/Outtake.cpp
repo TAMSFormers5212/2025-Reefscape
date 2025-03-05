@@ -101,7 +101,7 @@ double Outtake::getSpeed() { return m_leftEncoder.GetVelocity(); }
 bool Outtake::getCoral() { return coralHeld; }
 void Outtake::Periodic() {
     // Implementation of subsystem periodic method goes here.
-    if (m_beamBreak.Get() == 0) {
+    if (m_beamBreak.Get() == 0 && m_beamBreak2.Get() == 0) {
         coralHeld = true;
         // m_LEDs.setColor(0.65);
     } else {
