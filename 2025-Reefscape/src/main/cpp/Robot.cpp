@@ -65,7 +65,7 @@ void Robot::TeleopPeriodic() {}
 void Robot::TestPeriodic() {}
 
 /**
- * This function is called once when the robot is first started up.
+//  * This function is called once when the robot is first started up.
  */
 void Robot::SimulationInit() {}
 
