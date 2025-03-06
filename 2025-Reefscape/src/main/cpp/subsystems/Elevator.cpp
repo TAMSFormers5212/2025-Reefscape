@@ -108,9 +108,9 @@ void Elevator::Periodic() {
     units::meter_t ffP{ position };
     units::meters_per_second_t ffV{ 0 };
     units::meters_per_second_squared_t ffA(0);
-    m_rightController.SetReference(
-        position, rev::spark::SparkLowLevel::ControlType::kPosition,
-        rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+    // m_rightController.SetReference(
+    //     position, rev::spark::SparkLowLevel::ControlType::kPosition,
+    //     rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
     frc::SmartDashboard::PutNumber("elevator abs pos", m_absoluteEncoder.Get());
     frc::SmartDashboard::PutNumber("elevator relative pos", m_rightEncoder.GetPosition());
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());

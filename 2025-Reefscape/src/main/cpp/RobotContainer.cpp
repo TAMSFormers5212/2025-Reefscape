@@ -289,10 +289,10 @@ RobotContainer::RobotContainer() {
             if (elevatorPos < -8500 && opInput < 0.0) {
                 // software limit
             } else {
-                // m_superstructure.m_elevator.setSpeed(opInput);
-                m_superstructure.m_elevator.setPosition(
-                    elevatorPos +
-                m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
+                m_superstructure.m_elevator.setSpeed(opInput);
+                // m_superstructure.m_elevator.setPosition(
+                //     elevatorPos +
+                // m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
             }
 
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
