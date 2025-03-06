@@ -234,7 +234,7 @@ namespace ElevatorConstants
     constexpr int planetaryRatio = 15;
     constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
-    constexpr double kaP = 0.25;
+    constexpr double kaP = 0.05;
     constexpr double kaI = 0.0000;
     constexpr double kaD = 0.00;
     constexpr double kaFF = 0.02;

@@ -26,12 +26,12 @@ Elevator::Elevator(int leftMotor, int rightMotor, int encoderOne,
     resetMotors();
     initialPosition = getPosition();
     frc::SmartDashboard::PutNumber("elevator init pos", initialPosition);
-    // m_leftMotor.Configure(m_leftConfig,
-    //                       SparkBase::ResetMode::kResetSafeParameters,
-    //                       SparkBase::PersistMode::kPersistParameters);
-    // m_rightMotor.Configure(m_rightConfig,
-    //                        SparkBase::ResetMode::kResetSafeParameters,
-    //                        SparkBase::PersistMode::kPersistParameters);
+    m_leftMotor.Configure(m_leftConfig,
+                          SparkBase::ResetMode::kResetSafeParameters,
+                          SparkBase::PersistMode::kPersistParameters);
+    m_rightMotor.Configure(m_rightConfig,
+                           SparkBase::ResetMode::kResetSafeParameters,
+                           SparkBase::PersistMode::kPersistParameters);
     // Implementation of subsystem constructor goes here.
 }
 
@@ -41,8 +41,8 @@ void Elevator::resetMotors() {
         .OutputRange(kMinOutput, kMaxOutput);
     m_rightConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(40)
-        .Inverted(true);
+        .SmartCurrentLimit(40);
+        // .Inverted(true);
     m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
@@ -68,6 +68,7 @@ void Elevator::resetMotors() {
 void Elevator::resetEncoders() {
     m_rightEncoder.SetPosition(0);
     m_leftEncoder.SetPosition(0);
+    m_absoluteEncoder.Reset();
     initialPosition = getPosition();
 }
 
@@ -77,7 +78,7 @@ void Elevator::setSpeed(double speed) {
 }
 
 // returns the quadrature encoder position
-double Elevator::getPosition() { return m_absoluteEncoder.Get(); }
+double Elevator::getPosition() { return -(m_absoluteEncoder.Get()+400); }
 
 void Elevator::levelOne() { position = levelOneHeight; }
 void Elevator::levelTwo() { position = levelTwoHeight; }
@@ -89,8 +90,7 @@ void Elevator::firstAlgae() { position = firstAlgaeHeight; }
 void Elevator::secondAlgae() { position = secondAlgaeHeight; }
 void Elevator::processor() { position = processorHeight; }
 
-void Elevator::setPosition(
-    double pose) {  // sets the goal pose to given parameter
+void Elevator::setPosition(double pose) {  // sets the goal pose to given parameter
     position = pose;
     // smart motion implementation
     //  m_rightController.SetReference(pose,
@@ -108,7 +108,7 @@ void Elevator::Periodic() {
     m_rightController.SetReference(
         position, rev::spark::SparkLowLevel::ControlType::kPosition,
         rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
-    frc::SmartDashboard::PutNumber("elevator pos", m_absoluteEncoder.Get());
+    frc::SmartDashboard::PutNumber("elevator pos", -(m_absoluteEncoder.Get()+400));
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
 }
 void Elevator::SimulationPeriodic() {
