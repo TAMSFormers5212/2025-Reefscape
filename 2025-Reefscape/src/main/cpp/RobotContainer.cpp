@@ -285,15 +285,15 @@ RobotContainer::RobotContainer() {
             double elevatorPos = m_superstructure.m_elevator.getPosition();
             double opInput =
                 m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
-                -0.02;
-            if (elevatorPos < -8500 && opInput < 0.0) {
+                0.02;
+            // if (elevatorPos < -8500 && opInput < 0.0) {
                 // software limit
-            } else {
-                m_superstructure.m_elevator.setSpeed(opInput);
-                // m_superstructure.m_elevator.setPosition(
-                //     elevatorPos +
-                // m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
-            }
+            // } else {
+                // m_superstructure.m_elevator.setSpeed(opInput);
+                m_superstructure.m_elevator.setPosition(
+                    elevatorPos +
+                m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
+            // }
 
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
             //     0.05) {

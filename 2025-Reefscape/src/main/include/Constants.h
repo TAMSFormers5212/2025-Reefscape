@@ -237,7 +237,7 @@ namespace ElevatorConstants
     constexpr double kaP = 0.25;
     constexpr double kaI = 0.0000;
     constexpr double kaD = 0.00;
-    constexpr double kaFF = 0.03;
+    constexpr double kaFF = 0.02;
     constexpr double kaIz = 0.0;
     constexpr units::second_t kaT = 20_ms;
 
