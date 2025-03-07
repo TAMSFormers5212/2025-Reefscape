@@ -78,7 +78,7 @@ void Elevator::setSpeed(double speed) {
 }
 
 // returns the quadrature encoder position
-double Elevator::getPosition() { return -(m_absoluteEncoder.Get()+400); }
+double Elevator::getPosition() { return (m_rightEncoder.GetPosition()); }
 
 void Elevator::levelOne() { position = levelOneHeight; }
 void Elevator::levelTwo() { position = levelTwoHeight; }
@@ -108,8 +108,9 @@ void Elevator::Periodic() {
     m_rightController.SetReference(
         position, rev::spark::SparkLowLevel::ControlType::kPosition,
         rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
-    frc::SmartDashboard::PutNumber("elevator pos", -(m_absoluteEncoder.Get()+400));
+    frc::SmartDashboard::PutNumber("elevator pos", (m_absoluteEncoder.GetRaw()));
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
+    frc::SmartDashboard::PutNumber("elevator neo pos", m_rightEncoder.GetPosition());
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.
