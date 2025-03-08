@@ -12,7 +12,7 @@
 #include <wpinet/PortForwarder.h>
 #include "wpi/json.h"
 #include <string>
-#include <unistd.h>
+// #include <unistd.h>
 //#include <curl/curl.h>
 #include <vector>
 #include <chrono>
@@ -23,7 +23,7 @@
 #include <frc/geometry/Pose3d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Rotation3d.h>
-#include <sys/socket.h>
+// #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <cstring>
@@ -467,7 +467,7 @@ namespace LimelightHelpers
 
         std::vector<RawFiducial> rawFiducials;
         int valsPerFiducial = 7;
-        int expectedTotalVals = 11 + valsPerFiducial * tagCount;
+        unsigned int expectedTotalVals = 11 + valsPerFiducial * tagCount;
         
         if (poseArray.size() == expectedTotalVals) 
         {
