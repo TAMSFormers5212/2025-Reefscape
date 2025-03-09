@@ -282,7 +282,6 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_outtake}));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
-            // double elevatorVolts = m_superstructure.m_elevator.getVoltage() + frc::DriverStation::GetBatteryVoltage(); 
             double elevatorPos = m_superstructure.m_elevator.getPosition();
             double opInput =
                 m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
@@ -295,7 +294,7 @@ RobotContainer::RobotContainer() {
                     elevatorPos +
                 m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
             // }
-            // frc::SmartDashboard::PutNumber("elevatorVoltage", elevatorVolts);
+
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
             //     0.05) {
 
