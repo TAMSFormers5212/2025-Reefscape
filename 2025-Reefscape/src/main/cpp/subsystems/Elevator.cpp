@@ -43,7 +43,7 @@ void Elevator::resetMotors() {
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(40);
         // .Inverted(true);
-    m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
+    m_rightConfig.encoder.PositionConversionFactor(elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
                            SparkMax::PersistMode::kPersistParameters);
@@ -53,7 +53,7 @@ void Elevator::resetMotors() {
         .SmartCurrentLimit(40)
         .Follow(m_rightMotor, false);
 
-    m_leftConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
+    m_leftConfig.encoder.PositionConversionFactor(elevatorRatio);
     m_rightConfig.closedLoop.Pidf(kaP, kaI, kaD, kaFF)
         .IZone(kaIz)
         .OutputRange(kMinOutput, kMaxOutput);
@@ -100,6 +100,9 @@ void Elevator::setPosition(double pose) {  // sets the goal pose to given parame
     // m_leftController.SetFF(ff);
     // m_leftController.SetReference(pose,
     // CANSparkLowLevel::ControlType::kPosition);
+}
+double Elevator::getVoltage(){
+    return m_rightMotor.GetAppliedOutput();
 }
 void Elevator::Periodic() {
     units::meter_t ffP{position};

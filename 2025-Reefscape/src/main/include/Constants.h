@@ -234,17 +234,17 @@ namespace ElevatorConstants
     constexpr int planetaryRatio = 15;
     constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
-    constexpr double kaP = 0.60;
+    constexpr double kaP = 0.05;
     constexpr double kaI = 0.0000;
     constexpr double kaD = 0.00;
-    constexpr double kaFF = 0.001;
+    constexpr double kaFF = 0.002;
     constexpr double kaIz = 0.0;
     constexpr units::second_t kaT = 20_ms;
 
     constexpr int kMaxOutput = 1;
     constexpr int kMinOutput = -1;
-    constexpr units::radians_per_second_squared_t maxAccel{1};
-    constexpr units::radians_per_second_t maxVelo{1};
+    constexpr units::meters_per_second_squared_t maxAccel{17.531}; //recalc
+    constexpr units::meters_per_second_t maxVelo{0.537}; // recalc
     constexpr double allowedError = 0.0;
     constexpr double stableDistance = 0;
 
@@ -253,7 +253,7 @@ namespace ElevatorConstants
 
     // currently just the estimates from recalc
     constexpr units::volt_t kaS{0.0001};
-    constexpr units::volt_t kaG{0.14};
+    constexpr units::volt_t kaG{0.25};
     constexpr units::volt_t vkaV{22.11};
     constexpr units::meters_per_second_t akaV{1};
     constexpr auto kaV = vkaV / akaV;
