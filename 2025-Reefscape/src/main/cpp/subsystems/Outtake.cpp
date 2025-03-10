@@ -109,6 +109,8 @@ void Outtake::Periodic() {
         // m_LEDs.setColor(0.77);
     }
     frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
+    frc::SmartDashboard::PutNumber("Left Speed", m_leftOuttakeMotor.Get());
+    frc::SmartDashboard::PutNumber("Right Speed", m_rightOuttakeMotor.Get());
 }
 
 // void ExampleSubsystem::SimulationPeriodic() {
