@@ -69,6 +69,7 @@ class Elevator : public frc2::SubsystemBase {
     Encoder m_absoluteEncoder{encoderOne, encoderTwo};
     double position = 0.0;
     ElevatorFeedforward m_elevatorFF;
+    bool commandGiven = false;
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
 };

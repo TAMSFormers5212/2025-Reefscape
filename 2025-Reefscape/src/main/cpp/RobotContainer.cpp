@@ -196,17 +196,23 @@ RobotContainer::RobotContainer() {
             bool opPovUp = m_operatorController.GetPOV() == 0.0;
             bool opPovLeft = m_operatorController.GetPOV() == 270.0;
             bool opPovRight = m_operatorController.GetPOV() == 90.0;
+            if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))>0.05) {
 
-            if (opPovUp && !opPrevUp) {
-                m_superstructure.algaeSecond();
-            } else if (opPovDown && !opPrevDown) {
-                m_superstructure.algaeFirst();
-            } else if (opPovLeft && !opPrevLeft) {
-                m_superstructure.algaeGround();
-            } else if (opPovRight && !opPrevRight) {
-                m_superstructure.algaeProcessor();
+                m_superstructure.m_intake.setPosition(
+                m_superstructure.m_intake.getRelativePosition() +
+                m_operatorController.GetRawAxis(Controller::rightYAxis));
             }
-
+            else{
+                if (opPovUp && !opPrevUp) {
+                    m_superstructure.algaeSecond();
+                } else if (opPovDown && !opPrevDown) {
+                    m_superstructure.algaeFirst();
+                } else if (opPovLeft && !opPrevLeft) {
+                    m_superstructure.algaeGround();
+                } else if (opPovRight && !opPrevRight) {
+                    m_superstructure.algaeProcessor();
+                }
+            }
             opPrevDown = opPovDown;
             opPrevUp = opPovUp;
             opPrevLeft = opPovLeft;
@@ -282,17 +288,35 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_outtake}));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
-            double elevatorPos = m_superstructure.m_elevator.getPosition();
-            double opInput =
-                m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
-                0.02;
+            if(abs(m_operatorController.GetRawAxis(Controller::leftYAxis))>0.05){
+                 double elevatorPos = m_superstructure.m_elevator.getPosition();
+            // double opInput =
+            //     m_operatorController.GetRawAxis(Controller::leftYAxis) / 2 +
+            //     0.02;
             // if (elevatorPos < -8500 && opInput < 0.0) {
                 // software limit
             // } else {
                 // m_superstructure.m_elevator.setSpeed(opInput);
                 m_superstructure.m_elevator.setPosition(
                     elevatorPos +
-                m_operatorController.GetRawAxis(Controller::leftYAxis)/2);
+                m_operatorController.GetRawAxis(Controller::leftYAxis));
+            }
+            else {
+                if (m_operatorController.GetRawButton(Controller::Y)) {
+                    m_superstructure.m_elevator.sourcePos();
+                }
+                else if (m_operatorController.GetRawButton(Controller::X)) {
+                    m_superstructure.m_elevator.levelTwo();
+                }
+                else if (m_operatorController.GetRawButton(Controller::B)) {
+                    m_superstructure.m_elevator.levelThree();
+                }
+                else if (m_operatorController.GetRawButton(Controller::A)) {
+                    m_superstructure.m_elevator.levelFour();
+                }
+                //presets
+            }
+           
             // }
 
             // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >

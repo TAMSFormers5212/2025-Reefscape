@@ -217,10 +217,10 @@ namespace ElevatorConstants
     constexpr int encoderTwo = 3;
     // constexpr int limitSwitch = 1;
     constexpr double levelOneHeight = 0;
-    constexpr double levelTwoHeight = 0;
-    constexpr double levelThreeHeight = 0;
-    constexpr double levelFourthHeight = 0;
-    constexpr double sourceIntakeHeight = 0;
+    constexpr double levelTwoHeight = -11.05;
+    constexpr double levelThreeHeight = -18.25;
+    constexpr double levelFourthHeight = -31.5;
+    constexpr double sourceIntakeHeight = -2.56;
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
     constexpr double secondAlgaeHeight = 0;
@@ -234,9 +234,9 @@ namespace ElevatorConstants
     constexpr int planetaryRatio = 15;
     constexpr int elevatorRatio = sprocketRatio*planetaryRatio; // 20:1 maxplanetary * 66:12 sprocket
 
-    constexpr double kaP = 0.60;
+    constexpr double kaP = 0.18;
     constexpr double kaI = 0.0000;
-    constexpr double kaD = 0.00;
+    constexpr double kaD = 0.001;
     constexpr double kaFF = 0.001;
     constexpr double kaIz = 0.0;
     constexpr units::second_t kaT = 20_ms;
@@ -319,7 +319,7 @@ namespace IntakeConstants
     constexpr double firstAlgaePresetHeight = 0;
     constexpr double secondAlgaePresetHeight = 0;
 
-    constexpr double kiP = 0.50;
+    constexpr double kiP = 0.90;
     constexpr double kiI = 0.0000;
     constexpr double kiD = 0.00;
     constexpr double kiFF = 0.01;
@@ -330,11 +330,11 @@ namespace IntakeConstants
     constexpr double freeCurrent = 5.0;    // current when no note is held
     // random guess numbers, experiement in order to prevent burning out the neo550
     constexpr units::volt_t kiS{0.0};
-    constexpr units::volt_t kiG{0.50};
-    constexpr units::volt_t vkiV{0.014};
+    constexpr units::volt_t kiG{0.41};
+    constexpr units::volt_t vkiV{0.002};
     constexpr units::radians_per_second_t akiV{1};
     constexpr auto kiV = vkiV / akiV;
-    constexpr units::volt_t vkiA{0.05};
+    constexpr units::volt_t vkiA{0.00};
     constexpr units::radians_per_second_squared_t akiA{1};
     constexpr auto kiA = vkiA / akiV; // not nessecary
     constexpr int empty = 0;

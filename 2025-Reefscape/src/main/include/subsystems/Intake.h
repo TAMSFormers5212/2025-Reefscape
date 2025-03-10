@@ -89,6 +89,7 @@ void Periodic() override;
     frc::DutyCycleEncoder m_absoluteEncoder{pivotEncoder};
     frc::ArmFeedforward m_pivotFF;
     double position = 0.0;  
+    bool intakeCommandGiven = false;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

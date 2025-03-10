@@ -82,7 +82,7 @@ void Intake::resetEncoder() {
     m_pivotEncoder.SetPosition(0);
     initalPosition = getPosition();
 }
-void Intake::setPosition(double pivotPose) { position = pivotPose; }
+void Intake::setPosition(double pivotPose) { position = pivotPose; intakeCommandGiven = true;}
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 double Intake::getPosition() {
     // return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
@@ -112,10 +112,17 @@ void Intake::Periodic() {
                         m_pivotEncoder.GetPosition()};
     units::radians_per_second_t ffV{0};
     units::radians_per_second_squared_t ffA(0);
+    if(intakeCommandGiven){
     m_pivotController.SetReference(
         position, rev::spark::SparkLowLevel::ControlType::kPosition,
         rev::spark::kSlot0, m_pivotFF.Calculate(ffP, ffV, ffA).value());
+    }
+    else{
+        m_pivotController.SetReference(m_pivotFF.Calculate(ffP,ffV,ffA).value(),
+        rev::spark::SparkLowLevel::ControlType::kVoltage);
+    }
     frc::SmartDashboard::PutNumber("intake pos", position);
+    frc::SmartDashboard::PutNumber("Intake neo pos", m_pivotEncoder.GetPosition());
     frc::SmartDashboard::PutNumber("intake init pos", initalPosition);
     // Implementation of subsystem periodic method goes here.
 }

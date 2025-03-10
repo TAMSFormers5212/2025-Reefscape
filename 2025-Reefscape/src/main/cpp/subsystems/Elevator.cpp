@@ -80,17 +80,18 @@ void Elevator::setSpeed(double speed) {
 // returns the quadrature encoder position
 double Elevator::getPosition() { return (m_rightEncoder.GetPosition()); }
 
-void Elevator::levelOne() { position = levelOneHeight; }
-void Elevator::levelTwo() { position = levelTwoHeight; }
-void Elevator::levelThree() { position = levelThreeHeight; }
-void Elevator::levelFour() { position = levelFourthHeight; }
-void Elevator::sourcePos() { position = sourceIntakeHeight; }
-void Elevator::groundAlgae() { position = groundAlgaeHeight; }
-void Elevator::firstAlgae() { position = firstAlgaeHeight; }
-void Elevator::secondAlgae() { position = secondAlgaeHeight; }
-void Elevator::processor() { position = processorHeight; }
+void Elevator::levelOne() {commandGiven = true;  position = levelOneHeight; }
+void Elevator::levelTwo() { commandGiven = true; position = levelTwoHeight; }
+void Elevator::levelThree() { commandGiven = true; position = levelThreeHeight; }
+void Elevator::levelFour() { commandGiven = true; position = levelFourthHeight; }
+void Elevator::sourcePos() { commandGiven = true; position = sourceIntakeHeight; }
+void Elevator::groundAlgae() {commandGiven = true;  position = groundAlgaeHeight; }
+void Elevator::firstAlgae() { commandGiven = true; position = firstAlgaeHeight; }
+void Elevator::secondAlgae() { commandGiven = true; position = secondAlgaeHeight; }
+void Elevator::processor() { commandGiven = true; position = processorHeight; }
 
-void Elevator::setPosition(double pose) {  // sets the goal pose to given parameter
+void Elevator::setPosition(double pose) {
+    commandGiven = true;  // sets the goal pose to given parameter
     position = pose;
     // smart motion implementation
     //  m_rightController.SetReference(pose,
@@ -105,10 +106,16 @@ void Elevator::Periodic() {
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
-    m_rightController.SetReference(
+    if(commandGiven){    
+        m_rightController.SetReference(
         position, rev::spark::SparkLowLevel::ControlType::kPosition,
         rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
-    frc::SmartDashboard::PutNumber("elevator pos", (m_absoluteEncoder.GetRaw()));
+    }
+    else{
+        m_rightController.SetReference(m_elevatorFF.Calculate(ffV,ffA).value(),rev::spark::SparkLowLevel::ControlType::kVoltage);
+    }
+    frc::SmartDashboard::PutNumber("elevator abs pos", (m_absoluteEncoder.GetRaw()));
+    frc::SmartDashboard::PutNumber("elevator pos", position);
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
     frc::SmartDashboard::PutNumber("elevator neo pos", m_rightEncoder.GetPosition());
 }
