@@ -31,6 +31,10 @@
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
 #include "commands/LiftElevator.h"
+#include "commands/ElevatorL2.h"
+#include "commands/ElevatorL3.h"
+#include "commands/ElevatorL4.h"
+#include "commands/ElevatorSource.h"
 #include "commands/OuttakeCmd.h"
 #include "commands/StopOuttake.h"
 #include "networktables/NetworkTable.h"
@@ -51,6 +55,14 @@ RobotContainer::RobotContainer() {
         "Outtake L1", OuttakeCmd(&m_superstructure.m_outtake).ToPtr());
     NamedCommands::registerCommand(
         "Stop Outtake", StopOuttake(&m_superstructure.m_outtake).ToPtr());
+    NamedCommands::registerCommand(
+        "Elevator L2", ElevatorL2(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand(
+        "Elevator L3", ElevatorL3(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand(
+        "Elevator L4", ElevatorL4(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand(
+        "Elevator Source", ElevatorSource(&m_superstructure.m_elevator).ToPtr());
 
     ConfigureBindings();
     m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
