@@ -71,45 +71,12 @@ RobotContainer::RobotContainer() {
                 frc::DriverStation::Alliance::kRed) {
                 // rot = Rotation2d(180_deg).RotateBy(rot);
             }
-            // speedMultiplier =
-            //     (1 - m_driverController.GetRawAxis(Joystick::ThrottleSlider))
-            //     * 0.5;
-            // XAxis = -m_driverController.GetRawAxis(Joystick::XAxis) *
-            //         speedMultiplier;
-            // YAxis = m_driverController.GetRawAxis(Joystick::YAxis) *
-            //         speedMultiplier;
-            // RotAxis = -m_driverController.GetRawAxis(Joystick::RotAxis) *
-            //           speedMultiplier * 2;
-            // frc::SmartDashboard::PutNumber(
-            //     "speedToggle",
-            //     m_driverController.GetRawAxis(Joystick::ThrottleSlider));
-
+            
             if (frc::DriverStation::GetAlliance().value() ==
                 frc::DriverStation::Alliance::kRed) {
                 // rot = Rotation2d(180_deg).RotateBy(rot);
             }
-            // frc::SmartDashboard::PutNumber("roa t", rot.Degrees().value());
-            // frc::SmartDashboard::PutNumber("gyro offset",
-            // m_drive.getGyroHeading2().Degrees().value());
-            //(1 -
-            // m_driverController.GetRawAxis(Joystick::ThrottleSlider))
-            //* 0.5;
-            // speed 0
-            if (m_driverController.GetRawButton(Controller::Y)) {
-                speedMultiplier = 0;
-            }
-            // speed 25%
-            else if (m_driverController.GetRawButton(Controller::B)) {
-                speedMultiplier = 0.25;
-            }
-            // speed 60%
-            else if (m_driverController.GetRawButton(Controller::A)) {
-                speedMultiplier = 0.5;
-            }
-            // speed 85%
-            else if (m_driverController.GetRawButton(Controller::X)) {
-                speedMultiplier = 0.85;
-            }
+            
             // slowdown
             if (m_driverController.GetRawButton(Controller::leftBumper) &&
                 speedMultiplier >= 0.15) {
@@ -131,9 +98,7 @@ RobotContainer::RobotContainer() {
             RotAxis = m_driverController.GetRawAxis(Controller::rightXAxis) *
                 speedMultiplier *
                 -2;  //-m_driverController.GetRawAxis(Joystick::RotAxis)
-            //* speedMultiplier*2;
-// frc::SmartDashboard::PutNumber("speedToggle",
-// m_driverController.GetRawAxis(Joystick::ThrottleSlider));
+
             frc::SmartDashboard::PutNumber("speed", speedMultiplier * 100);
             double rotDeadband = Controller::deadband * 2;
             if (abs(XAxis) < (Controller::deadband * speedMultiplier)) {
@@ -167,10 +132,11 @@ RobotContainer::RobotContainer() {
             else if (povDown && !prevDown) {
                 runAlign = !runAlign;
             }
-            else if (povLeft && !prevLeft) {
-                m_drive.resetHeading();
+            else if(povLeft && !prevLeft){
+                //idk man
             }
             else if (povRight && !prevRight) {
+                m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
             }
 
@@ -208,7 +174,8 @@ RobotContainer::RobotContainer() {
             }
             else {
                 if (opPovUp && !opPrevUp) {
-                    m_superstructure.algaeSecond();
+                    m_superstructure.m_elevator.resetEncoders();
+                    // m_superstructure.algaeSecond();
                 }
                 else if (opPovDown && !opPrevDown) {
                     m_superstructure.algaeFirst();

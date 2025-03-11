@@ -16,6 +16,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <rev/SparkClosedLoopController.h>
 #include <rev/SparkMax.h>
+#include <frc/DigitalInput.h>
 #include <rev/SparkRelativeEncoder.h>
 #include <rev/config/SparkMaxConfig.h>
 #include <units/voltage.h>
@@ -70,6 +71,7 @@ class Elevator : public frc2::SubsystemBase {
     double position = 0.0;
     ElevatorFeedforward m_elevatorFF;
     bool commandGiven = false;
+    frc::DigitalInput m_limitSwitch{limitSwitch};
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
 };
