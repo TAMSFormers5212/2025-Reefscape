@@ -65,7 +65,7 @@ RobotContainer::RobotContainer() {
     // m_driverController.POVDown()
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            auto rot = m_drive.getGyroHeading2();
+            // auto rot = m_drive.getGyroHeading2();
 
             if (frc::DriverStation::GetAlliance().value() ==
                 frc::DriverStation::Alliance::kRed) {
@@ -100,7 +100,7 @@ RobotContainer::RobotContainer() {
                 -2;  //-m_driverController.GetRawAxis(Joystick::RotAxis)
 
             frc::SmartDashboard::PutNumber("speed", speedMultiplier * 100);
-            double rotDeadband = Controller::deadband * 2;
+            // double rotDeadband = Controller::deadband * 2;
             if (abs(XAxis) < (Controller::deadband * speedMultiplier)) {
                 XAxis = 0;
             }

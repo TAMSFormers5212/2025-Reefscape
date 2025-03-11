@@ -14,7 +14,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/DriverStation.h>
 #include <frc/smartdashboard/Field2d.h>
-#include "LimelightHelpers.h"
+// #include "LimelightHelpers.h"
 #include <iostream>
 #include <frc/Timer.h>
 #include <vector>
@@ -23,7 +23,7 @@ using namespace SwerveModuleConstants;
 using namespace MathConstants;
 using namespace units;
 using namespace pathplanner;
-using namespace LimelightHelpers;
+// using namespace LimelightHelpers;
 
 SwerveDrive::SwerveDrive()
     : m_modules{{SwerveModule(topleft::driveMotor, topleft::steerMotor,
@@ -48,11 +48,11 @@ SwerveDrive::SwerveDrive()
                  {m_modules[0].getPosition(), m_modules[1].getPosition(),
                   m_modules[2].getPosition(), m_modules[3].getPosition()},
                  frc::Pose2d()},
-      m_poseEstimator{m_driveKinematics,
-                      frc::Rotation2d(-getGyroHeading()),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()},
-                      frc::Pose2d()},
+    //   m_poseEstimator{m_driveKinematics,
+    //                   frc::Rotation2d(-getGyroHeading()),
+    //                   {m_modules[0].getPosition(), m_modules[1].getPosition(),
+    //                    m_modules[2].getPosition(), m_modules[3].getPosition()},
+    //                   frc::Pose2d()},
       thetaController(0, 0, 0) {
     m_gyro.Reset();
     
@@ -90,16 +90,16 @@ SwerveDrive::SwerveDrive()
     std::cout << "Swerve subsystem initalized correctly" << std::endl;
 }
 
-frc::Pose2d SwerveDrive::AveragePose() {  // returns the pose estimator position
-// m_poseEstimator.AddVisionMeasurement();
-    return m_poseEstimator.GetEstimatedPosition();
+// frc::Pose2d SwerveDrive::AveragePose() {  // returns the pose estimator position
+// // m_poseEstimator.AddVisionMeasurement();
+//     return m_poseEstimator.GetEstimatedPosition();
     
-}
+// }
 
-frc::Pose2d SwerveDrive::AveragePose(frc::Pose2d visionPose) {  // returns the pose estimator position with vision correction
-    m_poseEstimator.AddVisionMeasurement(visionPose, frc::Timer::GetFPGATimestamp());
-    return m_poseEstimator.GetEstimatedPosition();
-}
+// frc::Pose2d SwerveDrive::AveragePose(frc::Pose2d visionPose) {  // returns the pose estimator position with vision correction
+//     m_poseEstimator.AddVisionMeasurement(visionPose, frc::Timer::GetFPGATimestamp());
+//     return m_poseEstimator.GetEstimatedPosition();
+// }
 
 frc::Pose2d SwerveDrive::OdometryPose() {
      // returns the odometry pose
@@ -144,7 +144,7 @@ void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
     resetHeading();
     resetAbsoluteEncoders();
     m_odometry.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
-    m_poseEstimator.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
+    // m_poseEstimator.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
     
 }
 
@@ -256,58 +256,58 @@ void SwerveDrive::SetAlign(bool a) {
     align = a;
 }
 
-void SwerveDrive::UpdatePoseEstimate() {
-    m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-    m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-    if(align == true) {
-        bool doRejectUpdate = false;
-        LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
-        LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        if(abs(m_gyro.GetRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-        {
-            doRejectUpdate = true;
-        }
-        if(mt2.tagCount == 0)
-        {
-            doRejectUpdate = true;
-        }
-        if(!doRejectUpdate)
-        {
-            wpi::array<double, 3U> temp = {.7,.7,9999999}; 
-            // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-             m_poseEstimator.SetVisionMeasurementStdDevs(temp);
-            m_poseEstimator.AddVisionMeasurement(
-                mt2.pose,
-                mt2.timestampSeconds);
-        }
-    }
-}
+// void SwerveDrive::UpdatePoseEstimate() {
+//     m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+//     m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+//     if(align == true) {
+//         bool doRejectUpdate = false;
+//         LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
+//         LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+//         if(abs(m_gyro.GetRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+//         {
+//             doRejectUpdate = true;
+//         }
+//         if(mt2.tagCount == 0)
+//         {
+//             doRejectUpdate = true;
+//         }
+//         if(!doRejectUpdate)
+//         {
+//             wpi::array<double, 3U> temp = {.7,.7,9999999}; 
+//             // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+//              m_poseEstimator.SetVisionMeasurementStdDevs(temp);
+//             m_poseEstimator.AddVisionMeasurement(
+//                 mt2.pose,
+//                 mt2.timestampSeconds);
+//         }
+//     }
+// }
 
 void SwerveDrive::Periodic() {
     // m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
     // m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-    UpdatePoseEstimate();
+    // UpdatePoseEstimate();
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
     // }
     frc::SmartDashboard::PutNumber("gyro angle", fmod(m_gyro.GetAngle(), 360));
     frc::SmartDashboard::PutNumber("gyro angle2", -getGyroHeading2().Degrees().value());
-    frc::SmartDashboard::PutNumber("x", AveragePose().X().value());
-    frc::SmartDashboard::PutNumber("y", AveragePose().Y().value());
+    // frc::SmartDashboard::PutNumber("x", AveragePose().X().value());
+    // frc::SmartDashboard::PutNumber("y", AveragePose().Y().value());
 
     frc::SmartDashboard::PutNumber("odometry x", m_odometry.GetPose().Translation().X().value());
     frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetPose().Translation().Y().value());
     frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetPose().Rotation().Degrees().value());
-    frc::SmartDashboard::PutNumber("est pose x", m_poseEstimator.GetEstimatedPosition().Translation().X().value());
-    frc::SmartDashboard::PutNumber("est pose y", m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
+    // frc::SmartDashboard::PutNumber("est pose x", m_poseEstimator.GetEstimatedPosition().Translation().X().value());
+    // frc::SmartDashboard::PutNumber("est pose y", m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
 
-    frc::SmartDashboard::PutNumber("rot", AveragePose().Rotation().Degrees().value());
+    // frc::SmartDashboard::PutNumber("rot", AveragePose().Rotation().Degrees().value());
     frc::SmartDashboard::PutNumber("Gyro", m_gyro.GetAngle());
     frc::Field2d m_field;
     // frc::Field2d m_field2;
     frc::SmartDashboard::PutData("robot pos", &m_field);
     // frc::SmartDashboard::PutData("robot pos limelight", &m_field2);
-    m_field.SetRobotPose(AveragePose());
+    // m_field.SetRobotPose(AveragePose());
     // m_field2.SetRobotPose(AveragePose());
     
 }   
