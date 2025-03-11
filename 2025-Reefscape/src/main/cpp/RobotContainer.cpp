@@ -78,12 +78,11 @@ RobotContainer::RobotContainer() {
 
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            if (m_driverController.GetRawButtonPressed(
+            if (m_driverController.GetRawButton(
                     Controller::Y)) {  // zero
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
-            }
-            if (m_driverController.GetRawButtonPressed(Controller::X)) {
+            } else if (m_driverController.GetRawButton(Controller::X)) {
                 m_drive.setHeading(180);
             }
 
@@ -115,22 +114,18 @@ RobotContainer::RobotContainer() {
             frc::SmartDashboard::PutNumber("y", YAxis);
             frc::SmartDashboard::PutNumber("rot", RotAxis);
 
-            switch (m_driverController.GetPOV()) {
-                case 0:  // up
-                    m_drive.swerveDrive(0.0, 0.5, 0.0, false);
-                    break;
-                case 180:  // down
-                    m_drive.swerveDrive(0.0, -0.5, 0.0, false);
-                    break;
-                case 270:  // left
-                    m_drive.swerveDrive(-0.5, 0.0, 0.0, false);
-                    break;
-                case 90:  // right
-                    m_drive.swerveDrive(0.5, 0.0, 0.0, false);
-                    break;
-                default:
-                    m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
-                    break;
+            int pov = m_driverController.GetPOV();
+            SmartDashboard::PutNumber("drive pov", pov);
+            if (pov == 0.0) {
+                m_drive.swerveDrive(0.0, 0.5, 0.0, false);
+            } else if (pov == 180.0) {
+                m_drive.swerveDrive(0.0, -0.5, 0.0, false);
+            } else if (pov == 270.0) {
+                m_drive.swerveDrive(-0.5, 0.0, 0.0, false);
+            } else if (pov == 90.0) {
+                m_drive.swerveDrive(0.5, 0.0, 0.0, false);
+            } else {
+                m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
 
             std::shared_ptr<nt::NetworkTable> table =
@@ -316,7 +311,9 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_elevator}));
     m_superstructure.m_vision.SetDefaultCommand(RunCommand(
         [this] {
-            frc::SmartDashboard::PutBoolean("led button pressed", m_driverController.GetRawButtonPressed(Controller::B));
+            frc::SmartDashboard::PutBoolean(
+                "led button pressed",
+                m_driverController.GetRawButtonPressed(Controller::B));
 
             // if
             // (m_driverController.GetPOV()<Controller::upAngle+5||m_driverController.GetPOV()>355)
@@ -334,8 +331,10 @@ RobotContainer::RobotContainer() {
             // }
             // frc::SmartDashboard::PutNumber("di",
             // m_superstructure.m_vision.getDistance());
-            frc::SmartDashboard::PutNumber("leds", m_superstructure.m_vision.getLedOn());
-            frc::SmartDashboard::PutBoolean("toggle offset", m_drive.getOffsetToggle());
+            frc::SmartDashboard::PutNumber(
+                "leds", m_superstructure.m_vision.getLedOn());
+            frc::SmartDashboard::PutBoolean("toggle offset",
+                                            m_drive.getOffsetToggle());
         },
         {&m_superstructure.m_vision}));
 }
