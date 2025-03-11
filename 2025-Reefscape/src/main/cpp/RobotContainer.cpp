@@ -83,6 +83,9 @@ RobotContainer::RobotContainer() {
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
             }
+            if (m_driverController.GetRawButtonPressed(Controller::X)) {
+                m_drive.setHeading(180);
+            }
 
             auto startHeading = m_drive.getGyroHeading2();
 
