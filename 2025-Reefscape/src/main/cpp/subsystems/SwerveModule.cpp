@@ -297,6 +297,7 @@ void SwerveModule::Periodic() {
     frc::SmartDashboard::PutNumber(
         "STEER ENCODER " + getName(m_driveMotor.GetDeviceId()),
         getSteerPosition());
+    
     // frc::SmartDashboard::PutNumber(getName(m_driveMotor.GetDeviceId()) +
     // "off", m_absoluteEncoder.GetPositionOffset());
 }

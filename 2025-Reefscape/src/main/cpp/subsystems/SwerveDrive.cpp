@@ -282,6 +282,7 @@ void SwerveDrive::Periodic() {
     frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetPose().Translation().Y().value());
     frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetPose().Rotation().Degrees().value());
 
+    frc::SmartDashboard::PutNumber("wheel pos", m_modules[0].getDrivePosition()+drivebase::WheelBase.value());
     frc::SmartDashboard::PutNumber("Gyro", m_gyro.GetAngle());
     frc::Field2d m_field;
     frc::SmartDashboard::PutData("robot pos", &m_field);
