@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "Preload Close"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Preload Close"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Source"
+                }
+              }
+            ]
           }
         },
         {

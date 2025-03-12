@@ -69,19 +69,17 @@ SwerveDrive::SwerveDrive()
         [this](){ return getRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](frc::ChassisSpeeds speeds){ swerveDrive(speeds); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(0.7, 0.0, 0.0001), // Translation PID constants
+            PIDConstants(0.7, 0.0, 0.0) // Rotation PID constants
         ),
         config,
         []() {
             // Boolean supplier that controls when the path will be mirrored for the red alliance
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
             auto alliance = frc::DriverStation::GetAlliance();
             if (alliance) {
                 return alliance.value() == frc::DriverStation::Alliance::kRed;
-                
             }
             return false;
         },
@@ -106,6 +104,16 @@ frc::Pose2d SwerveDrive::OdometryPose() {
     return m_odometry.GetPose();
 }
 
+frc::Rotation2d SwerveDrive::getGyroHeading() {  // i have no f*cking clue how this works but it returns the gyro heading
+    double newAngle = -m_gyro.GetYaw();
+    
+    double delta = std::fmod(std::fmod((newAngle - lastAngle + 180), 360) + 360, 360) - 180;  // NOLINT
+    lastAngle = newAngle;
+    heading = heading + frc::Rotation2d(degree_t{delta * 1.02466666667});
+    
+    return heading;
+}
+
 frc::Rotation2d SwerveDrive::getGyroHeading2() {
     return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 0));
 }
@@ -122,7 +130,6 @@ void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
     resetHeading();
     resetAbsoluteEncoders();
     m_odometry.ResetPosition(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
-    // m_poseEstimator.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
 }
 
 void SwerveDrive::swerveDrive(double x, double y, double theta, bool fieldCentric) {  // swerve drive
@@ -261,32 +268,23 @@ void SwerveDrive::SetAlign(bool a) {
 // }
 
 void SwerveDrive::Periodic() {
-    // m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+    m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+
     // m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
     // UpdatePoseEstimate();
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
     // }
     frc::SmartDashboard::PutNumber("gyro angle", fmod(m_gyro.GetAngle(), 360));
-    frc::SmartDashboard::PutNumber("gyro angle2", -getGyroHeading2().Degrees().value());
-    // frc::SmartDashboard::PutNumber("x", AveragePose().X().value());
-    // frc::SmartDashboard::PutNumber("y", AveragePose().Y().value());
+    frc::SmartDashboard::PutNumber("gyro angle2", getGyroHeading2().Degrees().value());
 
     frc::SmartDashboard::PutNumber("odometry x", m_odometry.GetPose().Translation().X().value());
     frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetPose().Translation().Y().value());
     frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetPose().Rotation().Degrees().value());
-    // frc::SmartDashboard::PutNumber("est pose x", m_poseEstimator.GetEstimatedPosition().Translation().X().value());
-    // frc::SmartDashboard::PutNumber("est pose y", m_poseEstimator.GetEstimatedPosition().Translation().Y().value());
 
-    // frc::SmartDashboard::PutNumber("rot", AveragePose().Rotation().Degrees().value());
     frc::SmartDashboard::PutNumber("Gyro", m_gyro.GetAngle());
     frc::Field2d m_field;
-    // frc::Field2d m_field2;
     frc::SmartDashboard::PutData("robot pos", &m_field);
-    // frc::SmartDashboard::PutData("robot pos limelight", &m_field2);
-    // m_field.SetRobotPose(AveragePose());
-    // m_field2.SetRobotPose(AveragePose());
-    
 }   
 
 void SwerveDrive::resetAbsoluteEncoders() {  // resets drive and steer encoders

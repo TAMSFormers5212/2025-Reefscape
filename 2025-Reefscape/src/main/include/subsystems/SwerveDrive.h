@@ -36,6 +36,7 @@ public:
     frc::Pose2d AveragePose();
     frc::Pose2d AveragePose(frc::Pose2d visionPose);
     frc::Pose2d OdometryPose();
+    frc::Rotation2d getGyroHeading();
     frc::Rotation2d getGyroHeading2();
     frc::ChassisSpeeds getRobotRelativeSpeeds();
     frc::ChassisSpeeds getFieldRelativeSpeeds();

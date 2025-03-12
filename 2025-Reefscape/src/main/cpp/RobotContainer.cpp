@@ -67,13 +67,14 @@ RobotContainer::RobotContainer() {
 
     ConfigureBindings();
 
-    m_rotationTest = PathPlannerAuto("Rotation Testing").ToPtr();
+    m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
     m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     m_oneCoral = PathPlannerAuto("1 Coral Auton").ToPtr();
 
     m_chooser.SetDefaultOption("1 Coral Auton", m_oneCoral.get());
-    // m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
-    // m_chooser.AddOption("Test Auto 1", m_testAu)
+    m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
+    m_chooser.AddOption("Test Auto", m_testAuto.get());
+
     frc::SmartDashboard::PutData(&m_chooser);
 
     m_drive.SetDefaultCommand(RunCommand(

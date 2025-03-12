@@ -39,8 +39,6 @@ class RobotContainer {
     SwerveDrive m_drive;
     Superstructure m_superstructure;
 
-    frc2::CommandPtr m_testAuto1 = PathPlannerAuto("Test Auto 1").ToPtr();
-
     frc2::Command* GetAutonomousCommand();
     void Periodic();
 
@@ -51,8 +49,7 @@ class RobotContainer {
     // frc2::CommandXboxController m_driverController{
     //     OperatorConstants::kDriverControllerPort};
 
-    frc2::CommandPtr m_rotationTest =
-        PathPlannerAuto("Rotation Testing").ToPtr();
+    frc2::CommandPtr m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
     frc2::CommandPtr m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     frc2::CommandPtr m_oneCoral = PathPlannerAuto("1 Coral Auton").ToPtr();
     frc::SendableChooser<frc2::Command*> m_chooser;
