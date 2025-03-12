@@ -42,7 +42,7 @@ void Elevator::resetMotors() {
     m_rightConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(40);
-        // .Inverted(true);
+    // .Inverted(true);
     m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
@@ -80,15 +80,42 @@ void Elevator::setSpeed(double speed) {
 // returns the quadrature encoder position
 double Elevator::getPosition() { return (m_rightEncoder.GetPosition()); }
 
-void Elevator::levelOne() {commandGiven = true;  position = levelOneHeight; }
-void Elevator::levelTwo() { commandGiven = true; position = levelTwoHeight; }
-void Elevator::levelThree() { commandGiven = true; position = levelThreeHeight; }
-void Elevator::levelFour() { commandGiven = true; position = levelFourthHeight; }
-void Elevator::sourcePos() { commandGiven = true; position = sourceIntakeHeight; }
-void Elevator::groundAlgae() {commandGiven = true;  position = groundAlgaeHeight; }
-void Elevator::firstAlgae() { commandGiven = true; position = firstAlgaeHeight; }
-void Elevator::secondAlgae() { commandGiven = true; position = secondAlgaeHeight; }
-void Elevator::processor() { commandGiven = true; position = processorHeight; }
+void Elevator::levelOne() {
+    commandGiven = true;
+    position = levelOneHeight;
+}
+void Elevator::levelTwo() {
+    commandGiven = true;
+    position = levelTwoHeight;
+}
+void Elevator::levelThree() {
+    commandGiven = true;
+    position = levelThreeHeight;
+}
+void Elevator::levelFour() {
+    commandGiven = true;
+    position = levelFourthHeight;
+}
+void Elevator::sourcePos() {
+    commandGiven = true;
+    position = sourceIntakeHeight;
+}
+void Elevator::groundAlgae() {
+    commandGiven = true;
+    position = groundAlgaeHeight;
+}
+void Elevator::firstAlgae() {
+    commandGiven = true;
+    position = firstAlgaeHeight;
+}
+void Elevator::secondAlgae() {
+    commandGiven = true;
+    position = secondAlgaeHeight;
+}
+void Elevator::processor() {
+    commandGiven = true;
+    position = processorHeight;
+}
 
 void Elevator::setPosition(double pose) {
     commandGiven = true;  // sets the goal pose to given parameter
@@ -103,25 +130,30 @@ void Elevator::setPosition(double pose) {
     // CANSparkLowLevel::ControlType::kPosition);
 }
 void Elevator::Periodic() {
-    if(m_limitSwitch.Get()){
+    if (m_limitSwitch.Get()) {
         m_rightEncoder.SetPosition(0);
         m_leftEncoder.SetPosition(0);
     }
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
-    if(commandGiven){    
+    if (commandGiven) {
         m_rightController.SetReference(
-        position, rev::spark::SparkLowLevel::ControlType::kPosition,
-        rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+            position, rev::spark::SparkLowLevel::ControlType::kPosition,
+            rev::spark::kSlot0, m_elevatorFF.Calculate(ffV, ffA).value());
+    } else {
+        m_rightController.SetReference(
+            m_elevatorFF.Calculate(ffV, ffA).value(),
+            rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
-    else{
-        m_rightController.SetReference(m_elevatorFF.Calculate(ffV,ffA).value(),rev::spark::SparkLowLevel::ControlType::kVoltage);
-    }
-    frc::SmartDashboard::PutNumber("elevator abs pos", (m_absoluteEncoder.GetRaw()));
+    frc::SmartDashboard::PutBoolean("limit switch pressed",
+                                    m_limitSwitch.Get());
+    frc::SmartDashboard::PutNumber("elevator abs pos",
+                                   (m_absoluteEncoder.GetRaw()));
     frc::SmartDashboard::PutNumber("elevator pos", position);
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
-    frc::SmartDashboard::PutNumber("elevator neo pos", m_rightEncoder.GetPosition());
+    frc::SmartDashboard::PutNumber("elevator neo pos",
+                                   m_rightEncoder.GetPosition());
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.

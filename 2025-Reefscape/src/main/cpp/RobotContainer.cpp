@@ -78,8 +78,7 @@ RobotContainer::RobotContainer() {
 
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            if (m_driverController.GetRawButton(
-                    Controller::Y)) {  // zero
+            if (m_driverController.GetRawButton(Controller::Y)) {  // zero
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
             } else if (m_driverController.GetRawButton(Controller::X)) {
@@ -90,9 +89,10 @@ RobotContainer::RobotContainer() {
 
             if (m_driverController.GetRawButton(Controller::leftBumper)) {
                 speedMultiplier = 0.5;
-            } else if (m_driverController.GetRawButton(
-                           Controller::rightBumper)) {
+            } else if (m_driverController.GetRawButton(Controller::rightBumper)) {
                 speedMultiplier = 1.0;
+            } else {
+                speedMultiplier = 0.75;
             }
             frc::SmartDashboard::PutNumber("speedMultiplier", speedMultiplier);
 
@@ -116,14 +116,14 @@ RobotContainer::RobotContainer() {
 
             int pov = m_driverController.GetPOV();
             SmartDashboard::PutNumber("drive pov", pov);
-            if (pov == 0.0) {
-                m_drive.swerveDrive(0.0, 0.5, 0.0, false);
-            } else if (pov == 180.0) {
-                m_drive.swerveDrive(0.0, -0.5, 0.0, false);
-            } else if (pov == 270.0) {
-                m_drive.swerveDrive(-0.5, 0.0, 0.0, false);
-            } else if (pov == 90.0) {
-                m_drive.swerveDrive(0.5, 0.0, 0.0, false);
+            if (pov == 0.0) {  // up
+                m_drive.swerveDrive(0.2, 0.0, 0.0, false);
+            } else if (pov == 180.0) {  // down
+                m_drive.swerveDrive(-0.2, 0.0, 0.0, false);
+            } else if (pov == 270.0) {  // left
+                m_drive.swerveDrive(-0.0, 0.2, 0.0, false);
+            } else if (pov == 90.0) {  // right
+                m_drive.swerveDrive(0.0, -0.2, 0.0, false);
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }

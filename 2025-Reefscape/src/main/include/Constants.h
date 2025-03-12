@@ -213,15 +213,17 @@ namespace ElevatorConstants
     constexpr int leftMotor = 10;
     constexpr int rightMotor = 11;
     
-    constexpr int limitSwitch = 8;
+    constexpr int limitSwitch = 9;
     constexpr int encoderOne = 2; // depends on what encoder. planning for a rev through bore
     constexpr int encoderTwo = 3;
-    // constexpr int limitSwitch = 1;
+
     constexpr double levelOneHeight = 0;
-    constexpr double levelTwoHeight = -11.05;
-    constexpr double levelThreeHeight = -18.25;
+    constexpr double levelTwoHeight = -8.1;
+    constexpr double levelThreeHeight = -17.1;
     constexpr double levelFourthHeight = -31.5;
-    constexpr double sourceIntakeHeight = -2.56;
+
+    constexpr double sourceIntakeHeight = -2.4;
+
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
     constexpr double secondAlgaeHeight = 0;
