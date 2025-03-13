@@ -11,13 +11,32 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Preload Close"
+                  "pathName": "Right L2,3,4"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "Elevator Source"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator L4"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
                 }
               }
             ]
