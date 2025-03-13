@@ -322,11 +322,12 @@ namespace IntakeConstants
     constexpr double firstAlgaePresetHeight = 0;
     constexpr double secondAlgaePresetHeight = 0;
 
-    constexpr double kiP = 0.90;
+    constexpr double kiP = 0.10;
     constexpr double kiI = 0.0000;
     constexpr double kiD = 0.00;
     constexpr double kiFF = 0.01;
     constexpr double kiIz = 0.0;
+    
     constexpr int kiMaxOutput = 1;
     constexpr int kiMinOutput = -1;
     constexpr double loadedCurrent = 10.0; // current when note is held

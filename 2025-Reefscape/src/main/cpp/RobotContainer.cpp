@@ -72,7 +72,7 @@ RobotContainer::RobotContainer() {
     m_oneCoral = PathPlannerAuto("1 Coral Auton").ToPtr();
 
     m_chooser.SetDefaultOption("1 Coral Auton", m_oneCoral.get());
-    m_chooser.AddOption("1 Coral Auton", m_oneCoral.get());
+    m_chooser.AddOption("Mobility Auton", m_mobility.get());
     m_chooser.AddOption("Test Auto", m_testAuto.get());
 
     frc::SmartDashboard::PutData(&m_chooser);
@@ -163,11 +163,11 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_elevator.resetEncoders();
                     // m_superstructure.algaeSecond();
                 } else if (opPovDown && !opPrevDown) {
-                    m_superstructure.algaeFirst();
+                    m_superstructure.m_intake.set(0);
                 } else if (opPovLeft && !opPrevLeft) {
-                    m_superstructure.algaeGround();
+                    m_superstructure.m_outtake.autoIntake();
                 } else if (opPovRight && !opPrevRight) {
-                    m_superstructure.algaeProcessor();
+                    m_superstructure.m_intake.set(.5);
                 }
             }
             opPrevDown = opPovDown;

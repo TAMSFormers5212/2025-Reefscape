@@ -26,6 +26,7 @@ void resetMotor();
 double getSpeed();
 void intakeCoral();
 void stopOuttake();
+void autoIntake();
 bool getCoral();
 void setSpeed(double speed);
 void setLeftSpeed(double speed);

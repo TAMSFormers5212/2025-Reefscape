@@ -101,7 +101,8 @@ SwerveDrive::SwerveDrive()
 
 frc::Pose2d SwerveDrive::OdometryPose() {
     //frc::SmartDashboard::PutNumber("odometry pose", val.Degrees().value());
-    return m_odometry.GetPose();
+    return m_odometry.GetEstimatedPosition();
+    //retun m_odometry.GetPose();
 }
 
 frc::Rotation2d SwerveDrive::getGyroHeading() {  // i have no f*cking clue how this works but it returns the gyro heading
@@ -127,8 +128,8 @@ void SwerveDrive::setHeading(int x) {  // zeros the gyro to the given position
 }
 
 void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
-    resetHeading();
-    resetAbsoluteEncoders();
+    // resetHeading();
+    // resetAbsoluteEncoders();
     m_odometry.ResetPosition(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
 }
 
@@ -278,9 +279,12 @@ void SwerveDrive::Periodic() {
     frc::SmartDashboard::PutNumber("gyro angle", fmod(m_gyro.GetAngle(), 360));
     frc::SmartDashboard::PutNumber("gyro angle2", getGyroHeading2().Degrees().value());
 
-    frc::SmartDashboard::PutNumber("odometry x", m_odometry.GetPose().Translation().X().value());
-    frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetPose().Translation().Y().value());
-    frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetPose().Rotation().Degrees().value());
+    frc::SmartDashboard::PutNumber("odometry x", m_odometry.GetEstimatedPosition().Translation().X().value());
+    frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetEstimatedPosition().Translation().Y().value());
+    frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetEstimatedPosition().Rotation().Degrees().value());
+    //frc::SmartDashboard::PutNumber("odometry x", m_odometry.GetPose().Translation().X().value());
+    //frc::SmartDashboard::PutNumber("odometry y", m_odometry.GetPose().Translation().Y().value());
+    //frc::SmartDashboard::PutNumber("odometry rot", m_odometry.GetPose().Rotation().Degrees().value());
 
     frc::SmartDashboard::PutNumber("wheel pos", m_modules[0].getDrivePosition()+drivebase::WheelBase.value());
     frc::SmartDashboard::PutNumber("Gyro", m_gyro.GetAngle());

@@ -63,7 +63,7 @@ private:
     array<SwerveModule, 4> m_modules;
 
     frc::SwerveDriveKinematics<4> m_driveKinematics;
-    frc::SwerveDriveOdometry<4> m_odometry;
+    frc::SwerveDrivePoseEstimator<4> m_odometry;
     // frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
 
     frc::PIDController thetaController; // closed loop control for heading

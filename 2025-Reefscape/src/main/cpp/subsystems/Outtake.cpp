@@ -92,7 +92,12 @@ void Outtake::setSpeed(double speed) {
     m_leftOuttakeMotor.Set(speed);
     m_rightOuttakeMotor.Set(speed);
 }
-
+void Outtake::autoIntake(){
+    while(m_beamBreak2.Get()!=0){
+        setSpeed(0.2);
+    }
+    setSpeed(0);
+}
 void Outtake::setLeftSpeed(double speed) { m_leftOuttakeMotor.Set(speed); }
 void Outtake::setRightSpeed(double speed) { m_rightOuttakeMotor.Set(speed); }
 
@@ -108,6 +113,8 @@ void Outtake::Periodic() {
         coralHeld = false;
         // m_LEDs.setColor(0.77);
     }
+    frc::SmartDashboard::PutBoolean("beam1", m_beamBreak.Get());
+    frc::SmartDashboard::PutBoolean("beam2", m_beamBreak2.Get());
     frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
     frc::SmartDashboard::PutNumber("Left Speed", m_leftOuttakeMotor.Get());
     frc::SmartDashboard::PutNumber("Right Speed", m_rightOuttakeMotor.Get());

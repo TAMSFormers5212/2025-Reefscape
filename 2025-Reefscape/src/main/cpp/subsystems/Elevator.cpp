@@ -41,7 +41,7 @@ void Elevator::resetMotors() {
         .OutputRange(kMinOutput, kMaxOutput);
     m_rightConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(40);
+        .SmartCurrentLimit(20);
     // .Inverted(true);
     m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
@@ -50,7 +50,7 @@ void Elevator::resetMotors() {
 
     m_leftConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(40)
+        .SmartCurrentLimit(20)
         .Follow(m_rightMotor, false);
 
     m_leftConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
@@ -154,6 +154,9 @@ void Elevator::Periodic() {
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
     frc::SmartDashboard::PutNumber("elevator neo pos",
                                    m_rightEncoder.GetPosition());
+    frc::SmartDashboard::PutNumber("elevator current",
+                                   m_rightMotor.GetOutputCurrent());
+                                                            
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.
