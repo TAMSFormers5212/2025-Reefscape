@@ -42,6 +42,8 @@ class RobotContainer {
     frc2::Command* GetAutonomousCommand();
     void Periodic();
 
+    frc::Pose2d autoStartingPose(void);
+
    private:
     frc::GenericHID m_driverController{kDriverControllerPort};
     frc::GenericHID m_operatorController{kOperatorControllerPort};
@@ -50,7 +52,7 @@ class RobotContainer {
     //     OperatorConstants::kDriverControllerPort};
 
     frc2::CommandPtr m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
-    frc2::CommandPtr m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
+    // PathPlannerAuto m_mobility = PathPlannerAuto("Mobility Auton");
     frc2::CommandPtr m_L1Center = PathPlannerAuto("L1 Center").ToPtr();
     frc2::CommandPtr m_L1Left = PathPlannerAuto("L1 Left").ToPtr();
     frc2::CommandPtr m_L1Right = PathPlannerAuto("L1 Right").ToPtr();
@@ -61,7 +63,7 @@ class RobotContainer {
     frc2::CommandPtr m_L1CenterL4Right = PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
     frc2::CommandPtr m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
     frc2::CommandPtr m_L1RightL4Right = PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
-    frc::SendableChooser<frc2::Command*> m_chooser;
+    frc::SendableChooser<frc2::Command*> m_chooser = AutoBuilder::buildAutoChooser("Mobility Auton"); //m_chooser;
 
     bool runAlign = false;
 

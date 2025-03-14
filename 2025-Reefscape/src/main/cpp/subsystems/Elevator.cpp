@@ -130,10 +130,10 @@ void Elevator::setPosition(double pose) {
     // CANSparkLowLevel::ControlType::kPosition);
 }
 void Elevator::Periodic() {
-    if (m_limitSwitch.Get()) {
-        m_rightEncoder.SetPosition(0);
-        m_leftEncoder.SetPosition(0);
-    }
+    // if (m_limitSwitch.Get()) {
+    //     m_rightEncoder.SetPosition(0);
+    //     m_leftEncoder.SetPosition(0);
+    // }
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
