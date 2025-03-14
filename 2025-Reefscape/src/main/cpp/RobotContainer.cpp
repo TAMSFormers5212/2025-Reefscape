@@ -384,6 +384,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     // return autos::ExampleAuto(&m_subsystem);
 
     // return (*m_chooser.GetSelected()).ToPtr();
+    PathPlannerAuto selectedAuton(m_chooser.GetSelected()->GetName());
+    m_drive.resetOdometry(selectedAuton.getStartingPose());
     return (m_chooser.GetSelected());
 }
 

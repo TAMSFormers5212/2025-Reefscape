@@ -129,6 +129,9 @@ void SwerveDrive::setHeading(int x) {  // zeros the gyro to the given position
 
 void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
     // resetHeading();
+    frc::SmartDashboard::PutNumber("odometry reset x", pose.Translation().X().value());
+    frc::SmartDashboard::PutNumber("odometry reset y", pose.Translation().Y().value());
+    frc::SmartDashboard::PutNumber("odometry reset rot", pose.Rotation().Degrees().value());
     // resetAbsoluteEncoders();
     m_odometry.ResetPosition(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
 }
