@@ -214,8 +214,8 @@ namespace ElevatorConstants
     constexpr int rightMotor = 11;
     
     constexpr int limitSwitch = 9;
-    constexpr int encoderOne = 2; // depends on what encoder. planning for a rev through bore
-    constexpr int encoderTwo = 3;
+    constexpr int encoderOne = 4; // depends on what encoder. planning for a rev through bore
+    constexpr int encoderTwo = 5;
 
     constexpr double levelOneHeight = 0;
     constexpr double levelTwoHeight = -8.5;
@@ -301,13 +301,12 @@ namespace OuttakeConstants
     // constexpr auto KrsV = vKrsV * sKlsV / aKrsV;
 
 }
-
 namespace IntakeConstants
 {
     constexpr int intakeMotor = 13;
     constexpr int pivotMotor = 12;
-    // might change
-    constexpr int pivotEncoder = 5;
+    // might chang5
+    constexpr int pivotEncoder = 2;
     constexpr double encoderOffset = 0;
 
     constexpr double pivotOffset = 0;
@@ -315,7 +314,8 @@ namespace IntakeConstants
 
     constexpr double pivotSprocketRatio = 5.5;
     constexpr int pivotPlanetaryRatio = 20;
-    constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
+    // constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
+    constexpr double pivotRatio = pivotPlanetaryRatio;
 
     constexpr double groundPresetHeight = 0;
     constexpr double processorPresetHeight = 0;

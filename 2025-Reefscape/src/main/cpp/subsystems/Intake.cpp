@@ -122,6 +122,9 @@ void Intake::Periodic() {
         rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
     frc::SmartDashboard::PutNumber("intake pos", position);
+    frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
+    frc::SmartDashboard::PutNumber("intake frequency", m_absoluteEncoder.GetFrequency());
+    frc::SmartDashboard::PutBoolean("intake abs connected", m_absoluteEncoder.IsConnected());
     frc::SmartDashboard::PutNumber("Intake neo pos", m_pivotEncoder.GetPosition());
     frc::SmartDashboard::PutNumber("intake init pos", initalPosition);
     // Implementation of subsystem periodic method goes here.
