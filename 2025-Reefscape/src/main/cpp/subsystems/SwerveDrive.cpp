@@ -14,7 +14,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/DriverStation.h>
 #include <frc/smartdashboard/Field2d.h>
-// #include "LimelightHelpers.h"
+#include "LimelightHelpers.h"
 #include <iostream>
 #include <frc/Timer.h>
 #include <vector>
@@ -44,15 +44,15 @@ SwerveDrive::SwerveDrive()
                          frc::Translation2d{-drivebase::WheelBase / 2,
                                             -drivebase::TrackWidth / 2}}},
       m_odometry{m_driveKinematics,
-                 frc::Rotation2d(-getGyroHeading2()),
+                 frc::Rotation2d(-getGyroHeading()),
                  {m_modules[0].getPosition(), m_modules[1].getPosition(),
                   m_modules[2].getPosition(), m_modules[3].getPosition()},
                  frc::Pose2d()},
-    //   m_poseEstimator{m_driveKinematics,
-    //                   frc::Rotation2d(-getGyroHeading()),
-    //                   {m_modules[0].getPosition(), m_modules[1].getPosition(),
-    //                    m_modules[2].getPosition(), m_modules[3].getPosition()},
-    //                   frc::Pose2d()},
+      m_poseEstimator{m_driveKinematics,
+                      frc::Rotation2d(-getGyroHeading()),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()},
+                      frc::Pose2d()},
       thetaController(0, 0, 0) {
     m_gyro.Reset();
     
@@ -133,7 +133,9 @@ void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
     frc::SmartDashboard::PutNumber("odometry reset y", pose.Translation().Y().value());
     frc::SmartDashboard::PutNumber("odometry reset rot", pose.Rotation().Degrees().value());
     // resetAbsoluteEncoders();
-    m_odometry.ResetPosition(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
+    resetHeading();
+    m_odometry.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
+    m_poseEstimator.ResetPosition(getGyroHeading(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()}, pose);
 }
 
 void SwerveDrive::swerveDrive(double x, double y, double theta, bool fieldCentric) {  // swerve drive
@@ -244,38 +246,39 @@ void SwerveDrive::SetAlign(bool a) {
     align = a;
 }
 
-// void SwerveDrive::UpdatePoseEstimate() {
-//     m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-//     m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-//     if(align == true) {
-//         bool doRejectUpdate = false;
-//         LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
-//         LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-//         if(abs(m_gyro.GetRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-//         {
-//             doRejectUpdate = true;
-//         }
-//         if(mt2.tagCount == 0)
-//         {
-//             doRejectUpdate = true;
-//         }
-//         if(!doRejectUpdate)
-//         {
-//             wpi::array<double, 3U> temp = {.7,.7,9999999}; 
-//             // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-//              m_poseEstimator.SetVisionMeasurementStdDevs(temp);
-//             m_poseEstimator.AddVisionMeasurement(
-//                 mt2.pose,
-//                 mt2.timestampSeconds);
-//         }
-//     }
-// }
+void SwerveDrive::UpdatePoseEstimate() {
+    m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+    m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+    if(align == true) { 
+        bool doRejectUpdate = false;
+        
+        LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
+        LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        if(abs(m_gyro.GetRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+        {
+            doRejectUpdate = true;
+        }
+        if(mt2.tagCount == 0)
+        {
+            doRejectUpdate = true;
+        }
+        if(!doRejectUpdate)
+        {
+            wpi::array<double, 3U> temp = {.7,.7,9999999}; 
+            // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+             m_poseEstimator.SetVisionMeasurementStdDevs(temp);
+            m_poseEstimator.AddVisionMeasurement(
+                mt2.pose,
+                mt2.timestampSeconds);
+        }
+    }
+}
 
 void SwerveDrive::Periodic() {
-    m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
+    // m_odometry.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
 
     // m_poseEstimator.Update(getGyroHeading2(), {m_modules[0].getPosition(), m_modules[1].getPosition(), m_modules[2].getPosition(), m_modules[3].getPosition()});
-    // UpdatePoseEstimate();
+    UpdatePoseEstimate();
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
     // }
