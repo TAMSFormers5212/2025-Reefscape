@@ -17,7 +17,7 @@ using namespace OuttakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
-Outtake::Outtake(int leftMotor, int rightMotor, int sensor)
+Outtake::Outtake(int leftMotor, int rightMotor, int beamFront, int beamBack)
     : m_leftOuttakeMotor(leftMotor,
                          rev::spark::SparkMax::MotorType::kBrushless),
       m_rightOuttakeMotor(rightMotor,
@@ -88,33 +88,48 @@ void Outtake::intakeCoral() {
     // }
     stopOuttake();
 }
+
 void Outtake::setSpeed(double speed) {
     m_leftOuttakeMotor.Set(speed);
     m_rightOuttakeMotor.Set(speed);
 }
+
 void Outtake::autoIntake(){
-    while(m_beamBreak2.Get()!=0){
-        setSpeed(0.2);
-    }
-    setSpeed(0);
+    // while(beamBack.Get()!=0){
+        // setSpeed(0.2);
+    // }
+    // setSpeed(0);
 }
+
 void Outtake::setLeftSpeed(double speed) { m_leftOuttakeMotor.Set(speed); }
 void Outtake::setRightSpeed(double speed) { m_rightOuttakeMotor.Set(speed); }
 
 double Outtake::getSpeed() { return m_leftEncoder.GetVelocity(); }
 
+bool Outtake::getBeamFront() {
+    return beamFront.Get();
+}
+bool Outtake::getBeamBack() {
+    return beamBack.Get();
+}
+
 bool Outtake::getCoral() { return coralHeld; }
+
+
 void Outtake::Periodic() {
     // Implementation of subsystem periodic method goes here.
-    if (m_beamBreak.Get() == 0 && m_beamBreak2.Get() == 0) {
+    bool bFront = beamFront.Get();
+    bool bBack = beamBack.Get();
+
+    if (bFront && !bBack) {
         coralHeld = true;
         // m_LEDs.setColor(0.65);
     } else {
         coralHeld = false;
         // m_LEDs.setColor(0.77);
     }
-    frc::SmartDashboard::PutBoolean("beam1", m_beamBreak.Get());
-    frc::SmartDashboard::PutBoolean("beam2", m_beamBreak2.Get());
+    frc::SmartDashboard::PutBoolean("beamFront", bFront);
+    frc::SmartDashboard::PutBoolean("beamBack", bBack);
     frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
     frc::SmartDashboard::PutNumber("Left Speed", m_leftOuttakeMotor.Get());
     frc::SmartDashboard::PutNumber("Right Speed", m_rightOuttakeMotor.Get());

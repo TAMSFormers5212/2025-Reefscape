@@ -234,6 +234,12 @@ RobotContainer::RobotContainer() {
         {&m_superstructure.m_intake}));
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
+            if (m_superstructure.m_outtake.getBeamBack()) {
+                m_operatorController.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, 1.);
+            } else {
+                m_operatorController.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, 0);
+            }
+
             SmartDashboard::PutNumber("Outtake command", 1);
             if (m_operatorController.GetRawButton(Controller::leftBumper) &&
                 m_operatorController.GetRawButton(Controller::rightBumper)) {

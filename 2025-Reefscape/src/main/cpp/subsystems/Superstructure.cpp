@@ -7,7 +7,7 @@ Superstructure::Superstructure()
     : m_intake(IntakeConstants::intakeMotor, IntakeConstants::pivotMotor,
                IntakeConstants::pivotEncoder, IntakeConstants::pivotOffset),
       m_outtake(OuttakeConstants::leftMotor, OuttakeConstants::rightMotor,
-                OuttakeConstants::beamBreakIO),
+                OuttakeConstants::beamFront, OuttakeConstants::beamBack),
       m_elevator(ElevatorConstants::leftMotor, ElevatorConstants::rightMotor,
                  ElevatorConstants::encoderOne, ElevatorConstants::encoderTwo, ElevatorConstants::encoderOffset),
       m_vision() {
