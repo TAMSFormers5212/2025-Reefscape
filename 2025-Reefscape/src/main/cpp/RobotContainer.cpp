@@ -391,6 +391,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::Periodic() {}
 
-frc::Pose2d RobotContainer::autoStartingPose(void) { 
-    // return m_mobility.getStartingPose();
-}
+// frc::Pose2d RobotContainer::autoStartingPose(void) { 
+//     // return m_mobility.getStartingPose();
+// }

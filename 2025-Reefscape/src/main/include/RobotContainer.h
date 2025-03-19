@@ -42,7 +42,7 @@ class RobotContainer {
     frc2::Command* GetAutonomousCommand();
     void Periodic();
 
-    frc::Pose2d autoStartingPose(void);
+    // frc::Pose2d autoStartingPose(void);
 
    private:
     frc::GenericHID m_driverController{kDriverControllerPort};
