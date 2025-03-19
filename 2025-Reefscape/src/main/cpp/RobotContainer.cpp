@@ -174,6 +174,8 @@ RobotContainer::RobotContainer() {
 
     m_superstructure.SetDefaultCommand(RunCommand(
         [this] {
+            frc::SmartDashboard::PutBoolean("autoIntake", autoIntake);
+
             bool opPovDown = m_operatorController.GetPOV() == 180.0;
             bool opPovUp = m_operatorController.GetPOV() == 0.0;
             bool opPovLeft = m_operatorController.GetPOV() == 270.0;
@@ -190,7 +192,8 @@ RobotContainer::RobotContainer() {
                 } else if (opPovDown && !opPrevDown) {
                     m_superstructure.m_intake.set(0);
                 } else if (opPovLeft && !opPrevLeft) {
-                    m_superstructure.m_outtake.autoIntake();
+                    autoIntake = !autoIntake;
+                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.1 : 0);
                 } else if (opPovRight && !opPrevRight) {
                     m_superstructure.m_intake.set(.5);
                 }
@@ -199,8 +202,59 @@ RobotContainer::RobotContainer() {
             opPrevUp = opPovUp;
             opPrevLeft = opPovLeft;
             opPrevRight = opPovRight;
+
+            if (autoIntake) {
+                if (m_superstructure.m_outtake.getCoralHeld()) {
+                    autoIntake = false;
+                    m_superstructure.m_outtake.setSpeed(0);
+                }
+            }
         },
         {&m_superstructure}));
+
+    m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
+        [this] {
+            if (m_superstructure.m_outtake.getBeamBack()) {
+                m_operatorController.SetRumble(
+                    frc::GenericHID::RumbleType::kLeftRumble, 1.);
+            } else {
+                m_operatorController.SetRumble(
+                    frc::GenericHID::RumbleType::kLeftRumble, 0);
+            }
+
+            bool leftBumper =
+                m_operatorController.GetRawButton(Controller::leftBumper);
+            bool rightBumper =
+                m_operatorController.GetRawButton(Controller::rightBumper);
+            bool leftPaddle =
+                m_operatorController.GetRawButton(Controller::leftPaddle);
+            bool rightPaddle =
+                m_operatorController.GetRawButton(Controller::rightPaddle);
+
+            if (leftBumper || rightBumper) {
+                m_superstructure.m_outtake.setLeftSpeed(
+                    m_operatorController.GetRawButton(Controller::leftBumper)
+                        ? -0.2
+                        : 0.0);
+                m_superstructure.m_outtake.setRightSpeed(
+                    m_operatorController.GetRawButton(Controller::rightBumper)
+                        ? -0.2
+                        : 0.0);
+            } else if (leftPaddle || rightPaddle) {
+                m_superstructure.m_outtake.setLeftSpeed(
+                    m_operatorController.GetRawButton(Controller::leftPaddle)
+                        ? 0.2
+                        : 0.0);
+
+                m_superstructure.m_outtake.setRightSpeed(
+                    m_operatorController.GetRawButton(Controller::rightPaddle)
+                        ? 0.2
+                        : 0.0);
+            } else if (!autoIntake) {
+                m_superstructure.m_outtake.setSpeed(0.0);
+            }
+        },
+        {&m_superstructure.m_outtake}));
 
     m_superstructure.m_intake.SetDefaultCommand(RunCommand(
         [this] {
@@ -232,113 +286,41 @@ RobotContainer::RobotContainer() {
             // }
         },
         {&m_superstructure.m_intake}));
-    m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
-        [this] {
-            if (m_superstructure.m_outtake.getBeamBack()) {
-                m_operatorController.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, 1.);
-            } else {
-                m_operatorController.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, 0);
-            }
 
-            SmartDashboard::PutNumber("Outtake command", 1);
-            if (m_operatorController.GetRawButton(Controller::leftBumper) &&
-                m_operatorController.GetRawButton(Controller::rightBumper)) {
-                m_superstructure.m_outtake.setLeftSpeed(-0.2);
-                m_superstructure.m_outtake.setRightSpeed(-0.2);
-            } else if (m_operatorController.GetRawButton(
-                           Controller::leftBumper)) {
-                // m_superstructure.m_outtake.intakeCoral();
-                m_superstructure.m_outtake.setLeftSpeed(-0.2);
-            } else if (m_operatorController.GetRawButton(
-                           Controller::rightBumper)) {
-                m_superstructure.m_outtake.setRightSpeed(-0.2);
-            } else if (m_operatorController.GetRawButton(
-                           Controller::leftPaddle) &&
-                       m_operatorController.GetRawButton(
-                           Controller::rightPaddle)) {
-                m_superstructure.m_outtake.setLeftSpeed(0.2);
-                m_superstructure.m_outtake.setRightSpeed(0.2);
-            } else if (m_operatorController.GetRawButton(
-                           Controller::leftPaddle)) {
-                m_superstructure.m_outtake.setLeftSpeed(0.2);
-
-            } else if (m_operatorController.GetRawButton(
-                           Controller::rightPaddle)) {
-                m_superstructure.m_outtake.setRightSpeed(0.2);
-
-            } else {
-                m_superstructure.m_outtake.setSpeed(0);
-            }
-        },
-        {&m_superstructure.m_outtake}));
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
+            frc::SmartDashboard::PutBoolean("Elevator Override", override_);
+            if (m_operatorController.GetRawButtonPressed(Controller::LPress)) {
+                override_ = !override_;
+            }
             if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
                 0.05) {
                 double elevatorPos = m_superstructure.m_elevator.getPosition();
                 // double opInput =
                 //     m_operatorController.GetRawAxis(Controller::leftYAxis) /
                 //     2 + 0.02;
-                // if (elevatorPos < -8500 && opInput < 0.0) {
-                // software limit
-                // } else {
                 // m_superstructure.m_elevator.setSpeed(opInput);
                 m_superstructure.m_elevator.setPosition(
                     elevatorPos +
                     m_operatorController.GetRawAxis(Controller::leftYAxis));
             } else {
-                if (m_operatorController.GetRawButton(Controller::Y)) {
-                    m_superstructure.m_elevator.sourcePos();
-                } else if (m_operatorController.GetRawButton(Controller::X)) {
-                    m_superstructure.m_elevator.levelTwo();
-                } else if (m_operatorController.GetRawButton(Controller::B)) {
-                    m_superstructure.m_elevator.levelThree();
-                } else if (m_operatorController.GetRawButton(Controller::A)) {
-                    m_superstructure.m_elevator.levelFour();
+                if (m_superstructure.m_outtake.getBeamBack() && !override_) {
+                    // noop
+                } else {
+                    if (m_operatorController.GetRawButton(Controller::Y)) {
+                        m_superstructure.m_elevator.sourcePos();
+                    } else if (m_operatorController.GetRawButton(
+                                   Controller::X)) {
+                        m_superstructure.m_elevator.levelTwo();
+                    } else if (m_operatorController.GetRawButton(
+                                   Controller::B)) {
+                        m_superstructure.m_elevator.levelThree();
+                    } else if (m_operatorController.GetRawButton(
+                                   Controller::A)) {
+                        m_superstructure.m_elevator.levelFour();
+                    }
                 }
-                // presets
             }
-
-            // }
-
-            // if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
-            //     0.05) {
-
-            //     // if (m_superstructure.m_elevator.getPosition() <= 1.65 ||
-            //     //     m_operatorController.GetRawAxis(Controller::leftYAxis)
-            //     <
-            //     //         -0.05) {
-            //     //     m_superstructure.m_elevator.setPosition(
-            //     //         m_superstructure.m_elevator.getRelativePosition()
-            //     +
-            //     // m_operatorController.GetRawAxis(Controller::leftYAxis));
-            //     // } else {
-            //     //     m_superstructure.m_elevator.sourcePos();
-            //     // }
-            //     //
-            //     m_superstructure.m_elevator.setSpeed(m_operatorController.GetRawAxis(Controller::leftYAxis));
-            //     // m_superstructure.m_elevator.setPosition(
-            //     //     m_superstructure.m_elevator.getRelativePosition() +
-            //     // m_operatorController.GetRawAxis(Controller::leftYAxis)/6);
-
-            // } else {
-            //     if (m_operatorController.GetRawButton(Controller::Y)) {
-            //         m_superstructure.m_elevator.levelOne();
-            //     }
-            //     else if (m_operatorController.GetRawButton(Controller::X)) {
-            //         m_superstructure.m_elevator.levelTwo();
-            //     }
-            //     else if (m_operatorController.GetRawButton(Controller::B)) {
-            //         m_superstructure.m_elevator.levelThree();
-            //     }
-            //     else if (m_operatorController.GetRawButton(Controller::A)) {
-            //         m_superstructure.m_elevator.levelFour();
-            //     }
-            //     else if (abs(m_operatorController.GetRawAxis(
-            //             Controller::rightXAxis)) > 0.1) {
-            //         m_superstructure.m_elevator.sourcePos();
-            //     }
-            // }
         },
         {&m_superstructure.m_elevator}));
     m_superstructure.m_vision.SetDefaultCommand(RunCommand(
@@ -397,6 +379,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::Periodic() {}
 
-frc::Pose2d RobotContainer::autoStartingPose(void) { 
+frc::Pose2d RobotContainer::autoStartingPose(void) {
     // return m_mobility.getStartingPose();
 }

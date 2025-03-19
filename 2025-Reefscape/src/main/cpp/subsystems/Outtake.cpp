@@ -113,7 +113,7 @@ bool Outtake::getBeamBack() {
     return beamBack.Get();
 }
 
-bool Outtake::getCoral() { return coralHeld; }
+bool Outtake::getCoralHeld() { return coralHeld; }
 
 
 void Outtake::Periodic() {

@@ -27,12 +27,12 @@ double getSpeed();
 void intakeCoral();
 void stopOuttake();
 void autoIntake();
-bool getCoral();
 void setSpeed(double speed);
 void setLeftSpeed(double speed);
 void setRightSpeed(double speed);
 void Periodic() override;
 
+bool getCoralHeld();
 bool getBeamFront(void);
 bool getBeamBack(void);
   /**
@@ -56,8 +56,9 @@ bool getBeamBack(void);
    * simulation.
    */
     //void SimulationPeriodic() override;
-    bool coralHeld = false;
  private:
+    bool coralHeld = false;
+
     SparkMax m_leftOuttakeMotor; // may need to switch to 775 if neo550 is not fixed in time
 
     SparkMaxConfig m_leftOuttakeConfig;
