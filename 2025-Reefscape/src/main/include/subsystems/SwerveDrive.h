@@ -55,7 +55,7 @@ public:
     void SyncAbsoluteEncoders();
     void SetAlign(bool a);
     void UpdatePoseEstimate();
-     void Periodic() override;//update pose using gyro, vision, and odometry
+    void Periodic() override;//update pose using gyro, vision, and odometry
 
 private:
 
@@ -63,13 +63,12 @@ private:
 
     frc::SwerveDriveKinematics<4> m_driveKinematics;
     frc::SwerveDrivePoseEstimator<4> m_odometry;
-    frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
 
     frc::PIDController thetaController; // closed loop control for heading
     // may be something we want to implement if we notice the drive slowly twisting as it drives
     
     bool offsetToggle = true;
-    bool align = true;
+    bool align = false;
 
     frc::Rotation2d heading;
 
