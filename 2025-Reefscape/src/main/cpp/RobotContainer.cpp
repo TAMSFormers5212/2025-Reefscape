@@ -193,7 +193,7 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_intake.set(0);
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
-                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.1 : 0);
+                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.2 : 0);
                 } else if (opPovRight && !opPrevRight) {
                     m_superstructure.m_intake.set(.5);
                 }
@@ -207,6 +207,8 @@ RobotContainer::RobotContainer() {
                 if (m_superstructure.m_outtake.getCoralHeld()) {
                     autoIntake = false;
                     m_superstructure.m_outtake.setSpeed(0);
+                } else if (m_superstructure.m_outtake.getBeamBack()) {
+                    m_superstructure.m_outtake.setSpeed(0.05);
                 }
             }
         },
@@ -216,7 +218,7 @@ RobotContainer::RobotContainer() {
         [this] {
             if (m_superstructure.m_outtake.getBeamBack()) {
                 m_operatorController.SetRumble(
-                    frc::GenericHID::RumbleType::kLeftRumble, 1.);
+                    frc::GenericHID::RumbleType::kLeftRumble, 0.25);
             } else {
                 m_operatorController.SetRumble(
                     frc::GenericHID::RumbleType::kLeftRumble, 0);

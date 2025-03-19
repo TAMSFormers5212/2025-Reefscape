@@ -69,8 +69,8 @@ SwerveDrive::SwerveDrive()
         [this](){ return getRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         [this](frc::ChassisSpeeds speeds){ swerveDrive(speeds); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-            PIDConstants(0.7, 0.0, 0.0001), // Translation PID constants
-            PIDConstants(0.7, 0.0, 0.0) // Rotation PID constants
+            PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
         ),
         config,
         []() {
