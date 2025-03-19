@@ -32,7 +32,7 @@ class RobotContainer {
    public:
     RobotContainer();
     double RotAxis;
-    double speedMultiplier = 0.75;
+    double speedMultiplier = 1.0;
     double XAxis;
     double YAxis;
 
@@ -47,9 +47,6 @@ class RobotContainer {
    private:
     frc::GenericHID m_driverController{kDriverControllerPort};
     frc::GenericHID m_operatorController{kOperatorControllerPort};
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    // frc2::CommandXboxController m_driverController{
-    //     OperatorConstants::kDriverControllerPort};
 
     frc2::CommandPtr m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
     frc2::CommandPtr m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
@@ -66,6 +63,8 @@ class RobotContainer {
     frc::SendableChooser<frc2::Command*> m_chooser;// = ("Mobility Auton"); //m_chooser;
 
     bool runAlign = false;
+    bool override_ = false;
+    bool autoIntake = false;
 
     bool prevDown = false;
     bool prevUp = false;

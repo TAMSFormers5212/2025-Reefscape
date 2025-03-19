@@ -222,7 +222,7 @@ namespace ElevatorConstants
     constexpr double levelThreeHeight = -18.1;
     constexpr double levelFourthHeight = -31.5;
 
-    constexpr double sourceIntakeHeight = -2.4;
+    constexpr double sourceIntakeHeight = -2.6;
 
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
@@ -269,7 +269,9 @@ namespace OuttakeConstants
 {
     constexpr int leftMotor = 15;
     constexpr int rightMotor = 14;
-    constexpr int beamBreakIO = 0; // digital io pins
+
+    constexpr int beamFront = 7;
+    constexpr int beamBack = 8;
 
     constexpr double pulleyRatio = 16.0 / 22.0;
     constexpr units::inch_t wheelDiameter = 4_in; // may change based on rpm
