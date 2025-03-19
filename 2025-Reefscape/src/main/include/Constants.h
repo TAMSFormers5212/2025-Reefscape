@@ -222,7 +222,7 @@ namespace ElevatorConstants
     constexpr double levelThreeHeight = -18.1;
     constexpr double levelFourthHeight = -31.5;
 
-    constexpr double sourceIntakeHeight = -2.4;
+    constexpr double sourceIntakeHeight = -2.6;
 
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;

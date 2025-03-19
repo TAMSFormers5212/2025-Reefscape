@@ -69,7 +69,7 @@ private:
     // may be something we want to implement if we notice the drive slowly twisting as it drives
     
     bool offsetToggle = true;
-    bool align = false;
+    bool align = true;
 
     frc::Rotation2d heading;
 

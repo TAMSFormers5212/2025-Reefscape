@@ -116,9 +116,9 @@ RobotContainer::RobotContainer() {
                 speedMultiplier = 0.5;
             } else if (m_driverController.GetRawButton(
                            Controller::rightBumper)) {
-                speedMultiplier = 1.0;
+                speedMultiplier = .75;
             } else {
-                speedMultiplier = 0.75;
+                speedMultiplier = 1.0;
             }
             frc::SmartDashboard::PutNumber("speedMultiplier", speedMultiplier);
 
@@ -193,7 +193,7 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_intake.set(0);
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
-                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.2 : 0);
+                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.1 : 0);
                 } else if (opPovRight && !opPrevRight) {
                     m_superstructure.m_intake.set(.5);
                 }
@@ -208,7 +208,7 @@ RobotContainer::RobotContainer() {
                     autoIntake = false;
                     m_superstructure.m_outtake.setSpeed(0);
                 } else if (m_superstructure.m_outtake.getBeamBack()) {
-                    m_superstructure.m_outtake.setSpeed(0.05);
+                    m_superstructure.m_outtake.setSpeed(0.03);
                 }
             }
         },
