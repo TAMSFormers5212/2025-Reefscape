@@ -24,8 +24,6 @@ Elevator::Elevator(int leftMotor, int rightMotor, int encoderOne,
       m_elevatorFF(ElevatorConstants::kaS, ElevatorConstants::kaG,
                    ElevatorConstants::kaV) {
     resetMotors();
-    initialPosition = getPosition();
-    frc::SmartDashboard::PutNumber("elevator init pos", initialPosition);
     m_leftMotor.Configure(m_leftConfig,
                           SparkBase::ResetMode::kResetSafeParameters,
                           SparkBase::PersistMode::kPersistParameters);
@@ -68,13 +66,6 @@ void Elevator::resetMotors() {
 void Elevator::resetEncoders() {
     m_rightEncoder.SetPosition(0);
     m_leftEncoder.SetPosition(0);
-    m_absoluteEncoder.Reset();
-    initialPosition = getPosition();
-}
-
-void Elevator::setSpeed(double speed) {
-    m_leftMotor.Set(speed);
-    m_rightMotor.Set(speed);
 }
 
 // returns the quadrature encoder position
@@ -84,30 +75,37 @@ void Elevator::levelOne() {
     commandGiven = true;
     position = levelOneHeight;
 }
+
 void Elevator::levelTwo() {
     commandGiven = true;
     position = levelTwoHeight;
 }
+
 void Elevator::levelThree() {
     commandGiven = true;
     position = levelThreeHeight;
 }
+
 void Elevator::levelFour() {
     commandGiven = true;
     position = levelFourthHeight;
 }
+
 void Elevator::sourcePos() {
     commandGiven = true;
     position = sourceIntakeHeight;
 }
+
 void Elevator::groundAlgae() {
     commandGiven = true;
     position = groundAlgaeHeight;
 }
+
 void Elevator::firstAlgae() {
     commandGiven = true;
     position = firstAlgaeHeight;
 }
+
 void Elevator::secondAlgae() {
     commandGiven = true;
     position = secondAlgaeHeight;
@@ -136,10 +134,11 @@ bool Elevator::closeEnough(void) {
 }
 
 void Elevator::Periodic() {
-    // if (m_limitSwitch.Get()) {
-    //     m_rightEncoder.SetPosition(0);
-    //     m_leftEncoder.SetPosition(0);
-    // }
+    bool curLimitSwitch = m_limitSwitch.Get();
+    if (curLimitSwitch && !prevLimitSwitch) {
+        resetEncoders();
+    }
+
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
@@ -154,8 +153,6 @@ void Elevator::Periodic() {
     }
     frc::SmartDashboard::PutBoolean("limit switch pressed",
                                     m_limitSwitch.Get());
-    frc::SmartDashboard::PutNumber("elevator abs pos",
-                                   (m_absoluteEncoder.GetRaw()));
     frc::SmartDashboard::PutNumber("elevator pos", position);
     frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
     frc::SmartDashboard::PutNumber("elevator neo pos",

@@ -27,18 +27,18 @@ using namespace ElevatorConstants;
 class Elevator : public frc2::SubsystemBase {
    public:
     Elevator(int leftMotor, int rightMotor, int encoderOne, int encoderTwo, double encoderOffset);
-    void setPosition(double elevatorPose);
 
     double getPosition();
-    double getRelativePosition();
-    void setSpeed(double speed);
+    void setPosition(double elevatorPose);
     void resetMotors();
     void resetEncoders();
+
     void levelOne();
     void levelTwo();
     void levelThree();
     void levelFour();
     void sourcePos();
+
     void groundAlgae();
     void firstAlgae();
     void secondAlgae();
@@ -53,7 +53,6 @@ class Elevator : public frc2::SubsystemBase {
      * simulation.
      */
     void SimulationPeriodic() override;
-    double initialPosition = 0.0;
 
    private:
     SparkMax m_leftMotor;
@@ -69,11 +68,12 @@ class Elevator : public frc2::SubsystemBase {
     SparkClosedLoopController m_rightController =
         m_rightMotor.GetClosedLoopController();  // follower
 
-    Encoder m_absoluteEncoder{encoderOne, encoderTwo};
-    double position = 0.0;
     ElevatorFeedforward m_elevatorFF;
-    bool commandGiven = false;
+
     frc::DigitalInput m_limitSwitch{limitSwitch};
-    // Components (e.g. motor controllers and sensors) should generally be
-    // declared private and exposed only through public methods.
+
+    bool prevLimitSwitch = false;
+
+    double position = 0.0;
+    bool commandGiven = false;
 };

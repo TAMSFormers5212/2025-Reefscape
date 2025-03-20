@@ -203,6 +203,13 @@ RobotContainer::RobotContainer() {
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
                     m_superstructure.m_outtake.setSpeed(autoIntake ? 0.1 : 0);
+                    if (autoIntake) {
+                        m_operatorController.SetRumble(
+                            frc::GenericHID::RumbleType::kLeftRumble, 0.25);
+                    } else {
+                        m_operatorController.SetRumble(
+                            frc::GenericHID::RumbleType::kLeftRumble, 0.0);
+                    }
                 } else if (opPovRight && !opPrevRight) {
                     m_superstructure.m_intake.set(.5);
                 }
@@ -216,6 +223,8 @@ RobotContainer::RobotContainer() {
                 if (m_superstructure.m_outtake.getCoralHeld()) {
                     autoIntake = false;
                     m_superstructure.m_outtake.setSpeed(0);
+                    m_operatorController.SetRumble(
+                        frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                 } else if (m_superstructure.m_outtake.getBeamBack()) {
                     m_superstructure.m_outtake.setSpeed(0.03);
                 }
@@ -225,13 +234,13 @@ RobotContainer::RobotContainer() {
 
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
-            if (m_superstructure.m_outtake.getBeamBack()) {
-                m_operatorController.SetRumble(
-                    frc::GenericHID::RumbleType::kLeftRumble, 0.25);
-            } else {
-                m_operatorController.SetRumble(
-                    frc::GenericHID::RumbleType::kLeftRumble, 0);
-            }
+            // if (m_superstructure.m_outtake.getBeamBack()) {
+            //     m_operatorController.SetRumble(
+            //         frc::GenericHID::RumbleType::kLeftRumble, 0.25);
+            // } else {
+            //     m_operatorController.SetRumble(
+            //         frc::GenericHID::RumbleType::kLeftRumble, 0);
+            // }
 
             bool leftBumper =
                 m_operatorController.GetRawButton(Controller::leftBumper);
