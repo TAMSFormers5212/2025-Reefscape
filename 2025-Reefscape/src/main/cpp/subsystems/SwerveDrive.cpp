@@ -300,6 +300,9 @@ void SwerveDrive::UpdatePoseEstimate() {
         LimelightHelpers::PoseEstimate mt2 =
             LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
         auto pose = mt2.pose;
+        // m_odometry.UpdateWithTime(mt2.timestampSeconds, getGyroHeading2(),
+        //               {m_modules[0].getPosition(), m_modules[1].getPosition(),
+        //                m_modules[2].getPosition(), m_modules[3].getPosition()});
 
         frc::SmartDashboard::PutNumber("limelight x", pose.X().value());
         frc::SmartDashboard::PutNumber("limelight y", pose.Y().value());
