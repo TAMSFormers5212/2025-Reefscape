@@ -30,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Outtake L1"
+                  "name": "AutoOuttake"
                 }
               },
               {
@@ -61,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Stop Outtake"
+                  "name": "AutoIntake"
                 }
               }
             ]

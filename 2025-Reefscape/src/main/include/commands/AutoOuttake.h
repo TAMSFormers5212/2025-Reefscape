@@ -5,9 +5,9 @@
 
 #include "subsystems/Outtake.h"
 
-class AutoIntake : public frc2::CommandHelper<frc2::Command, AutoIntake> {
+class AutoOuttake : public frc2::CommandHelper<frc2::Command, AutoOuttake> {
    public:
-    explicit AutoIntake(Outtake* outtake);
+    explicit AutoOuttake(Outtake* outtake);
 
     void Initialize() override;
     void Execute() override;
