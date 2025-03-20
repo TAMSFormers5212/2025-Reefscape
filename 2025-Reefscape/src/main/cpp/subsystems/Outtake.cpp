@@ -105,6 +105,7 @@ void Outtake::Periodic() {
     }
     frc::SmartDashboard::PutBoolean("beamFront", bFront);
     frc::SmartDashboard::PutBoolean("beamBack", bBack);
+    
     frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
     frc::SmartDashboard::PutNumber("Left Speed", m_leftOuttakeMotor.Get());
     frc::SmartDashboard::PutNumber("Right Speed", m_rightOuttakeMotor.Get());

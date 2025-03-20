@@ -41,7 +41,7 @@ SwerveDrive::SwerveDrive()
                          frc::Translation2d{-drivebase::WheelBase / 2,
                                             -drivebase::TrackWidth / 2}}},
       m_odometry{m_driveKinematics,
-                 frc::Rotation2d(-getGyroHeading()),
+                 frc::Rotation2d(-getGyroHeading2()),
                  {m_modules[0].getPosition(), m_modules[1].getPosition(),
                   m_modules[2].getPosition(), m_modules[3].getPosition()},
                  frc::Pose2d()},
@@ -106,23 +106,8 @@ SwerveDrive::SwerveDrive()
 // }
 
 frc::Pose2d SwerveDrive::OdometryPose() {
-    // frc::SmartDashboard::PutNumber("odometry pose", val.Degrees().value());
     return m_odometry.GetEstimatedPosition();
     // retun m_odometry.GetPose();
-}
-
-frc::Rotation2d
-SwerveDrive::getGyroHeading() {  // i have no f*cking clue how this works but it
-                                 // returns the gyro heading
-    double newAngle = -m_gyro.GetYaw();
-
-    double delta =
-        std::fmod(std::fmod((newAngle - lastAngle + 180), 360) + 360, 360) -
-        180;  // NOLINT
-    lastAngle = newAngle;
-    heading = heading + frc::Rotation2d(degree_t{delta * 1.02466666667});
-
-    return heading;
 }
 
 frc::Rotation2d SwerveDrive::getGyroHeading2() {
@@ -139,21 +124,21 @@ void SwerveDrive::setHeading(int x) {  // zeros the gyro to the given position
 
 void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
     // resetHeading();
+    // resetAbsoluteEncoders();
     frc::SmartDashboard::PutNumber("odometry reset x",
                                    pose.Translation().X().value());
     frc::SmartDashboard::PutNumber("odometry reset y",
                                    pose.Translation().Y().value());
     frc::SmartDashboard::PutNumber("odometry reset rot",
                                    pose.Rotation().Degrees().value());
-    // resetAbsoluteEncoders();
     resetHeading();
     m_odometry.ResetPosition(
-        getGyroHeading(),
+        getGyroHeading2(),
         {m_modules[0].getPosition(), m_modules[1].getPosition(),
          m_modules[2].getPosition(), m_modules[3].getPosition()},
         pose);
     m_odometry.ResetPosition(
-        getGyroHeading(),
+        getGyroHeading2(),
         {m_modules[0].getPosition(), m_modules[1].getPosition(),
          m_modules[2].getPosition(), m_modules[3].getPosition()},
         pose);
@@ -295,7 +280,7 @@ void SwerveDrive::UpdatePoseEstimate() {
 
         LimelightHelpers::SetRobotOrientation(
             "limelight",
-            m_odometry.GetEstimatedPosition().Rotation().Degrees().value(), 0,
+            getGyroHeading2().Degrees().value(), 0,
             0, 0, 0, 0);
         LimelightHelpers::PoseEstimate mt2 =
             LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
@@ -322,6 +307,7 @@ void SwerveDrive::UpdatePoseEstimate() {
             // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
             m_odometry.SetVisionMeasurementStdDevs(temp);
             m_odometry.AddVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+
         }
     }
 }

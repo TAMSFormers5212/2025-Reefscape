@@ -112,6 +112,7 @@ void Elevator::secondAlgae() {
     commandGiven = true;
     position = secondAlgaeHeight;
 }
+
 void Elevator::processor() {
     commandGiven = true;
     position = processorHeight;
@@ -129,6 +130,11 @@ void Elevator::setPosition(double pose) {
     // m_leftController.SetReference(pose,
     // CANSparkLowLevel::ControlType::kPosition);
 }
+
+bool Elevator::closeEnough(void) {
+    return fabs(getPosition() - position) / -ElevatorConstants::levelFourthHeight < 0.1;
+}
+
 void Elevator::Periodic() {
     // if (m_limitSwitch.Get()) {
     //     m_rightEncoder.SetPosition(0);

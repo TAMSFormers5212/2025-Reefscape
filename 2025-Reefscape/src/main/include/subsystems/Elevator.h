@@ -44,6 +44,8 @@ class Elevator : public frc2::SubsystemBase {
     void secondAlgae();
     void processor();
 
+    bool closeEnough(void);
+
     void Periodic() override;
 
     /**

@@ -20,17 +20,13 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <frc2/command/button/POVButton.h>
 #include <frc2/command/button/Trigger.h>
+#include <math.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
-#include "networktables/NetworkTable.h"
-#include "networktables/NetworkTableEntry.h"
-#include "networktables/NetworkTableInstance.h"
-#include "networktables/NetworkTableValue.h"
 
 #include <iostream>
-#include <math.h>
 
 #include "commands/AutoIntake.h"
 #include "commands/AutoOuttake.h"
@@ -43,7 +39,10 @@
 #include "commands/LiftElevator.h"
 #include "commands/OuttakeCmd.h"
 #include "commands/StopOuttake.h"
-
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTableInstance.h"
+#include "networktables/NetworkTableValue.h"
 
 using namespace pathplanner;
 using namespace std;
@@ -64,6 +63,9 @@ RobotContainer::RobotContainer() {
         "Elevator L3", ElevatorL3(&m_superstructure.m_elevator).ToPtr());
     NamedCommands::registerCommand(
         "Elevator L4", ElevatorL4(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand(
+        "Elevator Source",
+        ElevatorSource(&m_superstructure.m_elevator).ToPtr());
     NamedCommands::registerCommand(
         "Elevator Source",
         ElevatorSource(&m_superstructure.m_elevator).ToPtr());

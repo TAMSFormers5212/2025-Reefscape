@@ -35,10 +35,10 @@ public:
     frc::Pose2d AveragePose();
     frc::Pose2d AveragePose(frc::Pose2d visionPose);
     frc::Pose2d OdometryPose();
-    frc::Rotation2d getGyroHeading();
     frc::Rotation2d getGyroHeading2();
     frc::ChassisSpeeds getRobotRelativeSpeeds();
     frc::ChassisSpeeds getFieldRelativeSpeeds();
+
     void resetHeading();
     void setHeading(int x);
     void resetOdometry(const frc::Pose2d pose);
@@ -55,10 +55,10 @@ public:
     void SyncAbsoluteEncoders();
     void SetAlign(bool a);
     void UpdatePoseEstimate();
-    void Periodic() override;//update pose using gyro, vision, and odometry
+
+    void Periodic() override; //< update pose using gyro, vision, and odometry
 
 private:
-
     array<SwerveModule, 4> m_modules;
 
     frc::SwerveDriveKinematics<4> m_driveKinematics;

@@ -12,8 +12,7 @@ class ElevatorL3 : public frc2::CommandHelper<frc2::Command, ElevatorL3> {
     explicit ElevatorL3(Elevator* elevator);
 
     void Initialize() override;
-
-    void End(bool interrupted) override;
+    bool IsFinished(void) override;
 
    private:
     Elevator* m_elevator;
