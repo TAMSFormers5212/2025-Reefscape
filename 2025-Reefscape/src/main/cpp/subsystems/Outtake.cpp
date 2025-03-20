@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "subsystems/Outtake.h"
 
 #include <frc/DigitalInput.h>
@@ -12,6 +8,7 @@
 #include <iostream>
 
 #include "Constants.h"
+#include "commands/AutoIntake.h"
 
 using namespace OuttakeConstants;
 using namespace rev;
@@ -31,8 +28,8 @@ Outtake::Outtake(int leftMotor, int rightMotor, int beamFront, int beamBack)
     m_rightOuttakeMotor.Configure(m_rightOuttakeConfig,
                                   SparkMax::ResetMode::kResetSafeParameters,
                                   SparkMax::PersistMode::kPersistParameters);
-    // Implementation of subsystem constructor goes here.
 }
+
 void Outtake::resetMotor() {
     m_leftOuttakeConfig
         .SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
@@ -78,27 +75,10 @@ void Outtake::resetMotor() {
                                   SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
-void Outtake::stopOuttake() {  // in case of 2 notes and need to eject
-    m_leftOuttakeMotor.Set(0);
-    m_rightOuttakeMotor.Set(0);
-}
-void Outtake::intakeCoral() {
-    // while(!coralHeld){
-    //  setSpeed(0.4);
-    // }
-    stopOuttake();
-}
 
 void Outtake::setSpeed(double speed) {
     m_leftOuttakeMotor.Set(speed);
     m_rightOuttakeMotor.Set(speed);
-}
-
-void Outtake::autoIntake(){
-    // while(beamBack.Get()!=0){
-        // setSpeed(0.2);
-    // }
-    // setSpeed(0);
 }
 
 void Outtake::setLeftSpeed(double speed) { m_leftOuttakeMotor.Set(speed); }
@@ -106,15 +86,10 @@ void Outtake::setRightSpeed(double speed) { m_rightOuttakeMotor.Set(speed); }
 
 double Outtake::getSpeed() { return m_leftEncoder.GetVelocity(); }
 
-bool Outtake::getBeamFront() {
-    return beamFront.Get();
-}
-bool Outtake::getBeamBack() {
-    return beamBack.Get();
-}
+bool Outtake::getBeamFront() { return beamFront.Get(); }
+bool Outtake::getBeamBack() { return beamBack.Get(); }
 
 bool Outtake::getCoralHeld() { return coralHeld; }
-
 
 void Outtake::Periodic() {
     // Implementation of subsystem periodic method goes here.

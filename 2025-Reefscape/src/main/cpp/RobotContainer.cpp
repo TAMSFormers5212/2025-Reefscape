@@ -28,6 +28,7 @@
 
 #include <iostream>
 
+#include "commands/AutoIntake.h"
 #include "commands/Autos.h"
 #include "commands/ElevatorL2.h"
 #include "commands/ElevatorL3.h"
@@ -64,6 +65,8 @@ RobotContainer::RobotContainer() {
     NamedCommands::registerCommand(
         "Elevator Source",
         ElevatorSource(&m_superstructure.m_elevator).ToPtr());
+    NamedCommands::registerCommand(
+        "AutoIntake", AutoIntake(&m_superstructure.m_outtake).ToPtr());
 
     ConfigureBindings();
 
@@ -381,6 +384,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::Periodic() {}
 
-// frc::Pose2d RobotContainer::autoStartingPose(void) { 
+// frc::Pose2d RobotContainer::autoStartingPose(void) {
 //     // return m_mobility.getStartingPose();
 // }
