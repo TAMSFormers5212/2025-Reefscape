@@ -14,6 +14,7 @@
 #include <functional>
 
 #include "subsystems/SwerveDrive.h"
+#include <frc2/command/SubsystemBase.h>
 
 using namespace pathplanner;
 
@@ -59,7 +60,8 @@ frc2::CommandPtr AlignToReef::driveToTargetPose(frc::Pose2d waypoint) {
     );
     path->preventFlipping = true;
 
-    return AutoBuilder::followPath(path).AndThen([this] { alignAdjustment(); });
+    // return AutoBuilder::followPath(path).AndThen([this] { alignAdjustment(); });
+    return AutoBuilder::followPath(path);
 }
 
 void AlignToReef::alignAdjustment() {
@@ -75,14 +77,18 @@ void AlignToReef::alignAdjustment() {
 }
 
 frc2::CommandPtr AlignToReef::generateCommand() {
-    std::function<frc2::CommandPtr()> thing = [this] {
+    // std::function<frc2::CommandPtr()> thing = [this] {
+    //     return driveToTargetPose(getTargetPose());
+    // };
+    std::initializer_list<frc2::Subsystem*> requirements = {m_swerve};
+    return frc2::cmd::RunOnce([this] {
         return driveToTargetPose(getTargetPose());
-    };
-    auto supplier = driveToTargetPose(getTargetPose()).AsProxy();
-    return frc2::cmd::Defer(thing, frc2::Requirements());
+    }, requirements);
+    // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
+    // return driveToTargetPose(getTargetPose());
 }
 
-void AlignToReef::Initialize() { generateCommand(); }
+void AlignToReef::Initialize() {}
 
 void AlignToReef::Execute() {}
 
