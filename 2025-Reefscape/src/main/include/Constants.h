@@ -218,9 +218,9 @@ namespace ElevatorConstants
     constexpr int encoderTwo = 5;
 
     constexpr double levelOneHeight = 0;
-    constexpr double levelTwoHeight = -8.5;
-    constexpr double levelThreeHeight = -18.1;
-    constexpr double levelFourthHeight = -31.5;
+    constexpr double levelTwoHeight = -6.9;
+    constexpr double levelThreeHeight = -16.3;
+    constexpr double levelFourthHeight = -31.4;
 
     constexpr double sourceIntakeHeight = -1.4;
 
