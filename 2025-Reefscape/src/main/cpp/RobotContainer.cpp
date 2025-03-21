@@ -228,10 +228,12 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_outtake.setSpeed(0);
                     m_operatorController.SetRumble(
                         frc::GenericHID::RumbleType::kLeftRumble, 0.0);
+                } else if (m_superstructure.m_outtake.getBeamFront()) {
+                        m_superstructure.m_outtake.setSpeed(0.03);
                 } else if (m_superstructure.m_outtake.getBeamBack()) {
                     loopsBackBroken++;
-                    if (loopsBackBroken > 20) {
-                        m_superstructure.m_outtake.setSpeed(0.03);
+                    if (loopsBackBroken > 10) {
+                        m_superstructure.m_outtake.setSpeed(0.07);
                     }
                 }
             }
