@@ -105,18 +105,12 @@ RobotContainer::RobotContainer() {
     m_chooser.AddOption("Test Auto", m_testAuto.get());
 
     frc::SmartDashboard::PutData(&m_chooser);
-    
+
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            frc::SmartDashboard::PutBoolean("Left Paddle Pressed", m_driverController.GetRawButtonPressed(
-                    Controller::leftPaddle));
-            if (m_driverController.GetRawButton(
+            if (m_driverController.GetRawButtonPressed(
                     Controller::leftPaddle)) {
-                autoAlign.generateCommand();
-                // AlignToReef(&m_drive);
-                // frc2::CommandPtr newCommand =autoAlign.generateCommand(); 
-                // frc2::cmd::Run(newCommand);
-                
+                m_drive.generateCommand();
             }
 
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero

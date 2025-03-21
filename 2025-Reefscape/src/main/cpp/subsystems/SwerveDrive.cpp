@@ -379,3 +379,72 @@ void SwerveDrive::toggleOffset() {  // switches the offsetToggle to true or
         }
     }
 }
+
+frc::Rotation2d SwerveDrive::getVelocityHeading() {
+    frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();
+    return frc::Rotation2d(speeds.vx.value(), speeds.vy.value());
+}
+
+frc::Pose2d SwerveDrive::getTargetPose() {
+    return frc::Pose2d(
+        OdometryPose().Translation().X() + units::meter_t{1},
+        OdometryPose().Translation().Y(),
+        OdometryPose().Rotation().Degrees());
+}
+
+frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint) {
+    frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();
+    std::vector<frc::Pose2d> poses{
+        frc::Pose2d(OdometryPose().Translation(),
+                    getVelocityHeading()),
+        waypoint};
+
+    std::vector<Waypoint> waypoints =
+        PathPlannerPath::waypointsFromPoses(poses);
+
+    PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s,
+                                720_deg_per_s_sq);
+    // auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    // units::meters_per_second_t thing{
+    //     frc::Translation2d(speeds.vx, speeds.vy).Norm().value()};
+    auto path = std::make_shared<PathPlannerPath>(
+        waypoints, constraints,
+        IdealStartingState(0.0_mps, getGyroHeading2()),
+        GoalEndState(0.0_mps,
+                     waypoint.Rotation())  // Goal end state. You can set a
+                                           // holonomic rotation here. If using
+                                           // a differential drivetrain, the
+                                           // rotation will have no effect.
+    );
+    path->preventFlipping = true;
+
+    // return AutoBuilder::followPath(path).AndThen([this] { alignAdjustment(); });
+    return AutoBuilder::followPath(path);
+}
+
+void SwerveDrive::alignAdjustment() {
+    PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
+    frc::Pose2d goalPose = getTargetPose();
+    goalState.pose = goalPose;
+
+    PPHolonomicDriveController ctrler = PPHolonomicDriveController(
+        PIDConstants(5.0, 0.0, 0.0), PIDConstants(5.0, 0.0, 0.0));
+
+    swerveDrive(ctrler.calculateRobotRelativeSpeeds(
+        OdometryPose(), goalState));
+}
+
+frc2::CommandPtr SwerveDrive::generateCommand() {
+    // std::function<frc2::CommandPtr()> thing = [this] {
+    //     return driveToTargetPose(getTargetPose());
+    // };
+    std::initializer_list<frc2::Subsystem*> requirements = {this};
+    return frc2::cmd::Defer([this] {
+        return driveToTargetPose(getTargetPose());
+    }, requirements);
+    // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
+    // return driveToTargetPose(getTargetPose());
+}
+
+
+
