@@ -26,6 +26,7 @@ class AlignToReef : public frc2::CommandHelper<frc2::Command, AlignToReef> {
     frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint);
     frc2::CommandPtr generateCommand();
     frc::Rotation2d getVelocityHeading();
+    
 
     bool IsFinished() override;
 

@@ -26,6 +26,7 @@ Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
       m_pivotConfig(),
       m_pivotFF(kiS, kiG, kiV) {
     resetMotor();
+    position=getPosition();
     m_intakeMotor.Configure(m_intakeConfig,
                             SparkMax::ResetMode::kResetSafeParameters,
                             SparkMax::PersistMode::kPersistParameters);
@@ -40,14 +41,14 @@ void Intake::resetMotor() {
         .SmartCurrentLimit(20, 25)
         .Inverted(true);
 
-    m_intakeConfig.encoder.PositionConversionFactor(1.0 / intakeRatio);
+    m_intakeConfig.encoder.PositionConversionFactor(pi2 / intakeRatio);
 
     m_pivotConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(20, 25)
         .Inverted(true);
 
-    m_pivotConfig.encoder.PositionConversionFactor(1.0 / pivotRatio);
+    m_pivotConfig.encoder.PositionConversionFactor(pi2 / pivotRatio);
 
     m_pivotConfig.closedLoop.Pidf(kiP, kiI, kiD, kiFF)
         .IZone(kiIz)
@@ -81,7 +82,7 @@ void Intake::resetMotor() {
 }
 
 void Intake::resetEncoder() {
-    m_pivotEncoder.SetPosition(0);
+    m_pivotEncoder.SetPosition(getPosition());
 }
 
 void Intake::setPosition(double pivotPose) {
@@ -92,10 +93,10 @@ void Intake::setPosition(double pivotPose) {
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 
 double Intake::getPosition() {
-    return abs(m_absoluteEncoder.Get() - pivotOffset) * 360;
+    return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
 }
 
-void Intake::stowPreset() { setPosition(stowPresetAngle); }
+void Intake::stowPreset() { setPosition(getRelativePosition()+(stowPresetAngle)-getPosition()); }
 void Intake::groundPreset() { setPosition(groundPresetAngle); }
 void Intake::processorPreset() { setPosition(processorPresetAngle); }
 void Intake::reefPreset() { setPosition(reefPresetAngle); }
@@ -108,7 +109,7 @@ double Intake::getSpeed() { return m_encoder.GetVelocity(); }
 double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
 void Intake::Periodic() {
-    units::radian_t ffP{position + getPosition() - m_pivotEncoder.GetPosition()};
+    units::radian_t ffP{position}; //+ getPosition() - getRelativePosition()};
     units::radians_per_second_t ffV{0};
     units::radians_per_second_squared_t ffA(0);
     if (intakeCommandGiven) {
@@ -122,7 +123,8 @@ void Intake::Periodic() {
     }
     frc::SmartDashboard::PutNumber("intake target pos", position);
     frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
-
+    frc::SmartDashboard::PutNumber("intake abs pos offset", m_absoluteEncoder.Get()-pivotOffset);
+    frc::SmartDashboard::PutNumber("intake abs pos radians", getPosition());
     frc::SmartDashboard::PutNumber("intake frequency",
                                    m_absoluteEncoder.GetFrequency());
     frc::SmartDashboard::PutBoolean("intake abs connected",

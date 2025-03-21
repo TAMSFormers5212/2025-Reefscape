@@ -311,23 +311,23 @@ namespace IntakeConstants
     constexpr int pivotEncoder = 2;
     constexpr double encoderOffset = 0;
 
-    constexpr double pivotOffset = 0;
+    constexpr double pivotOffset = 0.;
     constexpr double intakeRatio = 16.0;
 
-    constexpr double pivotSprocketRatio = 5.5;
-    constexpr int pivotPlanetaryRatio = 20;
-    // constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
-    constexpr double pivotRatio = pivotPlanetaryRatio;
+    constexpr double pivotSprocketRatio = 2;
+    constexpr int pivotPlanetaryRatio = 4;
+    constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
+    // constexpr double pivotRatio = pivotPlanetaryRatio;
 
-    constexpr double stowPresetAngle = 90;
+    constexpr double stowPresetAngle = 2.3;
     constexpr double groundPresetAngle = -30;
-    constexpr double processorPresetAngle = 0;
+    constexpr double processorPresetAngle = 0.95;
     constexpr double reefPresetAngle = 30;
 
-    constexpr double kiP = 0.10;
+    constexpr double kiP = 0.20;
     constexpr double kiI = 0.0000;
     constexpr double kiD = 0.00;
-    constexpr double kiFF = 0.01;
+    constexpr double kiFF = 0.00;
     constexpr double kiIz = 0.0;
     
     constexpr int kiMaxOutput = 1;
@@ -336,8 +336,8 @@ namespace IntakeConstants
     constexpr double freeCurrent = 5.0;    // current when no note is held
     // random guess numbers, experiement in order to prevent burning out the neo550
     constexpr units::volt_t kiS{0.0};
-    constexpr units::volt_t kiG{0.41};
-    constexpr units::volt_t vkiV{0.002};
+    constexpr units::volt_t kiG{0.0};
+    constexpr units::volt_t vkiV{0.000};
     constexpr units::radians_per_second_t akiV{1};
     constexpr auto kiV = vkiV / akiV;
     constexpr units::volt_t vkiA{0.00};

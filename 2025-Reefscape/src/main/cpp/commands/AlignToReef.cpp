@@ -10,11 +10,12 @@
 #include <pathplanner/lib/path/PathConstraints.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/path/Waypoint.h>
-
+#include <iostream>
 #include <functional>
 
 #include "subsystems/SwerveDrive.h"
 #include <frc2/command/SubsystemBase.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 using namespace pathplanner;
 
@@ -35,6 +36,8 @@ frc::Pose2d AlignToReef::getTargetPose() {
 }
 
 frc2::CommandPtr AlignToReef::driveToTargetPose(frc::Pose2d waypoint) {
+            std::cout <<"Crazy? I was Crazy Once, they locked me in a room, a rubber room full of rats, and rats make me crayz" <<endl;
+
     frc::ChassisSpeeds speeds = m_swerve->getFieldRelativeSpeeds();
     std::vector<frc::Pose2d> poses{
         frc::Pose2d(m_swerve->OdometryPose().Translation(),
@@ -61,6 +64,7 @@ frc2::CommandPtr AlignToReef::driveToTargetPose(frc::Pose2d waypoint) {
     path->preventFlipping = true;
 
     // return AutoBuilder::followPath(path).AndThen([this] { alignAdjustment(); });
+    
     return AutoBuilder::followPath(path);
 }
 
@@ -81,15 +85,18 @@ frc2::CommandPtr AlignToReef::generateCommand() {
     //     return driveToTargetPose(getTargetPose());
     // };
     std::initializer_list<frc2::Subsystem*> requirements = {m_swerve};
-    return frc2::cmd::RunOnce([this] {
+   
+    return frc2::cmd::Defer([this] {
         return driveToTargetPose(getTargetPose());
-    }, requirements);
+    }, requirements).WithInterruptBehavior(Command::InterruptionBehavior::kCancelIncoming);
     // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
     // return driveToTargetPose(getTargetPose());
 }
 
 void AlignToReef::Initialize() {}
 
-void AlignToReef::Execute() {}
+void AlignToReef::Execute() {
+     frc::SmartDashboard::PutBoolean("Auto Align Ran", true);
+}
 
 bool AlignToReef::IsFinished() { return false; }

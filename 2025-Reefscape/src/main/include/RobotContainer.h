@@ -39,7 +39,7 @@ class RobotContainer {
 
     SwerveDrive m_drive = SwerveDrive();
     Superstructure m_superstructure;
-    AlignToReef autoAlign = AlignToReef(&m_drive);
+    // AlignToReef autoAlign = AlignToReef(&m_drive);
 
     frc2::Command* GetAutonomousCommand();
     void Periodic();
