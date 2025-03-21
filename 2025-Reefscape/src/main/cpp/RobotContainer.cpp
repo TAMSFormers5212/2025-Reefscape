@@ -105,18 +105,12 @@ RobotContainer::RobotContainer() {
     m_chooser.AddOption("Test Auto", m_testAuto.get());
 
     frc::SmartDashboard::PutData(&m_chooser);
-    
+
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            frc::SmartDashboard::PutBoolean("Left Paddle Pressed", m_driverController.GetRawButtonPressed(
-                    Controller::leftPaddle));
-            if (m_driverController.GetRawButton(
+            if (m_driverController.GetRawButtonPressed(
                     Controller::leftPaddle)) {
-                autoAlign.generateCommand();
-                // AlignToReef(&m_drive);
-                // frc2::CommandPtr newCommand =autoAlign.generateCommand(); 
-                // frc2::cmd::Run(newCommand);
-                
+                m_drive.generateCommand();
             }
 
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero
@@ -198,11 +192,9 @@ RobotContainer::RobotContainer() {
             bool opPovRight = m_operatorController.GetPOV() == 90.0;
             if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
                 0.05) {
-                if(m_superstructure.m_intake.getPosition()<=2.35&&m_superstructure.m_intake.getPosition()>=0){
                 m_superstructure.m_intake.setPosition(
-                    m_superstructure.m_intake.getPosition() +
-                    m_operatorController.GetRawAxis(Controller::rightYAxis)/2);
-                }
+                    m_superstructure.m_intake.getRelativePosition() +
+                    m_operatorController.GetRawAxis(Controller::rightYAxis));
             } else {
                 if (opPovUp && !opPrevUp) {
                     m_superstructure.m_intake.processorPreset();

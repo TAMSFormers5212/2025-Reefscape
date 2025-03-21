@@ -38,6 +38,13 @@ public:
     frc::Rotation2d getGyroHeading2();
     frc::ChassisSpeeds getRobotRelativeSpeeds();
     frc::ChassisSpeeds getFieldRelativeSpeeds();
+   
+    void alignAdjustment();
+    frc::Pose2d getTargetPose();
+    frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint);
+    frc2::CommandPtr generateCommand();
+    frc::Rotation2d getVelocityHeading();
+
 
     void resetHeading();
     void setHeading(int x);
