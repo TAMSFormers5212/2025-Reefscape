@@ -197,14 +197,13 @@ RobotContainer::RobotContainer() {
                     m_operatorController.GetRawAxis(Controller::rightYAxis));
             } else {
                 if (opPovUp && !opPrevUp) {
-                    m_superstructure.m_elevator.resetEncoders();
-                    // m_superstructure.algaeSecond();
+                    m_superstructure.m_intake.processorPreset();
                 } else if (opPovDown && !opPrevDown) {
-                    m_superstructure.m_intake.set(0);
+                    m_superstructure.m_intake.stowPreset();
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
                     if (autoIntake) {
-                        m_superstructure.m_outtake.setSpeed(0.2);
+                        m_superstructure.m_outtake.setSpeed(0.14);
                         loopsBackBroken = 0;
                         m_operatorController.SetRumble(
                             frc::GenericHID::RumbleType::kLeftRumble, 0.25);
@@ -214,7 +213,7 @@ RobotContainer::RobotContainer() {
                             frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                     }
                 } else if (opPovRight && !opPrevRight) {
-                    m_superstructure.m_intake.set(.5);
+                    m_superstructure.m_elevator.resetEncoders();
                 }
             }
 
@@ -241,14 +240,6 @@ RobotContainer::RobotContainer() {
 
     m_superstructure.m_outtake.SetDefaultCommand(RunCommand(
         [this] {
-            // if (m_superstructure.m_outtake.getBeamBack()) {
-            //     m_operatorController.SetRumble(
-            //         frc::GenericHID::RumbleType::kLeftRumble, 0.25);
-            // } else {
-            //     m_operatorController.SetRumble(
-            //         frc::GenericHID::RumbleType::kLeftRumble, 0);
-            // }
-
             bool leftBumper =
                 m_operatorController.GetRawButton(Controller::leftBumper);
             bool rightBumper =
@@ -299,7 +290,7 @@ RobotContainer::RobotContainer() {
                  m_operatorController.GetRawAxis(Controller::rightTrigger) <
                      0.05)*/
             {
-                m_superstructure.m_intake.stopIntake();
+                m_superstructure.m_intake.setSpeed(0.0);
             }
             m_superstructure.m_intake.setSpeed(
                 m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
@@ -381,8 +372,6 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-    // Configure your trigger bindings here
-
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // frc2::Trigger([this] {
     //   return m_subsystem.ExampleCondition();

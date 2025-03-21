@@ -17,6 +17,7 @@ using namespace IntakeConstants;
 using namespace rev;
 using namespace std;
 using namespace MathConstants;
+
 Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
                double encoderOffset)
     : m_intakeMotor(intakeMotor, rev::spark::SparkMax::MotorType::kBrushless),
@@ -31,8 +32,8 @@ Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
     m_pivotMotor.Configure(m_pivotConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
                            SparkMax::PersistMode::kPersistParameters);
-    // Implementation of subsystem constructor goes here.
 }
+
 void Intake::resetMotor() {
     m_intakeConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
@@ -78,58 +79,55 @@ void Intake::resetMotor() {
                            SparkMax::PersistMode::kPersistParameters);
     // m_encoder.SetPositionConversionFactor(1.0 / intakeRatio);
 }
+
 void Intake::resetEncoder() {
     m_pivotEncoder.SetPosition(0);
-    initalPosition = getPosition();
 }
-void Intake::setPosition(double pivotPose) { position = pivotPose; intakeCommandGiven = true;}
-double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
-double Intake::getPosition() {
-    // return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
-    return m_pivotEncoder.GetPosition();
-}
-void Intake::set(double value) { m_pivotMotor.Set(value); }
 
-double Intake::groundPreset() { return groundPresetHeight; }
-double Intake::processorPreset() { return processorPresetHeight; }
-double Intake::firstAlgaePreset() { return firstAlgaePresetHeight; }
-double Intake::secondAlgaePreset() { return secondAlgaePresetHeight; }
+void Intake::setPosition(double pivotPose) {
+    position = pivotPose;
+    intakeCommandGiven = true;
+}
+
+double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
+
+double Intake::getPosition() {
+    return abs(m_absoluteEncoder.Get() - pivotOffset) * 360;
+}
+
+void Intake::stowPreset() { setPosition(stowPresetAngle); }
+void Intake::groundPreset() { setPosition(groundPresetAngle); }
+void Intake::processorPreset() { setPosition(processorPresetAngle); }
+void Intake::reefPreset() { setPosition(reefPresetAngle); }
 
 void Intake::setSpeed(double speed) { m_intakeMotor.Set(speed); }
-void Intake::setPivotSpeed(double speed){m_pivotMotor.Set(speed);}
-void Intake::stopIntake() {  // in case of 2 notes and need to eject
-    m_intakeMotor.Set(0);
-}
+void Intake::setPivotSpeed(double speed) { m_pivotMotor.Set(speed); }
+
 double Intake::getSpeed() { return m_encoder.GetVelocity(); }
+
 double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
-int Intake::getState() { return state; }
-
-void Intake::setState(int state) { this->state = state; }
-
 void Intake::Periodic() {
-    units::radian_t ffP{position + getPosition() -
-                        m_pivotEncoder.GetPosition()};
+    units::radian_t ffP{position + getPosition() - m_pivotEncoder.GetPosition()};
     units::radians_per_second_t ffV{0};
     units::radians_per_second_squared_t ffA(0);
-    if(intakeCommandGiven){
-    m_pivotController.SetReference(
-        position, rev::spark::SparkLowLevel::ControlType::kPosition,
-        rev::spark::kSlot0, m_pivotFF.Calculate(ffP, ffV, ffA).value());
+    if (intakeCommandGiven) {
+        m_pivotController.SetReference(
+            position, rev::spark::SparkLowLevel::ControlType::kPosition,
+            rev::spark::kSlot0, m_pivotFF.Calculate(ffP, ffV, ffA).value());
+    } else {
+        m_pivotController.SetReference(
+            m_pivotFF.Calculate(ffP, ffV, ffA).value(),
+            rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
-    else{
-        m_pivotController.SetReference(m_pivotFF.Calculate(ffP,ffV,ffA).value(),
-        rev::spark::SparkLowLevel::ControlType::kVoltage);
-    }
-    frc::SmartDashboard::PutNumber("intake pos", position);
+    frc::SmartDashboard::PutNumber("intake target pos", position);
     frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
-    frc::SmartDashboard::PutNumber("intake frequency", m_absoluteEncoder.GetFrequency());
-    frc::SmartDashboard::PutBoolean("intake abs connected", m_absoluteEncoder.IsConnected());
-    frc::SmartDashboard::PutNumber("Intake neo pos", m_pivotEncoder.GetPosition());
-    frc::SmartDashboard::PutNumber("intake init pos", initalPosition);
-    // Implementation of subsystem periodic method goes here.
-}
 
-// void ExampleSubsystem::SimulationPeriodic() {
-//   // Implementation of subsystem simulation periodic method goes here.
-// }
+    frc::SmartDashboard::PutNumber("intake frequency",
+                                   m_absoluteEncoder.GetFrequency());
+    frc::SmartDashboard::PutBoolean("intake abs connected",
+                                    m_absoluteEncoder.IsConnected());
+
+    frc::SmartDashboard::PutNumber("Intake neo pos",
+                                   m_pivotEncoder.GetPosition());
+}

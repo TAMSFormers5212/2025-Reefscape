@@ -222,7 +222,7 @@ namespace ElevatorConstants
     constexpr double levelThreeHeight = -18.1;
     constexpr double levelFourthHeight = -31.5;
 
-    constexpr double sourceIntakeHeight = -2.4;
+    constexpr double sourceIntakeHeight = -1.4;
 
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
@@ -307,7 +307,7 @@ namespace IntakeConstants
 {
     constexpr int intakeMotor = 13;
     constexpr int pivotMotor = 12;
-    // might chang5
+    // might change
     constexpr int pivotEncoder = 2;
     constexpr double encoderOffset = 0;
 
@@ -319,10 +319,10 @@ namespace IntakeConstants
     // constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
     constexpr double pivotRatio = pivotPlanetaryRatio;
 
-    constexpr double groundPresetHeight = 0;
-    constexpr double processorPresetHeight = 0;
-    constexpr double firstAlgaePresetHeight = 0;
-    constexpr double secondAlgaePresetHeight = 0;
+    constexpr double stowPresetAngle = 90;
+    constexpr double groundPresetAngle = -30;
+    constexpr double processorPresetAngle = 0;
+    constexpr double reefPresetAngle = 30;
 
     constexpr double kiP = 0.10;
     constexpr double kiI = 0.0000;
@@ -343,9 +343,6 @@ namespace IntakeConstants
     constexpr units::volt_t vkiA{0.00};
     constexpr units::radians_per_second_squared_t akiA{1};
     constexpr auto kiA = vkiA / akiV; // not nessecary
-    constexpr int empty = 0;
-    constexpr int held = 1;
-    constexpr int indexed = 2;
 }
 
 namespace WinchConstants
