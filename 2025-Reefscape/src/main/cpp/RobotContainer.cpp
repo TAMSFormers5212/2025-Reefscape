@@ -37,7 +37,6 @@
 #include "commands/ElevatorL4.h"
 #include "commands/ElevatorSource.h"
 #include "commands/ExampleCommand.h"
-#include "commands/LiftElevator.h"
 #include "commands/OuttakeCmd.h"
 #include "commands/StopOuttake.h"
 #include "networktables/NetworkTable.h"
@@ -51,14 +50,11 @@ using namespace frc2;
 using namespace OIConstants;
 
 RobotContainer::RobotContainer() {
-    
-    NamedCommands::registerCommand(
-        "Lift Elevator",
-        cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
     NamedCommands::registerCommand(
         "Outtake L1", OuttakeCmd(&m_superstructure.m_outtake).ToPtr());
     NamedCommands::registerCommand(
         "Stop Outtake", StopOuttake(&m_superstructure.m_outtake).ToPtr());
+
     NamedCommands::registerCommand(
         "Elevator L2", ElevatorL2(&m_superstructure.m_elevator).ToPtr());
     NamedCommands::registerCommand(
@@ -68,9 +64,7 @@ RobotContainer::RobotContainer() {
     NamedCommands::registerCommand(
         "Elevator Source",
         ElevatorSource(&m_superstructure.m_elevator).ToPtr());
-    NamedCommands::registerCommand(
-        "Elevator Source",
-        ElevatorSource(&m_superstructure.m_elevator).ToPtr());
+
     NamedCommands::registerCommand(
         "AutoIntake", AutoIntake(&m_superstructure.m_outtake).ToPtr());
     NamedCommands::registerCommand(
@@ -114,6 +108,11 @@ RobotContainer::RobotContainer() {
 
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
+            if (m_driverController.GetRawButtonPressed(
+                    Controller::leftPaddle)) {
+                autoAlign.generateCommand();
+            }
+
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
@@ -386,10 +385,6 @@ void RobotContainer::ConfigureBindings() {
     // // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
     // // pressed, cancelling on release.
     // m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
-    bool paddleLeft = m_driverController.GetRawButton(Controller::leftPaddle);
-    if(paddleLeft) {
-        autoAlign.generateCommand();
-    }
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
