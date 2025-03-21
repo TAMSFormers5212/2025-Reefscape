@@ -36,7 +36,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.5
+                  "waitTime": 5.0
                 }
               }
             ]
@@ -72,16 +72,21 @@
                 }
               },
               {
-                "type": "race",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Left Source to Reef L2,3,4"
-                      }
-                    }
-                  ]
+                  "pathName": "Left Source to Reef L2,3,4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoOuttake"
                 }
               }
             ]

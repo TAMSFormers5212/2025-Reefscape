@@ -10,4 +10,6 @@ void ElevatorSource::Initialize() {
 }
 
 
-void ElevatorSource::End(bool interrupted) {}
+bool ElevatorSource::IsFinished(void) {
+    return m_elevator->closeEnough();
+}

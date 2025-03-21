@@ -30,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Outtake L1"
+                  "name": "AutoOuttake"
                 }
               },
               {
@@ -57,11 +57,36 @@
                 "data": {
                   "name": "Elevator Source"
                 }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Source to Reef L2,3,4"
+                }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Stop Outtake"
+                  "name": "Elevator L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoOuttake"
                 }
               }
             ]

@@ -326,7 +326,7 @@ namespace IntakeConstants
 
     constexpr double kiP = 0.10;
     constexpr double kiI = 0.0000;
-    constexpr double kiD = 0.00;
+    constexpr double kiD = 0.001;
     constexpr double kiFF = 0.01;
     constexpr double kiIz = 0.0;
     
