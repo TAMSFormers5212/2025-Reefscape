@@ -17,6 +17,7 @@
 #include "Constants.h"
 #include "subsystems/Superstructure.h"
 #include "subsystems/SwerveDrive.h"
+#include "commands/AlignToReef.h"
 
 using namespace OIConstants;
 using namespace pathplanner;
@@ -34,10 +35,11 @@ class RobotContainer {
     double RotAxis;
     double speedMultiplier = 1.0;
     double XAxis;
-    double YAxis;
+    double YAxis; 
 
-    SwerveDrive m_drive;
+    SwerveDrive m_drive = SwerveDrive();
     Superstructure m_superstructure;
+    AlignToReef autoAlign = AlignToReef(&m_drive);
 
     frc2::Command* GetAutonomousCommand();
     void Periodic();

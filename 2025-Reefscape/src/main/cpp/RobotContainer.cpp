@@ -28,6 +28,7 @@
 
 #include <iostream>
 
+#include "commands/AlignToReef.h"
 #include "commands/AutoIntake.h"
 #include "commands/AutoOuttake.h"
 #include "commands/Autos.h"
@@ -50,6 +51,7 @@ using namespace frc2;
 using namespace OIConstants;
 
 RobotContainer::RobotContainer() {
+    
     NamedCommands::registerCommand(
         "Lift Elevator",
         cmds::LiftElevator(&m_superstructure.m_elevator).ToPtr());
@@ -384,6 +386,10 @@ void RobotContainer::ConfigureBindings() {
     // // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
     // // pressed, cancelling on release.
     // m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+    bool paddleLeft = m_driverController.GetRawButton(Controller::leftPaddle);
+    if(paddleLeft) {
+        autoAlign.generateCommand();
+    }
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
