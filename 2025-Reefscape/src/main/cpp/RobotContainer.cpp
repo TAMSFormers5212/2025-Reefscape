@@ -196,13 +196,14 @@ RobotContainer::RobotContainer() {
             bool opPovUp = m_operatorController.GetPOV() == 0.0;
             bool opPovLeft = m_operatorController.GetPOV() == 270.0;
             bool opPovRight = m_operatorController.GetPOV() == 90.0;
+            frc::SmartDashboard::PutNumber("OperatorControllerRightAxis",m_operatorController.GetRawAxis(Controller::rightYAxis));
             if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
                 0.05) {
-                if(m_superstructure.m_intake.getPosition()<=2.35&&m_superstructure.m_intake.getPosition()>=0){
+                // if(m_superstructure.m_intake.getPosition()<=2.35&&m_superstructure.m_intake.getPosition()>=0){
                 m_superstructure.m_intake.setPosition(
                     m_superstructure.m_intake.getPosition() +
-                    m_operatorController.GetRawAxis(Controller::rightYAxis)/2);
-                }
+                    m_operatorController.GetRawAxis(Controller::rightYAxis));
+                // }
             } else {
                 if (opPovUp && !opPrevUp) {
                     m_superstructure.m_intake.processorPreset();
