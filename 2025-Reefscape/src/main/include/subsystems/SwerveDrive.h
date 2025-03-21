@@ -29,7 +29,7 @@ using namespace std;
 class SwerveDrive : public frc2::SubsystemBase{
 
 public:
-    studica::AHRS m_gyro{studica::AHRS::NavXComType::kMXP_SPI};
+    studica::AHRS m_gyro{studica::AHRS::NavXComType::kUSB1};
     SwerveDrive();
 
     frc::Pose2d AveragePose();

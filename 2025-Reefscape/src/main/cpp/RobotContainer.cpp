@@ -203,7 +203,7 @@ RobotContainer::RobotContainer() {
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
                     if (autoIntake) {
-                        m_superstructure.m_outtake.setSpeed(0.14);
+                        m_superstructure.m_outtake.setSpeed(0.12);
                         loopsBackBroken = 0;
                         m_operatorController.SetRumble(
                             frc::GenericHID::RumbleType::kLeftRumble, 0.25);
@@ -233,7 +233,7 @@ RobotContainer::RobotContainer() {
                 } else if (m_superstructure.m_outtake.getBeamBack()) {
                     loopsBackBroken++;
                     if (loopsBackBroken > 10) {
-                        m_superstructure.m_outtake.setSpeed(0.07);
+                        m_superstructure.m_outtake.setSpeed(0.05);
                     }
                 }
             }
