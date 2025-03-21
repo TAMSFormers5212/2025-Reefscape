@@ -92,7 +92,6 @@ bool Outtake::getBeamBack() { return beamBack.Get(); }
 bool Outtake::getCoralHeld() { return coralHeld; }
 
 void Outtake::Periodic() {
-    // Implementation of subsystem periodic method goes here.
     bool bFront = beamFront.Get();
     bool bBack = beamBack.Get();
 
@@ -103,14 +102,11 @@ void Outtake::Periodic() {
         coralHeld = false;
         // m_LEDs.setColor(0.77);
     }
+
     frc::SmartDashboard::PutBoolean("beamFront", bFront);
     frc::SmartDashboard::PutBoolean("beamBack", bBack);
-    
     frc::SmartDashboard::PutBoolean("holding coral", coralHeld);
+
     frc::SmartDashboard::PutNumber("Left Speed", m_leftOuttakeMotor.Get());
     frc::SmartDashboard::PutNumber("Right Speed", m_rightOuttakeMotor.Get());
 }
-
-// void ExampleSubsystem::SimulationPeriodic() {
-//   // Implementation of subsystem simulation periodic method goes here.
-// }

@@ -66,7 +66,9 @@ class RobotContainer {
 
     bool runAlign = false;
     bool override_ = false;
+
     bool autoIntake = false;
+    long loopsBackBroken = 0;
 
     bool prevDown = false;
     bool prevUp = false;

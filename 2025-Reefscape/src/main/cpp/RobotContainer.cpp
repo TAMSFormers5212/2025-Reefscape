@@ -203,11 +203,13 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_intake.set(0);
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
-                    m_superstructure.m_outtake.setSpeed(autoIntake ? 0.1 : 0);
                     if (autoIntake) {
+                        m_superstructure.m_outtake.setSpeed(0.2);
+                        loopsBackBroken = 0;
                         m_operatorController.SetRumble(
                             frc::GenericHID::RumbleType::kLeftRumble, 0.25);
                     } else {
+                        m_superstructure.m_outtake.setSpeed(0);
                         m_operatorController.SetRumble(
                             frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                     }
@@ -215,6 +217,7 @@ RobotContainer::RobotContainer() {
                     m_superstructure.m_intake.set(.5);
                 }
             }
+
             opPrevDown = opPovDown;
             opPrevUp = opPovUp;
             opPrevLeft = opPovLeft;
@@ -227,7 +230,10 @@ RobotContainer::RobotContainer() {
                     m_operatorController.SetRumble(
                         frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                 } else if (m_superstructure.m_outtake.getBeamBack()) {
-                    m_superstructure.m_outtake.setSpeed(0.03);
+                    loopsBackBroken++;
+                    if (loopsBackBroken > 20) {
+                        m_superstructure.m_outtake.setSpeed(0.03);
+                    }
                 }
             }
         },
