@@ -171,7 +171,7 @@ RobotContainer::RobotContainer() {
             else if(m_driverController.GetRawButton(
                     Controller::leftPaddle)){
                 // m_drive.alignAdjustment();
-                m_pathfindAuto = m_drive.generateCommand();
+                m_pathfindAuto = m_drive.generateCommand(true);
                 m_pathfindAuto.Schedule();
             }else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);

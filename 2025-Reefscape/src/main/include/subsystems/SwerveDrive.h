@@ -40,9 +40,9 @@ public:
     frc::ChassisSpeeds getFieldRelativeSpeeds();
    
     void alignAdjustment();
-    frc::Pose2d getTargetPose();
+    frc::Pose2d getTargetPose(bool left);
     frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint);
-    frc2::CommandPtr generateCommand();
+    frc2::CommandPtr generateCommand(bool left);
     frc::Rotation2d getVelocityHeading();
 
 
