@@ -39,10 +39,11 @@ public:
     frc::ChassisSpeeds getRobotRelativeSpeeds();
     frc::ChassisSpeeds getFieldRelativeSpeeds();
    
-    void alignAdjustment();
+    void alignAdjustment(bool left);
     frc::Pose2d getTargetPose(bool left);
-    frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint);
-    frc2::CommandPtr generateCommand(bool left);
+    frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint, bool left);
+    frc2::CommandPtr generateCommandLeft();
+    frc2::CommandPtr generateCommandRight();
     frc::Rotation2d getVelocityHeading();
 
 

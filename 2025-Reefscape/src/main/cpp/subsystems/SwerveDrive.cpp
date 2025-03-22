@@ -562,12 +562,12 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
         }
     }
     return frc::Pose2d(
-        OdometryPose().Translation().X() + units::meter_t{1},
-        OdometryPose().Translation().Y() + units::meter_t{1},
+        OdometryPose().Translation().X(),
+        OdometryPose().Translation().Y(),
         OdometryPose().Rotation().Degrees());
 }
 
-frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint) {
+frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint, bool left) {
     frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();
     std::vector<frc::Pose2d> poses{
         frc::Pose2d(OdometryPose().Translation(),
@@ -597,29 +597,37 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint) {
     return AutoBuilder::followPath(path);
 }
 
-void SwerveDrive::alignAdjustment() {
+void SwerveDrive::alignAdjustment(bool left) {
     PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
-    frc::Pose2d goalPose = getTargetPose(true);
+    frc::Pose2d goalPose = getTargetPose(left);
     goalState.pose = goalPose;
 
     PPHolonomicDriveController ctrler = PPHolonomicDriveController(
-        PIDConstants(5.0, 0.0, 0.0), PIDConstants(1.0, 0.0, 0.0));
+        PIDConstants(5.0, 0.0, 0.0), PIDConstants(5.0, 0.0, 0.0));
 
     swerveDrive(ctrler.calculateRobotRelativeSpeeds(
         OdometryPose(), goalState));
 }
 
-frc2::CommandPtr SwerveDrive::generateCommand(bool left) {
-    // std::function<frc2::CommandPtr()> thing = [this] {
-    //     return driveToTargetPose(getTargetPose());
-    // };
+frc2::CommandPtr SwerveDrive::generateCommandLeft() {
+
     std::initializer_list<frc2::Subsystem*> requirements = {this};
     return frc2::cmd::Defer([this] {
-        return driveToTargetPose(getTargetPose(true));
+        return driveToTargetPose(getTargetPose(true), true);
     }, requirements);
     // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
     // return driveToTargetPose(getTargetPose());
 }
 
+
+frc2::CommandPtr SwerveDrive::generateCommandRight() {
+
+    std::initializer_list<frc2::Subsystem*> requirements = {this};
+    return frc2::cmd::Defer([this] {
+        return driveToTargetPose(getTargetPose(false), false);
+    }, requirements);
+    // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
+    // return driveToTargetPose(getTargetPose());
+}
 
 
