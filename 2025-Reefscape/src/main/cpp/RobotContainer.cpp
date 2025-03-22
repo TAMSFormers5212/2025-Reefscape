@@ -108,10 +108,7 @@ RobotContainer::RobotContainer() {
 
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
-            if (m_driverController.GetRawButtonPressed(
-                    Controller::leftPaddle)) {
-                m_drive.generateCommand();
-            }
+           
 
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero
                 m_drive.resetHeading();
@@ -160,7 +157,11 @@ RobotContainer::RobotContainer() {
                 m_drive.swerveDrive(-0.0, 0.2, 0.0, false);
             } else if (pov == 90.0) {  // right
                 m_drive.swerveDrive(0.0, -0.2, 0.0, false);
-            } else {
+            } 
+            else if(m_driverController.GetRawButton(
+                    Controller::leftPaddle)){
+                m_drive.alignAdjustment();
+            }else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
 
@@ -193,16 +194,29 @@ RobotContainer::RobotContainer() {
             frc::SmartDashboard::PutNumber("OperatorControllerRightAxis",m_operatorController.GetRawAxis(Controller::rightYAxis));
             if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
                 0.05) {
-                // if(m_superstructure.m_intake.getPosition()<=2.35&&m_superstructure.m_intake.getPosition()>=0){
+                if(m_superstructure.m_intake.getPosition()<=2.52&&m_superstructure.m_intake.getPosition()>=0){
                 m_superstructure.m_intake.setPosition(
-                    m_superstructure.m_intake.getPosition() +
+                    m_superstructure.m_intake.getRelativePosition() +
                     m_operatorController.GetRawAxis(Controller::rightYAxis));
-                // }
+                }
+                else{
+                    if(m_superstructure.m_intake.getPosition()>=5.9){
+                        m_superstructure.m_intake.setPosition(groundPresetAngle);
+                    }
+                    else if(m_superstructure.m_intake.getPosition()>=2.52&&m_superstructure.m_intake.getPosition()<=5){
+                        m_superstructure.m_intake.setPosition(stowPresetAngle);
+                    }
+                    else{
+                        m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition());
+                    }
+                }
             } else {
+
                 if (opPovUp && !opPrevUp) {
-                    m_superstructure.m_intake.processorPreset();
-                } else if (opPovDown && !opPrevDown) {
                     m_superstructure.m_intake.stowPreset();
+                } else if (opPovDown && !opPrevDown) {
+                    
+                    m_superstructure.m_intake.groundPreset();
                 } else if (opPovLeft && !opPrevLeft) {
                     autoIntake = !autoIntake;
                     if (autoIntake) {

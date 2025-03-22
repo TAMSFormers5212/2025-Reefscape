@@ -97,7 +97,7 @@ double Intake::getPosition() {
 }
 
 void Intake::stowPreset() { setPosition(getRelativePosition()+(stowPresetAngle)-getPosition()); }
-void Intake::groundPreset() { setPosition(groundPresetAngle); }
+void Intake::groundPreset() { setPosition(getRelativePosition()+(stowPresetAngle)-getPosition()); }
 void Intake::processorPreset() { setPosition(processorPresetAngle); }
 void Intake::reefPreset() { setPosition(reefPresetAngle); }
 

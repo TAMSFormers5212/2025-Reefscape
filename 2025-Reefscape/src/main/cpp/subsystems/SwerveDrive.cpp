@@ -428,7 +428,7 @@ void SwerveDrive::alignAdjustment() {
     goalState.pose = goalPose;
 
     PPHolonomicDriveController ctrler = PPHolonomicDriveController(
-        PIDConstants(5.0, 0.0, 0.0), PIDConstants(5.0, 0.0, 0.0));
+        PIDConstants(5.0, 0.0, 0.0), PIDConstants(1.0, 0.0, 0.0));
 
     swerveDrive(ctrler.calculateRobotRelativeSpeeds(
         OdometryPose(), goalState));
@@ -439,9 +439,9 @@ frc2::CommandPtr SwerveDrive::generateCommand() {
     //     return driveToTargetPose(getTargetPose());
     // };
     std::initializer_list<frc2::Subsystem*> requirements = {this};
-    return frc2::cmd::Defer([this] {
+    // return frc2::cmd::Defer([this] {
         return driveToTargetPose(getTargetPose());
-    }, requirements);
+    // }, requirements);
     // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
     // return driveToTargetPose(getTargetPose());
 }
