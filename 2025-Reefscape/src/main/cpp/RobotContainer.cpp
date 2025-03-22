@@ -303,37 +303,37 @@ RobotContainer::RobotContainer() {
                 m_operatorController.GetRawAxis(Controller::rightTrigger));
 
 
-            // if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
-            //     0.05) {
-            //     m_superstructure.m_intake.setSpeed(0.8);
-            // } else if (m_operatorController.GetRawAxis(
-            //                Controller::leftTrigger) > 0.05) {
-            //     m_superstructure.m_intake.setSpeed(-0.4);
-            // } else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
-            //          0.05 &&
-            //      m_operatorController.GetRawAxis(Controller::rightTrigger) <
-            //          0.05)*/
-            // {
-            //     m_superstructure.m_intake.setSpeed(0.0);
-            // }
-            // m_superstructure.m_intake.setSpeed(
-            //     m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
-            if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))>0.05 && m_superstructure.m_intake.getPosition() >= 0 && m_superstructure.m_intake.getPosition() <= 0.38) {
+            if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
+                0.05) {
+                m_superstructure.m_intake.setSpeed(0.8);
+            } else if (m_operatorController.GetRawAxis(
+                           Controller::leftTrigger) > 0.05) {
+                m_superstructure.m_intake.setSpeed(-0.4);
+            } else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
+                     0.05 &&
+                 m_operatorController.GetRawAxis(Controller::rightTrigger) <
+                     0.05)*/
+            {
+                m_superstructure.m_intake.setSpeed(0.0);
+            }
+            m_superstructure.m_intake.setSpeed(
+                m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
+            // if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))>0.05 && m_superstructure.m_intake.getPosition() >= 0 && m_superstructure.m_intake.getPosition() <= 0.38) {
 
-                m_superstructure.m_intake.setPosition(
-                m_superstructure.m_intake.getRelativePosition() +
-                m_operatorController.GetRawAxis(Controller::rightYAxis));
-            }
-            else if(m_superstructure.m_intake.getPosition() >= 0.7) {
-                m_superstructure.m_intake.setPosition(
-                m_superstructure.m_intake.getRelativePosition() +
-                0.01);
-            }
-            else if(m_superstructure.m_intake.getPosition() > 0.38 && m_superstructure.m_intake.getPosition() < 0.7) {
-                m_superstructure.m_intake.setPosition(
-                m_superstructure.m_intake.getRelativePosition() -
-                0.01);
-            }
+            //     m_superstructure.m_intake.setPosition(
+            //     m_superstructure.m_intake.getRelativePosition() +
+            //     m_operatorController.GetRawAxis(Controller::rightYAxis));
+            // }
+            // else if(m_superstructure.m_intake.getPosition() >= 0.7) {
+            //     m_superstructure.m_intake.setPosition(
+            //     m_superstructure.m_intake.getRelativePosition() +
+            //     0.01);
+            // }
+            // else if(m_superstructure.m_intake.getPosition() > 0.38 && m_superstructure.m_intake.getPosition() < 0.7) {
+            //     m_superstructure.m_intake.setPosition(
+            //     m_superstructure.m_intake.getRelativePosition() -
+            //     0.01);
+            // }
         },
         {&m_superstructure.m_intake}));
 

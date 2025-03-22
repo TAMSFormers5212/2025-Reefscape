@@ -93,7 +93,7 @@ void Intake::setPosition(double pivotPose) {
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 
 double Intake::getPosition() {
-    return abs(m_absoluteEncoder.Get() - pivotOffset) * pi2;
+    return abs(m_absoluteEncoder.Get()) * pi2;
 }
 
 void Intake::stowPreset() { setPosition(getRelativePosition()+(stowPresetAngle)-getPosition()); }
