@@ -280,10 +280,10 @@ void SwerveDrive::UpdatePoseEstimate() {
     if (align) {
         bool doRejectUpdate = false;
 
-        LimelightHelpers::SetRobotOrientation(
-            "limelight",
-            getGyroHeading2().Degrees().value(), 0,
-            0, 0, 0, 0);
+        // LimelightHelpers::SetRobotOrientation(
+        //     "limelight",
+        //     135, 0,
+        //     0, 0, 0, 0);
         LimelightHelpers::PoseEstimate mt2 =
             LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
         auto pose = mt2.pose;
@@ -315,6 +315,10 @@ void SwerveDrive::UpdatePoseEstimate() {
 }
 
 void SwerveDrive::Periodic() {
+    LimelightHelpers::SetRobotOrientation(
+            "limelight",
+            getGyroHeading2().Degrees().value(), 0,
+            0, 0, 0, 0);
     UpdatePoseEstimate();
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
@@ -385,14 +389,185 @@ frc::Rotation2d SwerveDrive::getVelocityHeading() {
     return frc::Rotation2d(speeds.vx.value(), speeds.vy.value());
 }
 
-frc::Pose2d SwerveDrive::getTargetPose() {
+frc::Pose2d SwerveDrive::getTargetPose(bool left) {
+    std::shared_ptr<nt::NetworkTable> table =
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    double id = table->GetNumber("tid", 0.0);
+    if(id == 18) {
+        if(left) {
+            return frc::Pose2d(
+                units::meter_t{3.1},
+                units::meter_t{4.187},
+                units::degree_t{0});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{3.081},
+                units::meter_t{3.86},
+                units::degree_t{0});
+        }
+    }
+    if(id == 19) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{3.668},
+                units::meter_t{5.122},
+                units::degree_t{-60});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{3.932},
+                units::meter_t{5.314},
+                units::degree_t{-60});
+        }
+    }
+    if(id == 20) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{5.059},
+                units::meter_t{5.326},
+                units::degree_t{-120});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{5.323},
+                units::meter_t{5.158},
+                units::degree_t{-120});
+        }
+    }
+    if(id == 21) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{5.862},
+                units::meter_t{4.187},
+                units::degree_t{180});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{5.886},
+                units::meter_t{3.86},
+                units::degree_t{180});
+        }
+    }
+    if(id == 22) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{5.323},
+                units::meter_t{2.904},
+                units::degree_t{120});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{5.035},
+                units::meter_t{2.748},
+                units::degree_t{120});
+        }
+    }
+    if(id == 17) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{3.944},
+                units::meter_t{2.748},
+                units::degree_t{60});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{3.656},
+                units::meter_t{2.916},
+                units::degree_t{60});
+        }
+    }
+    if(id == 10) {
+        if(left) {
+            return frc::Pose2d(
+                units::meter_t{11.700},
+                units::meter_t{4.187},
+                units::degree_t{0});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{11.676},
+                units::meter_t{3.86},
+                units::degree_t{0});
+        }
+    }
+    if(id == 9) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{12.239},
+                units::meter_t{5.134},
+                units::degree_t{-60});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{12.527},
+                units::meter_t{5.290},
+                units::degree_t{-60});
+        }
+    }
+    if(id == 8) {
+        if(left) {
+            return frc::Pose2d(
+                units::meter_t{13.618},
+                units::meter_t{5.302},
+                units::degree_t{-120});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{13.906},
+                units::meter_t{5.146},
+                units::degree_t{-120});
+        }
+    }
+    if(id == 7) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{14.445},
+                units::meter_t{4.187},
+                units::degree_t{180});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{14.409},
+                units::meter_t{3.86},
+                units::degree_t{180});
+        }
+    }
+    if(id == 6) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{13.906},
+                units::meter_t{2.916},
+                units::degree_t{120});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{13.606},
+                units::meter_t{2.748},
+                units::degree_t{120});
+        }
+    }
+    if(id == 11) {
+        if(!left) {
+            return frc::Pose2d(
+                units::meter_t{12.527},
+                units::meter_t{2.772},
+                units::degree_t{60});
+        }
+        else {
+            return frc::Pose2d(
+                units::meter_t{12.239},
+                units::meter_t{2.928},
+                units::degree_t{60});
+        }
+    }
     return frc::Pose2d(
-        OdometryPose().Translation().X() + units::meter_t{1},
+        OdometryPose().Translation().X(),
         OdometryPose().Translation().Y(),
         OdometryPose().Rotation().Degrees());
 }
 
-frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint) {
+frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint, bool left) {
     frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();
     std::vector<frc::Pose2d> poses{
         frc::Pose2d(OdometryPose().Translation(),
@@ -422,29 +597,37 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint) {
     return AutoBuilder::followPath(path);
 }
 
-void SwerveDrive::alignAdjustment() {
+void SwerveDrive::alignAdjustment(bool left) {
     PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
-    frc::Pose2d goalPose = getTargetPose();
+    frc::Pose2d goalPose = getTargetPose(left);
     goalState.pose = goalPose;
 
     PPHolonomicDriveController ctrler = PPHolonomicDriveController(
-        PIDConstants(5.0, 0.0, 0.0), PIDConstants(1.0, 0.0, 0.0));
+        PIDConstants(5.0, 0.0, 0.0), PIDConstants(5.0, 0.0, 0.0));
 
     swerveDrive(ctrler.calculateRobotRelativeSpeeds(
         OdometryPose(), goalState));
 }
 
-frc2::CommandPtr SwerveDrive::generateCommand() {
-    // std::function<frc2::CommandPtr()> thing = [this] {
-    //     return driveToTargetPose(getTargetPose());
-    // };
+frc2::CommandPtr SwerveDrive::generateCommandLeft() {
+
     std::initializer_list<frc2::Subsystem*> requirements = {this};
-    // return frc2::cmd::Defer([this] {
-        return driveToTargetPose(getTargetPose());
-    // }, requirements);
+    return frc2::cmd::Defer([this] {
+        return driveToTargetPose(getTargetPose(true), true);
+    }, requirements);
     // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
     // return driveToTargetPose(getTargetPose());
 }
 
+
+frc2::CommandPtr SwerveDrive::generateCommandRight() {
+
+    std::initializer_list<frc2::Subsystem*> requirements = {this};
+    return frc2::cmd::Defer([this] {
+        return driveToTargetPose(getTargetPose(false), false);
+    }, requirements);
+    // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
+    // return driveToTargetPose(getTargetPose());
+}
 
 

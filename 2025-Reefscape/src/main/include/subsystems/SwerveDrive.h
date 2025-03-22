@@ -39,10 +39,11 @@ public:
     frc::ChassisSpeeds getRobotRelativeSpeeds();
     frc::ChassisSpeeds getFieldRelativeSpeeds();
    
-    void alignAdjustment();
-    frc::Pose2d getTargetPose();
-    frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint);
-    frc2::CommandPtr generateCommand();
+    void alignAdjustment(bool left);
+    frc::Pose2d getTargetPose(bool left);
+    frc2::CommandPtr driveToTargetPose(frc::Pose2d waypoint, bool left);
+    frc2::CommandPtr generateCommandLeft();
+    frc2::CommandPtr generateCommandRight();
     frc::Rotation2d getVelocityHeading();
 
 
@@ -75,7 +76,7 @@ private:
     // may be something we want to implement if we notice the drive slowly twisting as it drives
     
     bool offsetToggle = true;
-    bool align = false;
+    bool align = true;
 
     frc::Rotation2d heading;
 
