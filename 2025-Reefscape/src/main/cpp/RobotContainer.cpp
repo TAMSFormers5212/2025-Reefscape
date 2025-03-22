@@ -31,6 +31,7 @@
 #include "commands/AlignToReef.h"
 #include "commands/AutoIntake.h"
 #include "commands/AutoOuttake.h"
+#include "commands/AutoOuttakeOneSide.h"
 #include "commands/Autos.h"
 #include "commands/ElevatorL2.h"
 #include "commands/ElevatorL3.h"
@@ -69,11 +70,12 @@ RobotContainer::RobotContainer() {
         "AutoIntake", AutoIntake(&m_superstructure.m_outtake).ToPtr());
     NamedCommands::registerCommand(
         "AutoOuttake", AutoOuttake(&m_superstructure.m_outtake).ToPtr());
+    NamedCommands::registerCommand(
+        "AutoOuttakeOneSide", AutoOuttakeOneSide(&m_superstructure.m_outtake).ToPtr());
 
     ConfigureBindings();
 
     m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
-    
     m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     m_L1Center = PathPlannerAuto("L1 Center").ToPtr();
     m_L1Left = PathPlannerAuto("L1 Left").ToPtr();

@@ -10,12 +10,12 @@ void AutoOuttake::Initialize() {
 }
 
 void AutoOuttake::Execute() {
-    if (!outtake->getBeamFront()) {
-        isFinished = true;
-        outtake->setSpeed(0.0);
-    }
 }
 
 bool AutoOuttake::IsFinished() {
-    return isFinished;
+    return !outtake->getBeamFront();
+}
+
+void AutoOuttake::End(bool interrupted) {
+    outtake->setSpeed(0);
 }

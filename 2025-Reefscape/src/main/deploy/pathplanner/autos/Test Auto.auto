@@ -7,19 +7,31 @@
         {
           "type": "named",
           "data": {
-            "name": "Elevator L2"
+            "name": "Elevator L4"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Elevator L3"
+            "name": "AutoOuttake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Source"
           }
         }
       ]
