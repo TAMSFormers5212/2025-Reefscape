@@ -84,19 +84,23 @@ frc2::CommandPtr AlignToReef::generateCommand() {
     // std::function<frc2::CommandPtr()> thing = [this] {
     //     return driveToTargetPose(getTargetPose());
     // };
-    std::initializer_list<frc2::Subsystem*> requirements = {m_swerve};
+    // std::initializer_list<frc2::Subsystem*> requirements = {m_swerve};
    
-    return frc2::cmd::Defer([this] {
-        return driveToTargetPose(getTargetPose());
-    }, requirements).WithInterruptBehavior(Command::InterruptionBehavior::kCancelIncoming);
+    // return frc2::cmd::Defer([this] {
+    //     return driveToTargetPose(getTargetPose());
+    // }, requirements).WithInterruptBehavior(Command::InterruptionBehavior::kCancelIncoming);
     // return frc2::cmd::Defer(thing, frc2::Requirements(requirements));
-    // return driveToTargetPose(getTargetPose());
+    // driveToTargetPose(getTargetPose()).AsProxy().Schedule();
+    return driveToTargetPose(getTargetPose());
 }
 
-void AlignToReef::Initialize() {}
+void AlignToReef::Initialize() {
+
+}
 
 void AlignToReef::Execute() {
      frc::SmartDashboard::PutBoolean("Auto Align Ran", true);
+     generateCommand();
 }
 
 bool AlignToReef::IsFinished() { return false; }

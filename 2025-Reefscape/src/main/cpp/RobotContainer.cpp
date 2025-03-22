@@ -73,6 +73,7 @@ RobotContainer::RobotContainer() {
     ConfigureBindings();
 
     m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
+    
     m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     m_L1Center = PathPlannerAuto("L1 Center").ToPtr();
     m_L1Left = PathPlannerAuto("L1 Left").ToPtr();
@@ -160,7 +161,9 @@ RobotContainer::RobotContainer() {
             } 
             else if(m_driverController.GetRawButton(
                     Controller::leftPaddle)){
-                m_drive.alignAdjustment();
+                // m_drive.alignAdjustment();
+                m_pathfindAuto = m_drive.generateCommand();
+                m_pathfindAuto.Schedule();
             }else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
@@ -298,29 +301,39 @@ RobotContainer::RobotContainer() {
             frc::SmartDashboard::PutNumber(
                 "trigger",
                 m_operatorController.GetRawAxis(Controller::rightTrigger));
-            if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
-                0.05) {
-                m_superstructure.m_intake.setSpeed(0.8);
-            } else if (m_operatorController.GetRawAxis(
-                           Controller::leftTrigger) > 0.05) {
-                m_superstructure.m_intake.setSpeed(-0.4);
-            } else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
-                     0.05 &&
-                 m_operatorController.GetRawAxis(Controller::rightTrigger) <
-                     0.05)*/
-            {
-                m_superstructure.m_intake.setSpeed(0.0);
-            }
-            m_superstructure.m_intake.setSpeed(
-                m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
-            // if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))
-            // >
-            //     0.05) {
 
-            //     // m_superstructure.m_intake.setPosition(
-            //     m_superstructure.m_intake.getRelativePosition() +
-            //     m_operatorController.GetRawAxis(Controller::rightYAxis));
+
+            // if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
+            //     0.05) {
+            //     m_superstructure.m_intake.setSpeed(0.8);
+            // } else if (m_operatorController.GetRawAxis(
+            //                Controller::leftTrigger) > 0.05) {
+            //     m_superstructure.m_intake.setSpeed(-0.4);
+            // } else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
+            //          0.05 &&
+            //      m_operatorController.GetRawAxis(Controller::rightTrigger) <
+            //          0.05)*/
+            // {
+            //     m_superstructure.m_intake.setSpeed(0.0);
             // }
+            // m_superstructure.m_intake.setSpeed(
+            //     m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
+            if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis))>0.05 && m_superstructure.m_intake.getPosition() >= 0 && m_superstructure.m_intake.getPosition() <= 0.38) {
+
+                m_superstructure.m_intake.setPosition(
+                m_superstructure.m_intake.getRelativePosition() +
+                m_operatorController.GetRawAxis(Controller::rightYAxis));
+            }
+            else if(m_superstructure.m_intake.getPosition() >= 0.7) {
+                m_superstructure.m_intake.setPosition(
+                m_superstructure.m_intake.getRelativePosition() +
+                0.01);
+            }
+            else if(m_superstructure.m_intake.getPosition() > 0.38 && m_superstructure.m_intake.getPosition() < 0.7) {
+                m_superstructure.m_intake.setPosition(
+                m_superstructure.m_intake.getRelativePosition() -
+                0.01);
+            }
         },
         {&m_superstructure.m_intake}));
 
