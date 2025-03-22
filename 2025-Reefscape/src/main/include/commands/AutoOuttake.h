@@ -17,4 +17,6 @@ class AutoOuttake : public frc2::CommandHelper<frc2::Command, AutoOuttake> {
 
    private:
     Outtake* outtake;
+
+    
 };
