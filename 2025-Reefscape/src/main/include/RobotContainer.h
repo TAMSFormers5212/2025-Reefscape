@@ -67,6 +67,8 @@ class RobotContainer {
     frc2::CommandPtr m_L1CenterL4Right = PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
     frc2::CommandPtr m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
     frc2::CommandPtr m_L1RightL4Right = PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
+    frc2::CommandPtr doubleL4Right = PathPlannerAuto("Double L4 Right").ToPtr();
+
     frc::SendableChooser<frc2::Command*> m_chooser;// = ("Mobility Auton"); //m_chooser;
 
     bool runAlign = false;
