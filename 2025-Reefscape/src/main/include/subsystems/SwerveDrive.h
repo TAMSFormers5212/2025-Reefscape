@@ -66,6 +66,8 @@ public:
 
     void Periodic() override; //< update pose using gyro, vision, and odometry
 
+    bool inAuto = false;
+
 private:
     array<SwerveModule, 4> m_modules;
 

@@ -43,7 +43,7 @@ class RobotContainer {
 
     frc2::Command* GetAutonomousCommand();
     void Periodic();
-
+    bool inAuto = false;
     // frc::Pose2d autoStartingPose(void);
 
    private:

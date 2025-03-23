@@ -457,7 +457,9 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     return (m_chooser.GetSelected());
 }
 
-void RobotContainer::Periodic() {}
+void RobotContainer::Periodic() {
+    m_drive.inAuto = inAuto;
+}
 
 // frc::Pose2d RobotContainer::autoStartingPose(void) {
 //     // return m_mobility.getStartingPose();

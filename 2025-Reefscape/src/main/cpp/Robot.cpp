@@ -19,6 +19,8 @@ void Robot::RobotInit() {}
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+  bool test = this->IsAutonomous();
+  m_container.inAuto = test;
 }
 
 /**
@@ -35,6 +37,7 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+  
   m_autonomousCommand = m_container.GetAutonomousCommand();
   
   // m_container.m_drive.resetOdometry();

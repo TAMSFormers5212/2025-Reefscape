@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "LimelightHelpers.h"
+#include <frc/RobotBase.h>
 
 using namespace SwerveModuleConstants;
 using namespace MathConstants;
@@ -315,11 +316,38 @@ void SwerveDrive::UpdatePoseEstimate() {
 }
 
 void SwerveDrive::Periodic() {
-    LimelightHelpers::SetRobotOrientation(
+    auto alliance = frc::DriverStation::GetAlliance();
+    // frc::RobotBase::IsAutonomous()
+    
+    if(alliance.value() == frc::DriverStation::Alliance::kRed && inAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight",
+            getGyroHeading2().Degrees().value() + 0, 0,
+            0, 0, 0, 0);
+        UpdatePoseEstimate();
+    }
+    else if(alliance.value() == frc::DriverStation::Alliance::kRed && !inAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight",
+            getGyroHeading2().Degrees().value() + 180, 0,
+            0, 0, 0, 0);
+        UpdatePoseEstimate();
+    }
+    else if(alliance.value() == frc::DriverStation::Alliance::kBlue && inAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight",
+            getGyroHeading2().Degrees().value() + 180, 0,
+            0, 0, 0, 0);
+        UpdatePoseEstimate();
+    }
+    else {
+        LimelightHelpers::SetRobotOrientation(
             "limelight",
             getGyroHeading2().Degrees().value(), 0,
             0, 0, 0, 0);
-    UpdatePoseEstimate();
+        UpdatePoseEstimate();
+    }
+    
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
     // }
@@ -568,7 +596,9 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
 }
 
 frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint, bool left) {
-    frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();
+    frc::ChassisSpeeds speeds = getFieldRelativeSpeeds();    
+
+      
     std::vector<frc::Pose2d> poses{
         frc::Pose2d(OdometryPose().Translation(),
                     getVelocityHeading()),
