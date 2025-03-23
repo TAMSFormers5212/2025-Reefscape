@@ -33,6 +33,7 @@ Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
     m_pivotMotor.Configure(m_pivotConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
                            SparkMax::PersistMode::kPersistParameters);
+    m_pivotMotor.SetInverted(true);
 }
 
 void Intake::resetMotor() {
@@ -49,6 +50,7 @@ void Intake::resetMotor() {
         .Inverted(true);
 
     m_pivotConfig.encoder.PositionConversionFactor(pi2 / pivotRatio);
+
 
     m_pivotConfig.closedLoop.Pidf(kiP, kiI, kiD, kiFF)
         .IZone(kiIz)

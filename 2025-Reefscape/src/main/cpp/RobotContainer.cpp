@@ -214,35 +214,35 @@ RobotContainer::RobotContainer() {
             if (abs(m_operatorController.GetRawAxis(Controller::rightYAxis)) >
                 0.05) {
                 if(m_operatorController.GetRawAxis(Controller::rightYAxis)>0.05){
-                    if(m_superstructure.m_intake.getPosition()>=6.0 || m_superstructure.m_intake.getPosition()<=1.8){
+                    // if(m_superstructure.m_intake.getPosition()>=6.0 || m_superstructure.m_intake.getPosition()<=1.8){
                         m_superstructure.m_intake.setPosition(
                         m_superstructure.m_intake.getRelativePosition() +
                         m_operatorController.GetRawAxis(Controller::rightYAxis));
-                    }
-                    else{
-                    if(m_superstructure.m_intake.getPosition()>=5.9){
-                        m_superstructure.m_intake.groundPreset();
-                    }
+                    // }
+                    // else{
+                    // if(m_superstructure.m_intake.getPosition()>=5.9){
+                    //     m_superstructure.m_intake.groundPreset();
+                    // }
                 
-                    else{
-                        m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition());
-                    }
-                    }
+                    // else{
+                    //     m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition());
+                    // }
+                    // }
                 }
                 else if(m_operatorController.GetRawAxis(Controller::rightYAxis)<-0.05){
-                    if(m_superstructure.m_intake.getPosition()<=1.8){
+                    // if(m_superstructure.m_intake.getPosition()<=1.8){
                         m_superstructure.m_intake.setPosition(
                         m_superstructure.m_intake.getRelativePosition() +
                         m_operatorController.GetRawAxis(Controller::rightYAxis));
-                    }
-                    else{
-                    if(m_superstructure.m_intake.getPosition()>=1.8&&m_superstructure.m_intake.getPosition()<=3){
-                        m_superstructure.m_intake.stowPreset();
-                    }
-                    else{
-                        m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition());
-                    }
-                    }
+                    // }
+                    // else{
+                    // if(m_superstructure.m_intake.getPosition()>=1.8&&m_superstructure.m_intake.getPosition()<=3){
+                    //     m_superstructure.m_intake.stowPreset();
+                    // }
+                    // else{
+                    //     m_superstructure.m_intake.setPosition(m_superstructure.m_intake.getRelativePosition());
+                    // }
+                    // }
                 }
                 
             } else {
