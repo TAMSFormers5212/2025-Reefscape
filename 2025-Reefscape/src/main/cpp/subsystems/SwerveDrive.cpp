@@ -330,7 +330,7 @@ void SwerveDrive::initAuto(void) {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0, 0);
     }
-        UpdatePoseEstimate();
+    UpdatePoseEstimate();
 }
 
 void SwerveDrive::Periodic() {
@@ -339,12 +339,9 @@ void SwerveDrive::Periodic() {
 
     SmartDashboard::PutBoolean("isAuto", isAuto);
 
-
     // if(sqrt(getRobotRelativeSpeeds().vx.value()*getRobotRelativeSpeeds().vx.value()+getRobotRelativeSpeeds().vy.value()*getRobotRelativeSpeeds().vy.value())<=VisionConstants::stableSpeed){
     //     //if robot is moving slow enough, add vision pose to estimator
     // }
-    // frc::SmartDashboard::PutNumber("gyro angle", fmod(m_gyro.GetAngle(),
-    // 360));
     frc::SmartDashboard::PutNumber("gyro angle2",
                                    getGyroHeading2().Degrees().value());
 
