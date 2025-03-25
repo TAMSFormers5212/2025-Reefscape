@@ -49,7 +49,7 @@ SwerveDrive::SwerveDrive()
                  frc::Pose2d()},
       thetaController(0, 0, 0) {
     m_gyro.Reset();
-
+    resetAbsoluteEncoders();
     // m_gyro.ZeroYaw();
     heading = frc::Rotation2d(degree_t{-m_gyro.GetYaw()});
     lastAngle = -m_gyro.GetYaw();
