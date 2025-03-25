@@ -541,11 +541,12 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
 
     PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s,
                                 720_deg_per_s_sq);
-    // auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    auto thing = translation / units::second_t{1};
     // units::meters_per_second_t thing{
     //     frc::Translation2d(speeds.vx, speeds.vy).Norm().value()};
     auto path = std::make_shared<PathPlannerPath>(
-        waypoints, constraints, IdealStartingState(0.0_mps, getGyroHeading2()),
+        waypoints, constraints, IdealStartingState(thing, getGyroHeading2()),
         GoalEndState(0.0_mps,
                      waypoint.Rotation())  // Goal end state. You can set a
                                            // holonomic rotation here. If using
@@ -554,14 +555,30 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
     );
     path->preventFlipping = true;
 
-    // return AutoBuilder::followPath(path).AndThen([this] { alignAdjustment();
-    // });
-    return AutoBuilder::followPath(path);
+    if(left) {
+    return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentLeft();
+    });
+    }
+    else {
+        return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentRight();
+    });
+    }
+    // return AutoBuilder::followPath(path);
 }
 
-void SwerveDrive::alignAdjustment(bool left) {
+void SwerveDrive::alignAdjustmentLeft() {
     PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
-    frc::Pose2d goalPose = getTargetPose(left);
+    frc::Pose2d goalPose = getTargetPose(true);
+    goalState.pose = goalPose;
+
+    PPHolonomicDriveController ctrler = PPHolonomicDriveController(
+        PIDConstants(5.0, 0.0, 0.0), PIDConstants(5.0, 0.0, 0.0));
+
+    swerveDrive(ctrler.calculateRobotRelativeSpeeds(OdometryPose(), goalState));
+}
+void SwerveDrive::alignAdjustmentRight() {
+    PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
+    frc::Pose2d goalPose = getTargetPose(false);
     goalState.pose = goalPose;
 
     PPHolonomicDriveController ctrler = PPHolonomicDriveController(

@@ -87,15 +87,17 @@ RobotContainer::RobotContainer() {
     m_L4Left = PathPlannerAuto("L4 Left").ToPtr();
     m_L4Right = PathPlannerAuto("L4 Right").ToPtr();
 
-    m_L1CenterL4Left =
-        PathPlannerAuto("L1 Center - Left L4 [UNFINISHED]").ToPtr();
-    m_L1CenterL4Right =
-        PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
-    m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
-    m_L1RightL4Right =
-        PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
+    // m_L1CenterL4Left =
+    //     PathPlannerAuto("L1 Center - Left L4 [UNFINISHED]").ToPtr();
+    // m_L1CenterL4Right =
+    //     PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
+    // m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
+    // m_L1RightL4Right =
+    //     PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
 
     doubleL4Right = PathPlannerAuto("Double L4 Right").ToPtr();
+    doubleL4Left = PathPlannerAuto("Double L4 Left").ToPtr();
+    tripleL4Left = PathPlannerAuto("pipe dream").ToPtr();
 
     m_chooser.SetDefaultOption("L1 Center", m_L1Center.get());
     m_chooser.AddOption("L1 Left", m_L1Left.get());
@@ -105,12 +107,14 @@ RobotContainer::RobotContainer() {
     m_chooser.AddOption("L4 Left", m_L4Left.get());
     m_chooser.AddOption("L4 Right", m_L4Right.get());
 
-    m_chooser.AddOption("L1 Center L4 Right", m_L1CenterL4Right.get());
-    m_chooser.AddOption("L1 Center L4 Left", m_L1CenterL4Left.get());
-    m_chooser.AddOption("L1 Left L4 Left", m_L1LeftL4Left.get());
-    m_chooser.AddOption("L1 Right L4 Right", m_L1RightL4Right.get());
+    // m_chooser.AddOption("L1 Center L4 Right", m_L1CenterL4Right.get());
+    // m_chooser.AddOption("L1 Center L4 Left", m_L1CenterL4Left.get());
+    // m_chooser.AddOption("L1 Left L4 Left", m_L1LeftL4Left.get());
+    // m_chooser.AddOption("L1 Right L4 Right", m_L1RightL4Right.get());
 
     m_chooser.AddOption("Double L4 Right", doubleL4Right.get());
+    m_chooser.AddOption("Double L4 Left", doubleL4Left.get());
+    m_chooser.AddOption("Triple L4 Left", tripleL4Left.get());
 
     m_chooser.AddOption("Mobility Auton", m_mobility.get());
     m_chooser.AddOption("Test Auto", m_testAuto.get());
@@ -179,6 +183,17 @@ RobotContainer::RobotContainer() {
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
+
+
+
+            if (!m_driverController.GetRawButton(
+                           Controller::leftPaddle) && !m_driverController.GetRawButton(
+                           Controller::rightPaddle)) {
+                if(m_pathfindAuto.IsScheduled()) {
+                    m_pathfindAuto.Cancel();
+                }
+            } 
+
 
             std::shared_ptr<nt::NetworkTable> table =
                 nt::NetworkTableInstance::GetDefault().GetTable("limelight");
