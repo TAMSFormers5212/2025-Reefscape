@@ -26,13 +26,6 @@ Elevator::Elevator(int leftMotor, int rightMotor, int encoderOne,
       m_elevatorFF(ElevatorConstants::kaS, ElevatorConstants::kaG,
                    ElevatorConstants::kaV) {
     resetMotors();
-    m_leftMotor.Configure(m_leftConfig,
-                          SparkBase::ResetMode::kResetSafeParameters,
-                          SparkBase::PersistMode::kPersistParameters);
-    m_rightMotor.Configure(m_rightConfig,
-                           SparkBase::ResetMode::kResetSafeParameters,
-                           SparkBase::PersistMode::kPersistParameters);
-    // Implementation of subsystem constructor goes here.
 }
 
 void Elevator::resetMotors() {
@@ -43,7 +36,6 @@ void Elevator::resetMotors() {
         .VoltageCompensation(12.0)
         .SmartCurrentLimit(20)
         .Inverted(true);
-        // .Inverted(true);
     m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
@@ -132,16 +124,29 @@ void Elevator::setPosition(double pose) {
 }
 
 bool Elevator::closeEnough(void) {
-    return fabs(getPosition() - position) / -ElevatorConstants::levelFourthHeight < 0.1;
+    return fabs(getPosition() - position) /
+               -ElevatorConstants::levelFourthHeight <
+           0.1;
 }
 
 void Elevator::Periodic() {
     bool curLimitSwitch = m_limitSwitch.Get();
     if (curLimitSwitch && !prevLimitSwitch) {
-        resetEncoders();
+        // resetEncoders();
     }
-    double elevatorDistance = m_distanceSensor.GetAverageVoltage()/3.3 *4000;
-    
+
+    double elevatorSensorDistance =
+        m_distanceSensor.GetAverageVoltage() / 3.3 * 4000 - 5;
+    double converted = elevatorSensorDistance * kFactor / 25.4;
+
+    if (elevatorSensorDistance <= 100 && lastDistance > 100) {
+        m_rightEncoder.SetPosition(converted - 0.35);
+    }
+
+    lastDistance = elevatorSensorDistance;
+
+    // SmartDashboard::PutBoolean("useDistance", useDistance);
+
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
@@ -154,17 +159,17 @@ void Elevator::Periodic() {
             m_elevatorFF.Calculate(ffV, ffA).value(),
             rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
-    SmartDashboard::PutBoolean("limit switch pressed",
-                                    m_limitSwitch.Get());
+
+    SmartDashboard::PutNumber("converted distance", converted);
+    SmartDashboard::PutBoolean("limit switch pressed", m_limitSwitch.Get());
     SmartDashboard::PutNumber("elevator pos", position);
     SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
-    SmartDashboard::PutNumber("elevator neo pos",
-                                   m_rightEncoder.GetPosition());
+    SmartDashboard::PutNumber("elevator neo pos", m_rightEncoder.GetPosition());
     SmartDashboard::PutNumber("elevator current",
-                                   m_rightMotor.GetOutputCurrent());
-    SmartDashboard::PutNumber("elevator distance", elevatorDistance);    
-    SmartDashboard::PutNumber("elevator sensor", m_distanceSensor.GetAverageVoltage());       
-                                                 
+                              m_rightMotor.GetOutputCurrent());
+    SmartDashboard::PutNumber("elevator distance", elevatorSensorDistance);
+    SmartDashboard::PutNumber("elevator sensor",
+                              m_distanceSensor.GetAverageVoltage());
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.

@@ -274,9 +274,7 @@ void SwerveDrive::tankDrive(double x,
 void SwerveDrive::SetAlign(bool a) { align = a; }
 
 void SwerveDrive::UpdatePoseEstimate() {
-    m_odometry.Update(getGyroHeading2(),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()});
+    
     if (align) {
         bool doRejectUpdate = false;
 
@@ -319,19 +317,33 @@ void SwerveDrive::Periodic() {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
             0);
+        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{180}),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()});
     } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
                !isAuto) {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
+        
+        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()});
+
     } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
                isAuto) {
         LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
+            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
             0);
+        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{180}),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()});
     } else {
         LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value(), 180, 0, 0, 0, 0);
+            "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0, 0);
+        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()});
     }
     UpdatePoseEstimate();
 

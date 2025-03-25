@@ -77,4 +77,6 @@ class Elevator : public frc2::SubsystemBase {
 
     double position = 0.0;
     bool commandGiven = false;
+
+    double lastDistance = 0.0;
 };

@@ -330,7 +330,7 @@ RobotContainer::RobotContainer() {
                 //     2 + 0.02;
                 // m_superstructure.m_elevator.setSpeed(opInput);
                 m_superstructure.m_elevator.setPosition(
-                    elevatorPos +
+                    elevatorPos -
                     m_operatorController.GetRawAxis(Controller::leftYAxis));
             } else {
                 if (m_superstructure.m_outtake.getBeamBack() && !override_) {

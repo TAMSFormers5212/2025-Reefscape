@@ -218,11 +218,10 @@ namespace ElevatorConstants
     constexpr int encoderTwo = 5;
 
     constexpr double levelOneHeight = 0;
-    constexpr double levelTwoHeight = -8.44;
-    constexpr double levelThreeHeight = -17.34;
-    constexpr double levelFourthHeight = -33.46;
-
-    constexpr double sourceIntakeHeight = -2.38;
+    constexpr double levelTwoHeight = 8.44;
+    constexpr double levelThreeHeight = 17.34;
+    constexpr double levelFourthHeight = 33.46;
+    constexpr double sourceIntakeHeight = 2.38;
 
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
@@ -232,6 +231,8 @@ namespace ElevatorConstants
     constexpr double encoderOffset = 0;
 
     constexpr double elevatorOffset = 0;
+
+    constexpr double kFactor = 13.64/12; //neo pos over inches
 
     constexpr double sprocketRatio = 1;
     constexpr int planetaryRatio = 15;
