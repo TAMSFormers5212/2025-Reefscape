@@ -319,9 +319,9 @@ namespace IntakeConstants
     constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
     // constexpr double pivotRatio = pivotPlanetaryRatio;
 
-    constexpr double stowPresetAngle = 2.3;
-    constexpr double groundPresetAngle = 0.0;
-    constexpr double processorPresetAngle = 0.95;
+    constexpr double stowPresetAngle = 90;
+    constexpr double groundPresetAngle = 0;
+    constexpr double processorPresetAngle = 60;
     constexpr double reefPresetAngle = 30;
 
     constexpr double kiP = 0.10;

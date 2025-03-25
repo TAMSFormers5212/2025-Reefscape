@@ -30,7 +30,8 @@ class Intake : public frc2::SubsystemBase {
     void setSpeed(double speed);
     double getSpeed();
     void setPivotSpeed(double speed);
-    void setPosition(double pivotPose);
+    void setTargetPosition(double pivotPose);
+    double getTargetPosition(void);
 
     double getRelativePosition();
     double getPosition();
@@ -55,10 +56,9 @@ class Intake : public frc2::SubsystemBase {
     SparkClosedLoopController m_pivotController =
         m_pivotMotor.GetClosedLoopController();
 
-    frc::ArmFeedforward m_pivotFF;
-
     frc::DutyCycleEncoder m_absoluteEncoder{pivotEncoder};
 
     double position = 0.0;
+
     bool intakeCommandGiven = false;
 };
