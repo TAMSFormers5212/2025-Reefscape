@@ -217,7 +217,7 @@ RobotContainer::RobotContainer() {
                     // if(m_superstructure.m_intake.getPosition()>=6.0 || m_superstructure.m_intake.getPosition()<=1.8){
                         m_superstructure.m_intake.setPosition(
                         m_superstructure.m_intake.getRelativePosition() +
-                        m_operatorController.GetRawAxis(Controller::rightYAxis));
+                        m_operatorController.GetRawAxis(Controller::rightYAxis)/4);
                     // }
                     // else{
                     // if(m_superstructure.m_intake.getPosition()>=5.9){
@@ -233,7 +233,7 @@ RobotContainer::RobotContainer() {
                     // if(m_superstructure.m_intake.getPosition()<=1.8){
                         m_superstructure.m_intake.setPosition(
                         m_superstructure.m_intake.getRelativePosition() +
-                        m_operatorController.GetRawAxis(Controller::rightYAxis));
+                        m_operatorController.GetRawAxis(Controller::rightYAxis)/4);
                     // }
                     // else{
                     // if(m_superstructure.m_intake.getPosition()>=1.8&&m_superstructure.m_intake.getPosition()<=3){

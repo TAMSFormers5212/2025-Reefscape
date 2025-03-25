@@ -327,7 +327,7 @@ namespace IntakeConstants
     constexpr double kiP = 0.10;
     constexpr double kiI = 0.0000;
     constexpr double kiD = 0.00;
-    constexpr double kiFF = 0.00;
+    constexpr double kiFF = 0.000000;
     constexpr double kiIz = 0.0;
     
     constexpr int kiMaxOutput = 1;
@@ -337,10 +337,10 @@ namespace IntakeConstants
     // random guess numbers, experiement in order to prevent burning out the neo550
     constexpr units::volt_t kiS{0.0};
     constexpr units::volt_t kiG{0.0};
-    constexpr units::volt_t vkiV{0.000};
+    constexpr units::volt_t vkiV{0.0};
     constexpr units::radians_per_second_t akiV{1};
     constexpr auto kiV = vkiV / akiV;
-    constexpr units::volt_t vkiA{0.00};
+    constexpr units::volt_t vkiA{0.0};
     constexpr units::radians_per_second_squared_t akiA{1};
     constexpr auto kiA = vkiA / akiV; // not nessecary
 }

@@ -95,7 +95,7 @@ void Intake::setPosition(double pivotPose) {
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 
 double Intake::getPosition() {
-    return abs(m_absoluteEncoder.Get()) * pi2;
+    return abs(1-m_absoluteEncoder.Get()) * pi2;
 }
 
 void Intake::stowPreset() { setPosition(getRelativePosition()+(stowPresetAngle)-getPosition()); }
@@ -124,8 +124,8 @@ void Intake::Periodic() {
             rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
     frc::SmartDashboard::PutNumber("intake target pos", position);
-    frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
-    frc::SmartDashboard::PutNumber("intake abs pos offset", m_absoluteEncoder.Get()-pivotOffset);
+    frc::SmartDashboard::PutNumber("intake abs pos", 1-m_absoluteEncoder.Get());
+    frc::SmartDashboard::PutNumber("intake abs pos offset", 1-m_absoluteEncoder.Get()-pivotOffset);
     frc::SmartDashboard::PutNumber("intake abs pos radians", getPosition());
     frc::SmartDashboard::PutNumber("intake frequency",
                                    m_absoluteEncoder.GetFrequency());
