@@ -58,6 +58,7 @@ class Intake : public frc2::SubsystemBase {
 
     frc::DutyCycleEncoder m_absoluteEncoder{pivotEncoder};
 
+    frc::ArmFeedforward m_pivotFF;
     double position = 0.0;
 
     bool intakeCommandGiven = false;

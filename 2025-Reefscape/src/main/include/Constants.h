@@ -312,7 +312,7 @@ namespace IntakeConstants
     constexpr int pivotEncoder = 0;
     constexpr double encoderOffset = 0;
 
-    constexpr double pivotOffset = 0.;
+    constexpr double pivotOffset = 0.07;
     constexpr double intakeRatio = 16.0;
 
     constexpr double pivotSprocketRatio = 2;
@@ -337,11 +337,11 @@ namespace IntakeConstants
     constexpr double freeCurrent = 5.0;    // current when no note is held
     // random guess numbers, experiement in order to prevent burning out the neo550
     constexpr units::volt_t kiS{0.0};
-    constexpr units::volt_t kiG{0.0};
-    constexpr units::volt_t vkiV{0.0};
+    constexpr units::volt_t kiG{5.52};
+    constexpr units::volt_t vkiV{0.16};
     constexpr units::radians_per_second_t akiV{1};
     constexpr auto kiV = vkiV / akiV;
-    constexpr units::volt_t vkiA{0.0};
+    constexpr units::volt_t vkiA{0.20};
     constexpr units::radians_per_second_squared_t akiA{1};
     constexpr auto kiA = vkiA / akiV; // not nessecary
 }

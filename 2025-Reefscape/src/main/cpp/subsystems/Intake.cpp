@@ -25,7 +25,9 @@ Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
     : m_intakeMotor(intakeMotor, rev::spark::SparkMax::MotorType::kBrushless),
       m_pivotMotor(pivotMotor, rev::spark::SparkMax::MotorType::kBrushless),
       m_intakeConfig(),
-      m_pivotConfig() {
+      m_pivotConfig(),
+      m_pivotFF(IntakeConstants::kiS, IntakeConstants::kiG,
+                   IntakeConstants::kiV) {
     resetMotor();
     position = getPosition();
 }
@@ -78,7 +80,7 @@ double Intake::getTargetPosition(void) {
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 
 double Intake::getPosition() {
-    double i360 = m_absoluteEncoder.Get() * 360;
+    double i360 = (m_absoluteEncoder.Get()-pivotOffset) * 360;
     if (i360 > 180) return i360 - 360;
     if (i360 < -180) return i360 + 360;
     return i360;
@@ -108,15 +110,21 @@ void Intake::Periodic() {
 
     double currentPos = getPosition();
     double targetPos = position;
+    units::radian_t ffP{position*pi2/180};
+    units::radians_per_second_t ffV{0};
+    units::radians_per_second_squared_t ffA{0};
     double error = targetPos - currentPos;
 
     double pid = error * kP;
     double ff = cos(currentPos) * kCos;
 
     double power = pid + ff;
-
     setPivotSpeed(power);
+    // setPivotSpeed(m_pivotFF.Calculate(ffP,ffV,ffA).value());
 
+    frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
+    frc::SmartDashboard::PutNumber("intake abs pos offset", m_absoluteEncoder.Get()-pivotOffset);
+     frc::SmartDashboard::PutNumber("Intake neo pos",m_pivotEncoder.GetPosition());
     SmartDashboard::PutNumber("pivot target pos", targetPos);
     SmartDashboard::PutNumber("pivot current pos", currentPos);
     SmartDashboard::PutNumber("pivot error", error);

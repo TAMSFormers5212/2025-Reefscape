@@ -138,11 +138,31 @@ void Elevator::Periodic() {
     double elevatorSensorDistance =
         m_distanceSensor.GetAverageVoltage() / 3.3 * 4000 - 5;
     double converted = elevatorSensorDistance * kFactor / 25.4;
-
     if (elevatorSensorDistance <= 100 && lastDistance > 100) {
         m_rightEncoder.SetPosition(converted - 0.35);
+        reset = true;
     }
+    // if (elevatorSensorDistance <= 25 && lastDistance > 25) {
+    //     m_rightEncoder.SetPosition(converted - 0.35);
+    //     reset = true;
+    // }
+    // if (elevatorSensorDistance <= 50 && lastDistance > 50) {
+    //     m_rightEncoder.SetPosition(converted - 0.35);
+    //     reset = true;
+    // }
+    // if (elevatorSensorDistance <= 75 && lastDistance > 75) {
+    //     m_rightEncoder.SetPosition(converted - 0.35);
+    //     reset = true;
+    // }
+    // if (elevatorSensorDistance <= 125 && lastDistance > 125) {
+    //     m_rightEncoder.SetPosition(converted - 0.35);
+    //     reset = true;
+    // }
+    
+    
+    
 
+    frc::SmartDashboard::PutBoolean("sensor reset", reset);
     lastDistance = elevatorSensorDistance;
 
     // SmartDashboard::PutBoolean("useDistance", useDistance);
@@ -170,6 +190,7 @@ void Elevator::Periodic() {
     SmartDashboard::PutNumber("elevator distance", elevatorSensorDistance);
     SmartDashboard::PutNumber("elevator sensor",
                               m_distanceSensor.GetAverageVoltage());
+    SmartDashboard::PutNumber("sensor Value", m_distanceSensor.GetValue());\
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.
