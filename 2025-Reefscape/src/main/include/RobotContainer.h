@@ -58,11 +58,13 @@ class RobotContainer {
     frc2::CommandPtr m_L4Center = PathPlannerAuto("L4 Center").ToPtr();
     frc2::CommandPtr m_L4Left = PathPlannerAuto("L4 Left").ToPtr();
     frc2::CommandPtr m_L4Right = PathPlannerAuto("L4 Right").ToPtr();
-    frc2::CommandPtr m_L1CenterL4Left = PathPlannerAuto("L1 Center - Left L4 [UNFINISHED]").ToPtr();
-    frc2::CommandPtr m_L1CenterL4Right = PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
-    frc2::CommandPtr m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
-    frc2::CommandPtr m_L1RightL4Right = PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
+    // frc2::CommandPtr m_L1CenterL4Left = PathPlannerAuto("L1 Center - Left L4 [UNFINISHED]").ToPtr();
+    // frc2::CommandPtr m_L1CenterL4Right = PathPlannerAuto("L1 Center - Right L4 [UNFINISHED]").ToPtr();
+    // frc2::CommandPtr m_L1LeftL4Left = PathPlannerAuto("L1 Left - Left L4 [UNFINISHED]").ToPtr();
+    // frc2::CommandPtr m_L1RightL4Right = PathPlannerAuto("L1 Right - Right L4 [UNFINISHED]").ToPtr();
     frc2::CommandPtr doubleL4Right = PathPlannerAuto("Double L4 Right").ToPtr();
+    frc2::CommandPtr doubleL4Left = PathPlannerAuto("Double L4 Left").ToPtr();
+    frc2::CommandPtr tripleL4Left = PathPlannerAuto("pipe dream").ToPtr();
 
     frc::SendableChooser<frc2::Command*> m_chooser;// = ("Mobility Auton"); //m_chooser;
 
