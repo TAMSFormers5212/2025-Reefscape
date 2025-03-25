@@ -309,33 +309,31 @@ void SwerveDrive::UpdatePoseEstimate() {
 }
 
 void SwerveDrive::initAuto(void) {
-    auto alliance = frc::DriverStation::GetAlliance();
-    bool isAuto = frc::DriverStation::IsAutonomous();
-
-    if (alliance.value() == frc::DriverStation::Alliance::kRed && isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
-            0);
-    } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
-               !isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
-            0);
-    } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
-               isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
-            0);
-    } else {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0, 0);
-    }
-    UpdatePoseEstimate();
 }
 
 void SwerveDrive::Periodic() {
     auto alliance = frc::DriverStation::GetAlliance();
     bool isAuto = frc::DriverStation::IsAutonomous();
+
+    if (alliance.value() == frc::DriverStation::Alliance::kRed && isAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
+            0);
+    } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
+               !isAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
+            0);
+    } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
+               isAuto) {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
+            0);
+    } else {
+        LimelightHelpers::SetRobotOrientation(
+            "limelight", getGyroHeading2().Degrees().value(), 180, 0, 0, 0, 0);
+    }
+    UpdatePoseEstimate();
 
     SmartDashboard::PutBoolean("isAuto", isAuto);
 

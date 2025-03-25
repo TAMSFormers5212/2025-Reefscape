@@ -15,6 +15,8 @@ using namespace rev;
 using namespace std;
 using namespace MathConstants;
 
+using frc::SmartDashboard;
+
 Elevator::Elevator(int leftMotor, int rightMotor, int encoderOne,
                    int encoderTwo, double encoderOffset)
     : m_leftMotor(leftMotor, rev::spark::SparkMax::MotorType::kBrushless),
@@ -39,8 +41,9 @@ void Elevator::resetMotors() {
         .OutputRange(kMinOutput, kMaxOutput);
     m_rightConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(20);
-    // .Inverted(true);
+        .SmartCurrentLimit(20)
+        .Inverted(true);
+        // .Inverted(true);
     m_rightConfig.encoder.PositionConversionFactor(pi2 / elevatorRatio);
     m_rightMotor.Configure(m_rightConfig,
                            SparkMax::ResetMode::kResetSafeParameters,
@@ -60,7 +63,6 @@ void Elevator::resetMotors() {
                           SparkMax::PersistMode::kPersistParameters);
 
     resetEncoders();
-    // Implementation of subsystem periodic method goes here.
 }
 
 void Elevator::resetEncoders() {
@@ -138,7 +140,8 @@ void Elevator::Periodic() {
     if (curLimitSwitch && !prevLimitSwitch) {
         resetEncoders();
     }
-
+    double elevatorDistance = m_distanceSensor.GetAverageVoltage()/3.3 *4000;
+    
     units::meter_t ffP{position};
     units::meters_per_second_t ffV{0};
     units::meters_per_second_squared_t ffA(0);
@@ -151,15 +154,17 @@ void Elevator::Periodic() {
             m_elevatorFF.Calculate(ffV, ffA).value(),
             rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
-    frc::SmartDashboard::PutBoolean("limit switch pressed",
+    SmartDashboard::PutBoolean("limit switch pressed",
                                     m_limitSwitch.Get());
-    frc::SmartDashboard::PutNumber("elevator pos", position);
-    frc::SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
-    frc::SmartDashboard::PutNumber("elevator neo pos",
+    SmartDashboard::PutNumber("elevator pos", position);
+    SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
+    SmartDashboard::PutNumber("elevator neo pos",
                                    m_rightEncoder.GetPosition());
-    frc::SmartDashboard::PutNumber("elevator current",
+    SmartDashboard::PutNumber("elevator current",
                                    m_rightMotor.GetOutputCurrent());
-                                                            
+    SmartDashboard::PutNumber("elevator distance", elevatorDistance);    
+    SmartDashboard::PutNumber("elevator sensor", m_distanceSensor.GetAverageVoltage());       
+                                                 
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.

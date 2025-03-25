@@ -17,6 +17,7 @@
 #include <rev/SparkClosedLoopController.h>
 #include <rev/SparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc/AnalogInput.h>
 #include <rev/SparkRelativeEncoder.h>
 #include <rev/config/SparkMaxConfig.h>
 #include <units/voltage.h>
@@ -69,9 +70,9 @@ class Elevator : public frc2::SubsystemBase {
         m_rightMotor.GetClosedLoopController();  // follower
 
     ElevatorFeedforward m_elevatorFF;
-
+   
     frc::DigitalInput m_limitSwitch{limitSwitch};
-
+    frc::AnalogInput m_distanceSensor{encoderOne};
     bool prevLimitSwitch = false;
 
     double position = 0.0;

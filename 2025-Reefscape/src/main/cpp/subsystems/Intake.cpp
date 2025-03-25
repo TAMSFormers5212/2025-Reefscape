@@ -18,6 +18,8 @@ using namespace rev;
 using namespace std;
 using namespace MathConstants;
 
+using frc::SmartDashboard;
+
 Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
                double encoderOffset)
     : m_intakeMotor(intakeMotor, rev::spark::SparkMax::MotorType::kBrushless),
@@ -115,15 +117,15 @@ void Intake::Periodic() {
 
     setPivotSpeed(power);
 
-    frc::SmartDashboard::PutNumber("pivot target pos", targetPos);
-    frc::SmartDashboard::PutNumber("pivot current pos", currentPos);
-    frc::SmartDashboard::PutNumber("pivot error", error);
-    frc::SmartDashboard::PutNumber("pivot power", power);
-    frc::SmartDashboard::PutNumber("pivot pid", pid);
-    frc::SmartDashboard::PutNumber("pivot ff", ff);
+    SmartDashboard::PutNumber("pivot target pos", targetPos);
+    SmartDashboard::PutNumber("pivot current pos", currentPos);
+    SmartDashboard::PutNumber("pivot error", error);
+    SmartDashboard::PutNumber("pivot power", power);
+    SmartDashboard::PutNumber("pivot pid", pid);
+    SmartDashboard::PutNumber("pivot ff", ff);
 
-    frc::SmartDashboard::PutNumber("intake frequency",
+    SmartDashboard::PutNumber("intake frequency",
                                    m_absoluteEncoder.GetFrequency());
-    frc::SmartDashboard::PutBoolean("intake abs connected",
+    SmartDashboard::PutBoolean("intake abs connected",
                                     m_absoluteEncoder.IsConnected());
 }
