@@ -3,9 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-#include "wpinet/WebServer.h"
-#include <string>
+
 #include <frc2/command/CommandScheduler.h>
+
+#include <string>
+
+#include "wpinet/WebServer.h"
 
 void Robot::RobotInit() {}
 
@@ -18,9 +21,9 @@ void Robot::RobotInit() {}
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
-  bool test = this->IsAutonomous();
-  m_container.inAuto = test;
+    frc2::CommandScheduler::GetInstance().Run();
+    bool test = this->IsAutonomous();
+    m_container.inAuto = test;
 }
 
 /**
@@ -37,26 +40,24 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  
-  m_autonomousCommand = m_container.GetAutonomousCommand();
-  
-  // m_container.m_drive.resetOdometry();
+    m_autonomousCommand = m_container.GetAutonomousCommand();
 
     if (m_autonomousCommand != nullptr) {
         (*m_autonomousCommand)->Schedule();
+        m_container.m_drive.initAuto();
     }
 }
 
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-  // This makes sure that the autonomous stops running when
-  // teleop starts running. If you want the autonomous to
-  // continue until interrupted by another command, remove
-  // this line or comment it out.
-  if (m_autonomousCommand != nullptr) {
-   (*m_autonomousCommand)->Cancel();
-  }
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != nullptr) {
+        (*m_autonomousCommand)->Cancel();
+    }
 }
 
 /**
@@ -80,7 +81,5 @@ void Robot::SimulationInit() {}
 void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() {
-  return frc::StartRobot<Robot>();
-}
+int main() { return frc::StartRobot<Robot>(); }
 #endif

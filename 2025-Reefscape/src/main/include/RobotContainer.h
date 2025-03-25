@@ -44,17 +44,12 @@ class RobotContainer {
     frc2::Command* GetAutonomousCommand();
     void Periodic();
     bool inAuto = false;
-    // frc::Pose2d autoStartingPose(void);
-
    private:
     frc::GenericHID m_driverController{kDriverControllerPort};
     frc::GenericHID m_operatorController{kOperatorControllerPort};
 
     frc2::CommandPtr m_testAuto = PathPlannerAuto("Test Auto").ToPtr();
-
     frc2::CommandPtr m_pathfindAuto = PathPlannerAuto("Test Auto").ToPtr();
-
-
 
     frc2::CommandPtr m_mobility = PathPlannerAuto("Mobility Auton").ToPtr();
     frc2::CommandPtr m_L1Center = PathPlannerAuto("L1 Center").ToPtr();

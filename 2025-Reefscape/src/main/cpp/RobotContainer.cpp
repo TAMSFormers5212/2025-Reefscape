@@ -210,9 +210,7 @@ RobotContainer::RobotContainer() {
             double opRightY =
                 m_operatorController.GetRawAxis(Controller::rightYAxis);
             if (abs(opRightY) > 0.05) {
-                m_superstructure.m_intake.setTargetPosition(
-                    m_superstructure.m_intake.getTargetPosition() -
-                    opRightY * 2);
+                m_superstructure.m_intake.setTargetPosition(m_superstructure.m_intake.getTargetPosition() - opRightY * 2);
             }
 
             if (opPovUp && !opPrevUp) {
@@ -315,7 +313,7 @@ RobotContainer::RobotContainer() {
             }
             m_superstructure.m_intake.setSpeed(
                 m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
-        },
+                   },
         {&m_superstructure.m_intake}));
 
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
@@ -406,8 +404,4 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     return (m_chooser.GetSelected());
 }
 
-void RobotContainer::Periodic() { m_drive.inAuto = inAuto; }
-
-// frc::Pose2d RobotContainer::autoStartingPose(void) {
-//     // return m_mobility.getStartingPose();
-// }
+void RobotContainer::Periodic() { }

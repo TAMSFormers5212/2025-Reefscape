@@ -56,6 +56,7 @@ public:
     void toggleOffset(bool offset);
     bool getOffsetToggle();
     void toggleOffset();
+
     
     void tankDrive(double x, double y);
     void moveToAngle(double x, double y);
@@ -64,9 +65,8 @@ public:
     void SetAlign(bool a);
     void UpdatePoseEstimate();
 
+    void initAuto(void);
     void Periodic() override; //< update pose using gyro, vision, and odometry
-
-    bool inAuto = false;
 
 private:
     array<SwerveModule, 4> m_modules;
@@ -75,7 +75,6 @@ private:
     frc::SwerveDrivePoseEstimator<4> m_odometry;
 
     frc::PIDController thetaController; // closed loop control for heading
-    // may be something we want to implement if we notice the drive slowly twisting as it drives
     
     bool offsetToggle = true;
     bool align = true;
