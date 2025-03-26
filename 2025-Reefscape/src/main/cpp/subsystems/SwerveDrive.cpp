@@ -113,7 +113,15 @@ frc::Pose2d SwerveDrive::OdometryPose() {
 }
 
 frc::Rotation2d SwerveDrive::getGyroHeading2() {
-    return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 0));
+    auto alliance = frc::DriverStation::GetAlliance();
+    bool isAuto = frc::DriverStation::IsAutonomous();
+    if(alliance.value() == frc::DriverStation::Alliance::kRed && !isAuto || alliance.value() == frc::DriverStation::Alliance::kBlue && isAuto) {
+        return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 180));
+    }
+    else {
+        return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 0));
+    }
+    
 }
 
 void SwerveDrive::resetHeading() {  // zeros the gyro
@@ -311,7 +319,7 @@ void SwerveDrive::UpdatePoseEstimate() {
             bool isAuto = frc::DriverStation::IsAutonomous();
             if(alliance.value() == frc::DriverStation::Alliance::kRed &&
                !isAuto) {
-                m_odometry.AddVisionMeasurement(frc::Pose2d(mt2.pose.Translation(), mt2.pose.Rotation() + frc::Rotation2d(units::degree_t{180})), mt2.timestampSeconds);
+                m_odometry.AddVisionMeasurement(frc::Pose2d(mt2.pose.Translation(), mt2.pose.Rotation()+ frc::Rotation2d(units::degree_t{0})), mt2.timestampSeconds);
             }
             else {
                 m_odometry.AddVisionMeasurement(mt2.pose, mt2.timestampSeconds);
@@ -341,7 +349,7 @@ void SwerveDrive::Periodic() {
         // auto thing22 = m_gyro.GetAngle();
         // m_gyro.SetAngleAdjustment(180);
         LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
+            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
         
         // m_odometry.Update(frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
@@ -351,7 +359,7 @@ void SwerveDrive::Periodic() {
     } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
                isAuto) {
         LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
+            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
         // m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
         //               {m_modules[0].getPosition(), m_modules[1].getPosition(),
