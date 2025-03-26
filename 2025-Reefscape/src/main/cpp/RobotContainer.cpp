@@ -180,13 +180,13 @@ RobotContainer::RobotContainer() {
             } else if (m_driverController.GetRawButton(
                            Controller::leftPaddle)) {
                 // m_drive.alignAdjustment();
-                // m_pathfindAuto = m_drive.generateCommandLeft();
-                // m_pathfindAuto.Schedule();
+                m_pathfindAuto = m_drive.generateCommandLeft();
+                m_pathfindAuto.Schedule();
             } else if (m_driverController.GetRawButton(
                            Controller::rightPaddle)) {
                 // m_drive.alignAdjustment();
-                // m_pathfindAuto = m_drive.generateCommandRight();
-                // m_pathfindAuto.Schedule();
+                m_pathfindAuto = m_drive.generateCommandRight();
+                m_pathfindAuto.Schedule();
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
@@ -248,12 +248,15 @@ RobotContainer::RobotContainer() {
             else if(opRightY<-0.6&&abs(opRightX)<0.5&&rightOverride_){
                 m_superstructure.m_intake.stowPreset();
             }
+
+            double offsetInc = 0.03;
             
-            
-            if (opPovUp && !opPrevUp) {
-                m_superstructure.m_elevator.changePresetOffset(0.05);
-            } else if (opPovDown && !opPrevDown) {
-                m_superstructure.m_elevator.changePresetOffset(-0.05);
+            if (opPovUp) {
+                m_superstructure.m_elevator.changePresetOffset(offsetInc);
+                m_superstructure.m_elevator.setPosition(m_superstructure.m_elevator.getTargetPosition() + offsetInc);
+            } else if (opPovDown) {
+                m_superstructure.m_elevator.changePresetOffset(-offsetInc);
+                m_superstructure.m_elevator.setPosition(m_superstructure.m_elevator.getTargetPosition() - offsetInc);
             } else if (opPovLeft && !opPrevLeft) {
                 autoIntake = !autoIntake;
                 if (autoIntake) {

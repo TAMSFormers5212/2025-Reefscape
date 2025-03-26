@@ -62,68 +62,65 @@ void Elevator::resetEncoders() {
     m_leftEncoder.SetPosition(0);
 }
 
-// returns the quadrature encoder position
 double Elevator::getPosition() { return (m_rightEncoder.GetPosition()); }
 
-void Elevator::levelOne() {
+double Elevator::getTargetPosition() {
+    return position;
+}
+
+void Elevator::setPosition(double pose) {
     commandGiven = true;
-    position = sourceIntakeHeight+presetOffset;
+    position = pose;
+}
+
+double Elevator::getPresetOffset() {
+    return presetOffset;
+}
+
+void Elevator::changePresetOffset(double offsetChange) {
+    if (presetOffset < -2 || presetOffset > 5) return;
+
+    presetOffset += offsetChange;
 }
 
 void Elevator::levelTwo() {
     commandGiven = true;
-    position = levelTwoHeight+presetOffset;
+    position = levelTwoHeight + presetOffset;
 }
 
 void Elevator::levelThree() {
     commandGiven = true;
-    position = levelThreeHeight+presetOffset;
+    position = levelThreeHeight + presetOffset;
 }
 
 void Elevator::levelFour() {
     commandGiven = true;
-    position = levelFourthHeight+presetOffset;
+    position = levelFourthHeight + presetOffset;
 }
 
 void Elevator::sourcePos() {
     commandGiven = true;
-    position = sourceIntakeHeight+presetOffset;
+    position = sourceIntakeHeight + presetOffset;
 }
 
 void Elevator::groundAlgae() {
     commandGiven = true;
-    position = groundAlgaeHeight+presetOffset;
+    position = groundAlgaeHeight + presetOffset;
 }
 
 void Elevator::firstAlgae() {
     commandGiven = true;
-    position = firstAlgaeHeight+presetOffset;
+    position = firstAlgaeHeight + presetOffset;
 }
 
 void Elevator::secondAlgae() {
     commandGiven = true;
-    position = secondAlgaeHeight+presetOffset;
+    position = secondAlgaeHeight + presetOffset;
 }
 
 void Elevator::processor() {
     commandGiven = true;
-    position = processorHeight+presetOffset;
-}
-
-void Elevator::changePresetOffset(double offsetChange){
-    presetOffset+=offsetChange;
-}
-void Elevator::setPosition(double pose) {
-    commandGiven = true;  // sets the goal pose to given parameter
-    position = pose;
-    // smart motion implementation
-    //  m_rightController.SetReference(pose,
-    //                                 CANSparkLowLevel::ControlType::kSmartMotion);
-
-    // double ff = -sin((getPosition()-0.5)*MathConstants::pi2)*0.1;
-    // m_leftController.SetFF(ff);
-    // m_leftController.SetReference(pose,
-    // CANSparkLowLevel::ControlType::kPosition);
+    position = processorHeight + presetOffset;
 }
 
 bool Elevator::closeEnough(void) {
@@ -140,31 +137,12 @@ void Elevator::Periodic() {
 
     double elevatorSensorDistance =
         m_distanceSensor.GetAverageVoltage() / 3.3 * 4000 - 5;
-    double converted = elevatorSensorDistance * pi2*kFactor*elevatorRatio / 25.4;
+    double converted =
+        elevatorSensorDistance * pi2 * kFactor * elevatorRatio / 25.4;
     if (elevatorSensorDistance <= 100 && lastDistance > 100) {
         // m_rightEncoder.SetPosition(converted - 0.35);
         // reset = true;
     }
-    // if (elevatorSensorDistance <= 25 && lastDistance > 25) {
-    //     m_rightEncoder.SetPosition(converted - 0.35);
-    //     reset = true;
-    // }
-    // if (elevatorSensorDistance <= 50 && lastDistance > 50) {
-    //     m_rightEncoder.SetPosition(converted - 0.35);
-    //     reset = true;
-    // }
-    // if (elevatorSensorDistance <= 75 && lastDistance > 75) {
-    //     m_rightEncoder.SetPosition(converted - 0.35);
-    //     reset = true;
-    // }
-    // if (elevatorSensorDistance <= 125 && lastDistance > 125) {
-    //     m_rightEncoder.SetPosition(converted - 0.35);
-    //     reset = true;
-    // }
-    
-    
-    
-
     frc::SmartDashboard::PutBoolean("sensor reset", reset);
     lastDistance = elevatorSensorDistance;
 
@@ -186,15 +164,16 @@ void Elevator::Periodic() {
     SmartDashboard::PutNumber("elevator preset offset", presetOffset);
     SmartDashboard::PutNumber("converted distance", converted);
     SmartDashboard::PutBoolean("limit switch pressed", m_limitSwitch.Get());
-    SmartDashboard::PutNumber("elevator pos", position);
+    SmartDashboard::PutNumber("elevator target pos", position);
     SmartDashboard::PutNumber("Elevator Speed", m_leftMotor.Get());
     SmartDashboard::PutNumber("elevator neo pos", m_rightEncoder.GetPosition());
+
     SmartDashboard::PutNumber("elevator current",
                               m_rightMotor.GetOutputCurrent());
     SmartDashboard::PutNumber("elevator distance", elevatorSensorDistance);
     SmartDashboard::PutNumber("elevator sensor",
                               m_distanceSensor.GetAverageVoltage());
-    SmartDashboard::PutNumber("sensor Value", m_distanceSensor.GetValue());\
+    SmartDashboard::PutNumber("sensor Value", m_distanceSensor.GetValue());
 }
 void Elevator::SimulationPeriodic() {
     // Implementation of subsystem simulation periodic method goes here.

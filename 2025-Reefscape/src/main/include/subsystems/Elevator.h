@@ -4,8 +4,11 @@
 
 #pragma once
 
-#include <Constants.h>
+#include "Constants.h"
+
 #include <frc/AnalogEncoder.h>
+#include <frc/AnalogInput.h>
+#include <frc/DigitalInput.h>
 #include <frc/Encoder.h>
 #include <frc/controller/ElevatorFeedforward.h>
 #include <frc/controller/PIDController.h>
@@ -16,29 +19,30 @@
 #include <frc2/command/SubsystemBase.h>
 #include <rev/SparkClosedLoopController.h>
 #include <rev/SparkMax.h>
-#include <frc/DigitalInput.h>
-#include <frc/AnalogInput.h>
 #include <rev/SparkRelativeEncoder.h>
 #include <rev/config/SparkMaxConfig.h>
 #include <units/voltage.h>
+
 using namespace rev::spark;
 using namespace frc;
 using namespace ElevatorConstants;
 
 class Elevator : public frc2::SubsystemBase {
    public:
-    Elevator(int leftMotor, int rightMotor, int encoderOne, int encoderTwo, double encoderOffset);
+    Elevator(int leftMotor, int rightMotor, int encoderOne, int encoderTwo,
+             double encoderOffset);
 
     double getPosition();
+    double getTargetPosition();
     void setPosition(double elevatorPose);
+    
     void resetMotors();
     void resetEncoders();
 
-    void levelOne();
+    void sourcePos();
     void levelTwo();
     void levelThree();
     void levelFour();
-    void sourcePos();
 
     void groundAlgae();
     void firstAlgae();
@@ -46,6 +50,7 @@ class Elevator : public frc2::SubsystemBase {
     void processor();
 
     void changePresetOffset(double offsetChange);
+    double getPresetOffset();
     bool closeEnough(void);
 
     void Periodic() override;
@@ -71,14 +76,14 @@ class Elevator : public frc2::SubsystemBase {
         m_rightMotor.GetClosedLoopController();  // follower
 
     ElevatorFeedforward m_elevatorFF;
-   
+
     frc::DigitalInput m_limitSwitch{limitSwitch};
     frc::AnalogInput m_distanceSensor{encoderOne};
     bool prevLimitSwitch = false;
 
     double position = 0.0;
     bool commandGiven = false;
-    bool reset=false;
+    bool reset = false;
     double lastDistance = 0.0;
     double presetOffset = 0.0;
 };
