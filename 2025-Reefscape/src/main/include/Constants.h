@@ -231,8 +231,10 @@ namespace ElevatorConstants
     constexpr double encoderOffset = 0;
 
     constexpr double elevatorOffset = 0;
+    constexpr double elevatorTravelDistance = 29.5;
+    constexpr double elevatorSprocketRadius = 0.8190;
 
-    constexpr double kFactor = 13.64/12; //neo pos over inches
+    constexpr double kFactor = elevatorSprocketRadius/elevatorTravelDistance; // 2pi is in elevator.cpp//13.64/12//neo pos over inches
 
     constexpr double sprocketRatio = 1;
     constexpr int planetaryRatio = 15;

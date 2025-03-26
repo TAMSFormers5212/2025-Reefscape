@@ -119,7 +119,7 @@ void Intake::Periodic() {
     double ff = cos(currentPos) * kCos;
 
     double power = pid + ff;
-    setPivotSpeed(power);
+    // setPivotSpeed(power);
     // setPivotSpeed(m_pivotFF.Calculate(ffP,ffV,ffA).value());
 
     frc::SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());

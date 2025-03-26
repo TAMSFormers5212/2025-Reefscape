@@ -173,13 +173,13 @@ RobotContainer::RobotContainer() {
             } else if (m_driverController.GetRawButton(
                            Controller::leftPaddle)) {
                 // m_drive.alignAdjustment();
-                m_pathfindAuto = m_drive.generateCommandLeft();
-                m_pathfindAuto.Schedule();
+                // m_pathfindAuto = m_drive.generateCommandLeft();
+                // m_pathfindAuto.Schedule();
             } else if (m_driverController.GetRawButton(
                            Controller::rightPaddle)) {
                 // m_drive.alignAdjustment();
-                m_pathfindAuto = m_drive.generateCommandRight();
-                m_pathfindAuto.Schedule();
+                // m_pathfindAuto = m_drive.generateCommandRight();
+                // m_pathfindAuto.Schedule();
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }

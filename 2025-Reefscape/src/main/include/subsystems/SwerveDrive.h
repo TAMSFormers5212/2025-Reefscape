@@ -63,7 +63,6 @@ public:
     void moveToAngle(double x, double y);
     void resetAbsoluteEncoders();
     void SyncAbsoluteEncoders();
-    void SetAlign(bool a);
     void UpdatePoseEstimate();
 
     void initAuto(void);
@@ -78,7 +77,6 @@ private:
     frc::PIDController thetaController; // closed loop control for heading
     
     bool offsetToggle = true;
-    bool align = true;
 
     frc::Rotation2d heading;
 

@@ -271,11 +271,10 @@ void SwerveDrive::tankDrive(double x,
         meters_per_second_t(x - y), frc::Rotation2d(radian_t(0))});  // br
 }
 
-void SwerveDrive::SetAlign(bool a) { align = a; }
-
 void SwerveDrive::UpdatePoseEstimate() {
-    
-    if (align) {
+    auto alliance = frc::DriverStation::GetAlliance();
+    bool isAuto = frc::DriverStation::IsAutonomous();
+    if (false) {
         bool doRejectUpdate = false;
 
         LimelightHelpers::PoseEstimate mt2 =
@@ -301,50 +300,72 @@ void SwerveDrive::UpdatePoseEstimate() {
             wpi::array<double, 3U> temp = {.7, .7, 9999999};
             // m_poseEstimator.SetVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
             m_odometry.SetVisionMeasurementStdDevs(temp);
-            m_odometry.AddVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+            if (alliance.value() == frc::DriverStation::Alliance::kRed &&
+                   !isAuto) {
+
+
+                    auto tempThing = frc::Pose2d{mt2.pose.Translation(), mt2.pose.Rotation() + frc::Rotation2d(units::degree_t{180})};
+                    m_odometry.AddVisionMeasurement(tempThing, mt2.timestampSeconds);
+
+
+            }
+            else {
+                    m_odometry.AddVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+            }
+            
         }
     }
 }
 
-void SwerveDrive::initAuto(void) {
-}
+void SwerveDrive::initAuto(void) {}
 
 void SwerveDrive::Periodic() {
     auto alliance = frc::DriverStation::GetAlliance();
     bool isAuto = frc::DriverStation::IsAutonomous();
 
-    if (alliance.value() == frc::DriverStation::Alliance::kRed && isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
-            0);
-        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{180}),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()});
-    } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
-               !isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
-            0);
-        
-        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()});
-
-    } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
-               isAuto) {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0, 0,
-            0);
-        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{180}),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()});
-    } else {
-        LimelightHelpers::SetRobotOrientation(
-            "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0, 0);
-        m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
-                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
-                       m_modules[2].getPosition(), m_modules[3].getPosition()});
+    bool useLL = false;
+    if (useLL) {
+        if (alliance.value() == frc::DriverStation::Alliance::kRed && isAuto) {
+            LimelightHelpers::SetRobotOrientation(
+                "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0,
+                0, 0);
+            m_odometry.Update(
+                getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                 m_modules[2].getPosition(), m_modules[3].getPosition()});
+        } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
+                   !isAuto) {
+            LimelightHelpers::SetRobotOrientation(
+                "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0,
+                0, 0);
+            // m_gyro.SetAngleAdjustment(180);
+            m_odometry.Update(
+                getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                 m_modules[2].getPosition(), m_modules[3].getPosition()});
+        }  else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
+                   isAuto) {
+            LimelightHelpers::SetRobotOrientation(
+                "limelight", getGyroHeading2().Degrees().value() + 180, 0, 0, 0,
+                0, 0);
+            m_odometry.Update(
+                getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                 m_modules[2].getPosition(), m_modules[3].getPosition()});
+        } else {
+            LimelightHelpers::SetRobotOrientation(
+                "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0,
+                0);
+            m_odometry.Update(
+                getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                 m_modules[2].getPosition(), m_modules[3].getPosition()});
+        }
     }
+
+    m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
+                      {m_modules[0].getPosition(), m_modules[1].getPosition(),
+                       m_modules[2].getPosition(), m_modules[3].getPosition()});
     UpdatePoseEstimate();
 
     SmartDashboard::PutBoolean("isAuto", isAuto);
@@ -472,55 +493,55 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
     if (id == 10) {
         if (left) {
             return frc::Pose2d(units::meter_t{11.700}, units::meter_t{4.187},
-                               units::degree_t{0});
+                               units::degree_t{180});
         } else {
             return frc::Pose2d(units::meter_t{11.676}, units::meter_t{3.86},
-                               units::degree_t{0});
+                               units::degree_t{180});
         }
     }
     if (id == 9) {
         if (!left) {
             return frc::Pose2d(units::meter_t{12.239}, units::meter_t{5.134},
-                               units::degree_t{-60});
+                               units::degree_t{-60 + 180});
         } else {
             return frc::Pose2d(units::meter_t{12.527}, units::meter_t{5.290},
-                               units::degree_t{-60});
+                               units::degree_t{-60 + 180});
         }
     }
     if (id == 8) {
         if (left) {
             return frc::Pose2d(units::meter_t{13.618}, units::meter_t{5.302},
-                               units::degree_t{-120});
+                               units::degree_t{-120 + 180});
         } else {
             return frc::Pose2d(units::meter_t{13.906}, units::meter_t{5.146},
-                               units::degree_t{-120});
+                               units::degree_t{-120 + 180});
         }
     }
     if (id == 7) {
         if (!left) {
             return frc::Pose2d(units::meter_t{14.445}, units::meter_t{4.187},
-                               units::degree_t{180});
+                               units::degree_t{0});
         } else {
             return frc::Pose2d(units::meter_t{14.409}, units::meter_t{3.86},
-                               units::degree_t{180});
+                               units::degree_t{0});
         }
     }
     if (id == 6) {
         if (!left) {
             return frc::Pose2d(units::meter_t{13.906}, units::meter_t{2.916},
-                               units::degree_t{120});
+                               units::degree_t{120 - 180});
         } else {
             return frc::Pose2d(units::meter_t{13.606}, units::meter_t{2.748},
-                               units::degree_t{120});
+                               units::degree_t{120 - 180});
         }
     }
     if (id == 11) {
         if (!left) {
             return frc::Pose2d(units::meter_t{12.527}, units::meter_t{2.772},
-                               units::degree_t{60});
+                               units::degree_t{60 - 180});
         } else {
             return frc::Pose2d(units::meter_t{12.239}, units::meter_t{2.928},
-                               units::degree_t{60});
+                               units::degree_t{60 - 180});
         }
     }
     return frc::Pose2d(OdometryPose().Translation().X(),
@@ -541,12 +562,12 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
 
     PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s,
                                 720_deg_per_s_sq);
-    auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
-    auto thing = translation / units::second_t{1};
+    // auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    // auto thing = translation / units::second_t{1};
     // units::meters_per_second_t thing{
     //     frc::Translation2d(speeds.vx, speeds.vy).Norm().value()};
     auto path = std::make_shared<PathPlannerPath>(
-        waypoints, constraints, IdealStartingState(thing, getGyroHeading2()),
+        waypoints, constraints, IdealStartingState(0.0_mps, getGyroHeading2()),
         GoalEndState(0.0_mps,
                      waypoint.Rotation())  // Goal end state. You can set a
                                            // holonomic rotation here. If using
@@ -555,13 +576,12 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
     );
     path->preventFlipping = true;
 
-    if(left) {
-    return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentLeft();
-    });
-    }
-    else {
-        return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentRight();
-    });
+    if (left) {
+        return AutoBuilder::followPath(path).AndThen(
+            [this] { alignAdjustmentLeft(); });
+    } else {
+        return AutoBuilder::followPath(path).AndThen(
+            [this] { alignAdjustmentRight(); });
     }
     // return AutoBuilder::followPath(path);
 }

@@ -125,22 +125,22 @@ void Elevator::setPosition(double pose) {
 
 bool Elevator::closeEnough(void) {
     return fabs(getPosition() - position) /
-               -ElevatorConstants::levelFourthHeight <
+               ElevatorConstants::levelFourthHeight <
            0.1;
 }
 
 void Elevator::Periodic() {
     bool curLimitSwitch = m_limitSwitch.Get();
     if (curLimitSwitch && !prevLimitSwitch) {
-        // resetEncoders();
+        resetEncoders();
     }
 
     double elevatorSensorDistance =
         m_distanceSensor.GetAverageVoltage() / 3.3 * 4000 - 5;
-    double converted = elevatorSensorDistance * kFactor / 25.4;
+    double converted = elevatorSensorDistance * pi2*kFactor*elevatorRatio / 25.4;
     if (elevatorSensorDistance <= 100 && lastDistance > 100) {
-        m_rightEncoder.SetPosition(converted - 0.35);
-        reset = true;
+        // m_rightEncoder.SetPosition(converted - 0.35);
+        // reset = true;
     }
     // if (elevatorSensorDistance <= 25 && lastDistance > 25) {
     //     m_rightEncoder.SetPosition(converted - 0.35);
