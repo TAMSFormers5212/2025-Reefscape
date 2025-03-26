@@ -107,8 +107,13 @@ double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 void Intake::Periodic() {
     const double kP = 0.002;
     const double kCos = 0.0001;
-
-    double currentPos = getPosition();
+    double currentPos;
+    if(m_absoluteEncoder.IsConnected()){
+        currentPos = getPosition();
+    }
+    else{
+        currentPos=getRelativePosition();
+    }
     double targetPos = position;
     units::radian_t ffP{position*pi2/180};
     units::radians_per_second_t ffV{0};
