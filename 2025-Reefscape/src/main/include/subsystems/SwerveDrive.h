@@ -51,6 +51,7 @@ public:
     void resetHeading();
     void setHeading(int x);
     void resetOdometry(const frc::Pose2d pose);
+    void resetOdometryRotation(frc::Rotation2d rotation);
     void swerveDrive(double x, double y, double theta, bool fieldCentric);
     void swerveDrive(frc::ChassisSpeeds speed);
     void brake();
