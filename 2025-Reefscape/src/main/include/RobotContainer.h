@@ -69,7 +69,8 @@ class RobotContainer {
     frc::SendableChooser<frc2::Command*> m_chooser;// = ("Mobility Auton"); //m_chooser;
 
     bool runAlign = false;
-    bool override_ = false;
+    bool leftOverride_ = false;
+    bool rightOverride_ = false;
 
     bool autoIntake = false;
     long loopsBackBroken = 0;

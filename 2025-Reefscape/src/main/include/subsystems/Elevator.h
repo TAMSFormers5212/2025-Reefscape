@@ -45,6 +45,7 @@ class Elevator : public frc2::SubsystemBase {
     void secondAlgae();
     void processor();
 
+    void changePresetOffset(double offsetChange);
     bool closeEnough(void);
 
     void Periodic() override;
@@ -79,4 +80,5 @@ class Elevator : public frc2::SubsystemBase {
     bool commandGiven = false;
     bool reset=false;
     double lastDistance = 0.0;
+    double presetOffset = 0.0;
 };

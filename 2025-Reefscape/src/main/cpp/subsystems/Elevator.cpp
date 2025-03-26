@@ -67,49 +67,52 @@ double Elevator::getPosition() { return (m_rightEncoder.GetPosition()); }
 
 void Elevator::levelOne() {
     commandGiven = true;
-    position = levelOneHeight;
+    position = sourceIntakeHeight+presetOffset;
 }
 
 void Elevator::levelTwo() {
     commandGiven = true;
-    position = levelTwoHeight;
+    position = levelTwoHeight+presetOffset;
 }
 
 void Elevator::levelThree() {
     commandGiven = true;
-    position = levelThreeHeight;
+    position = levelThreeHeight+presetOffset;
 }
 
 void Elevator::levelFour() {
     commandGiven = true;
-    position = levelFourthHeight;
+    position = levelFourthHeight+presetOffset;
 }
 
 void Elevator::sourcePos() {
     commandGiven = true;
-    position = sourceIntakeHeight;
+    position = sourceIntakeHeight+presetOffset;
 }
 
 void Elevator::groundAlgae() {
     commandGiven = true;
-    position = groundAlgaeHeight;
+    position = groundAlgaeHeight+presetOffset;
 }
 
 void Elevator::firstAlgae() {
     commandGiven = true;
-    position = firstAlgaeHeight;
+    position = firstAlgaeHeight+presetOffset;
 }
 
 void Elevator::secondAlgae() {
     commandGiven = true;
-    position = secondAlgaeHeight;
+    position = secondAlgaeHeight+presetOffset;
 }
 
 void Elevator::processor() {
     commandGiven = true;
-    position = processorHeight;
+    position = processorHeight+presetOffset;
 }
 
+void Elevator::changePresetOffset(double offsetChange){
+    presetOffset+=offsetChange;
+}
 void Elevator::setPosition(double pose) {
     commandGiven = true;  // sets the goal pose to given parameter
     position = pose;
@@ -180,6 +183,7 @@ void Elevator::Periodic() {
             rev::spark::SparkLowLevel::ControlType::kVoltage);
     }
 
+    SmartDashboard::PutNumber("elevator preset offset", presetOffset);
     SmartDashboard::PutNumber("converted distance", converted);
     SmartDashboard::PutBoolean("limit switch pressed", m_limitSwitch.Get());
     SmartDashboard::PutNumber("elevator pos", position);

@@ -224,14 +224,29 @@ RobotContainer::RobotContainer() {
 
             double opRightY =
                 m_operatorController.GetRawAxis(Controller::rightYAxis);
-            if (abs(opRightY) > 0.05) {
+            double opRightX = 
+                m_operatorController.GetRawAxis(Controller::rightXAxis);
+            if (abs(opRightY) > 0.05 && !rightOverride_) {
                 m_superstructure.m_intake.setTargetPosition(m_superstructure.m_intake.getTargetPosition() - opRightY * 2);
             }
-
-            if (opPovUp && !opPrevUp) {
-                m_superstructure.m_intake.stowPreset();
-            } else if (opPovDown && !opPrevDown) {
+            else if(opRightY>0.6&&abs(opRightX)<0.5&&rightOverride_){
                 m_superstructure.m_intake.groundPreset();
+            }
+            else if(opRightX<-0.6&&abs(opRightY)<0.5&&rightOverride_){
+                m_superstructure.m_intake.processorPreset();
+            }
+            else if(opRightX>0.6&&abs(opRightY)<0.5&&rightOverride_){
+                m_superstructure.m_intake.reefPreset();
+            }
+            else if(opRightY<-0.6&&abs(opRightX)<0.5&&rightOverride_){
+                m_superstructure.m_intake.stowPreset();
+            }
+            
+            
+            if (opPovUp && !opPrevUp) {
+                m_superstructure.m_elevator.changePresetOffset(0.05);
+            } else if (opPovDown && !opPrevDown) {
+                m_superstructure.m_elevator.changePresetOffset(-0.05);
             } else if (opPovLeft && !opPrevLeft) {
                 autoIntake = !autoIntake;
                 if (autoIntake) {
@@ -312,7 +327,9 @@ RobotContainer::RobotContainer() {
             frc::SmartDashboard::PutNumber(
                 "trigger",
                 m_operatorController.GetRawAxis(Controller::rightTrigger));
-
+            if(m_operatorController.GetRawButtonPressed(Controller::RPress)){
+                rightOverride_=!rightOverride_;
+            }
             if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
                 0.05) {
                 m_superstructure.m_intake.setSpeed(0.8);
@@ -333,9 +350,9 @@ RobotContainer::RobotContainer() {
 
     m_superstructure.m_elevator.SetDefaultCommand(RunCommand(
         [this] {
-            frc::SmartDashboard::PutBoolean("Elevator Override", override_);
+            frc::SmartDashboard::PutBoolean("Elevator Override", leftOverride_);
             if (m_operatorController.GetRawButtonPressed(Controller::LPress)) {
-                override_ = !override_;
+                leftOverride_ = !leftOverride_;
             }
             if (abs(m_operatorController.GetRawAxis(Controller::leftYAxis)) >
                 0.05) {
@@ -348,7 +365,7 @@ RobotContainer::RobotContainer() {
                     elevatorPos -
                     m_operatorController.GetRawAxis(Controller::leftYAxis));
             } else {
-                if (m_superstructure.m_outtake.getBeamBack() && !override_) {
+                if (m_superstructure.m_outtake.getBeamBack() && !leftOverride_) {
                     // noop
                 } else {
                     if (m_operatorController.GetRawButton(Controller::Y)) {
