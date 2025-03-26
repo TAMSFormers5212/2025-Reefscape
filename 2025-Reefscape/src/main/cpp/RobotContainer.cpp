@@ -126,6 +126,7 @@ RobotContainer::RobotContainer() {
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
+                m_drive.resetOdometryRotation(m_drive.getGyroHeading2());
             } else if (m_driverController.GetRawButton(Controller::X)) {
                 m_drive.setHeading(180);
             }
