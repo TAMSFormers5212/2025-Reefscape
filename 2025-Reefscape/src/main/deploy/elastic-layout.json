@@ -103,12 +103,11 @@
             "properties": {
               "topic": "/SmartDashboard/robot pos",
               "period": 0.06,
-              "field_game": "Reefscape",
+              "field_game": "Crescendo",
               "robot_width": 0.85,
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
-              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
@@ -122,6 +121,23 @@
             "type": "Boolean Box",
             "properties": {
               "topic": "/SmartDashboard/Elevator Override",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "intake abs connected",
+            "x": 384.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/intake abs connected",
               "period": 0.06,
               "data_type": "boolean",
               "true_color": 4283215696,
@@ -587,12 +603,11 @@
             "properties": {
               "topic": "/SmartDashboard/robot pos",
               "period": 0.06,
-              "field_game": "Reefscape",
+              "field_game": "Crescendo",
               "robot_width": 0.85,
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
-              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
@@ -1028,7 +1043,7 @@
           },
           {
             "title": "robot pos",
-            "x": 768.0,
+            "x": 1024.0,
             "y": 0.0,
             "width": 512.0,
             "height": 512.0,
@@ -1036,21 +1051,20 @@
             "properties": {
               "topic": "/SmartDashboard/robot pos",
               "period": 0.06,
-              "field_game": "Reefscape",
+              "field_game": "Crescendo",
               "robot_width": 0.85,
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
-              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
           },
           {
             "title": "botpose_wpiblue",
-            "x": 512.0,
+            "x": 384.0,
             "y": 256.0,
-            "width": 256.0,
+            "width": 640.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
@@ -1104,7 +1118,7 @@
           },
           {
             "title": "tx",
-            "x": 256.0,
+            "x": 128.0,
             "y": 256.0,
             "width": 128.0,
             "height": 128.0,
@@ -1118,7 +1132,7 @@
           },
           {
             "title": "ty",
-            "x": 384.0,
+            "x": 256.0,
             "y": 256.0,
             "width": 128.0,
             "height": 128.0,

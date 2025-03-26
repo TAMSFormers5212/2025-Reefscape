@@ -117,6 +117,7 @@ frc::Rotation2d SwerveDrive::getGyroHeading2() {
 }
 
 void SwerveDrive::resetHeading() {  // zeros the gyro
+    
     m_gyro.Reset();
 }
 
@@ -560,8 +561,8 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
 
     PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s,
                                 720_deg_per_s_sq);
-    auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
-    auto thing = translation / units::second_t{1};
+    // auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    // auto thing = translation / units::second_t{1};
     // units::velocity::meters_per_second_t thing{
     //     frc::Translation2d(speeds.vx, speeds.vy).Norm().value()};
     auto path = std::make_shared<PathPlannerPath>(
