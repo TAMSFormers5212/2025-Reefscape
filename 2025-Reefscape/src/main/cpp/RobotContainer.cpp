@@ -124,9 +124,15 @@ RobotContainer::RobotContainer() {
     m_drive.SetDefaultCommand(RunCommand(
         [this] {
             if (m_driverController.GetRawButton(Controller::Y)) {  // zero
+                auto alliance = frc::DriverStation::GetAlliance();
                 m_drive.resetHeading();
                 m_drive.resetAbsoluteEncoders();
+                // if(alliance.value() == frc::DriverStation::Alliance::kRed) {
+                //     m_drive.resetOdometryRotation(m_drive.getGyroHeading2() + frc::Rotation2d(units::degree_t{180}));
+                // }
+                // else {
                 m_drive.resetOdometryRotation(m_drive.getGyroHeading2());
+                //}
             } else if (m_driverController.GetRawButton(Controller::X)) {
                 m_drive.setHeading(180);
             }
