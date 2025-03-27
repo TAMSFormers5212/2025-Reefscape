@@ -289,7 +289,7 @@ void SwerveDrive::tankDrive(double x,
 
 void SwerveDrive::UpdatePoseEstimate() {
     
-    if (align) {
+    if (true) {
         bool doRejectUpdate = false;
 
         LimelightHelpers::PoseEstimate mt2 =

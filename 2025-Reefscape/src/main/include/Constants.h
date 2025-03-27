@@ -217,11 +217,10 @@ namespace ElevatorConstants
     constexpr int encoderOne = 7; // depends on what encoder. planning for a rev through bore
     constexpr int encoderTwo = 5;
 
-    constexpr double levelOneHeight = 0;
+    constexpr double sourceIntakeHeight = 2.38;
     constexpr double levelTwoHeight = 8.44;
     constexpr double levelThreeHeight = 17.34;
     constexpr double levelFourthHeight = 33.46;
-    constexpr double sourceIntakeHeight = 2.38;
 
     constexpr double groundAlgaeHeight = 0;
     constexpr double firstAlgaeHeight = 0;
