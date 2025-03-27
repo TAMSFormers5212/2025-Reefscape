@@ -5,41 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left L1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Elevator Source"
-                }
-              }
-            ]
+            "pathName": "Left L1"
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Outtake L1"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 5.0
-                }
-              }
-            ]
+            "name": "AutoOuttake"
           }
         },
         {
