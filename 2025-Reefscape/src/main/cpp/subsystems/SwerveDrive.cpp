@@ -500,55 +500,55 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
     if (id == 10) {
         if (left) {
             return frc::Pose2d(units::meter_t{11.700}, units::meter_t{4.187},
-                               units::degree_t{180});
+                               units::degree_t{0});
         } else {
             return frc::Pose2d(units::meter_t{11.676}, units::meter_t{3.86},
-                               units::degree_t{180});
+                               units::degree_t{0});
         }
     }
     if (id == 9) {
         if (!left) {
             return frc::Pose2d(units::meter_t{12.239}, units::meter_t{5.134},
-                               units::degree_t{-60+180});
+                               units::degree_t{-60});
         } else {
             return frc::Pose2d(units::meter_t{12.527}, units::meter_t{5.290},
-                               units::degree_t{-60+180});
+                               units::degree_t{-60});
         }
     }
     if (id == 8) {
         if (left) {
             return frc::Pose2d(units::meter_t{13.618}, units::meter_t{5.302},
-                               units::degree_t{-120+180});
+                               units::degree_t{-120});
         } else {
             return frc::Pose2d(units::meter_t{13.906}, units::meter_t{5.146},
-                               units::degree_t{-120+180});
+                               units::degree_t{-120});
         }
     }
     if (id == 7) {
         if (!left) {
             return frc::Pose2d(units::meter_t{14.529}, units::meter_t{4.187},
-                               units::degree_t{0});
+                               units::degree_t{180});
         } else {
             return frc::Pose2d(units::meter_t{14.529}, units::meter_t{3.86},
-                               units::degree_t{0});
+                               units::degree_t{180});
         }
     }
     if (id == 6) {
         if (!left) {
             return frc::Pose2d(units::meter_t{13.906}, units::meter_t{2.916},
-                               units::degree_t{120-180});
+                               units::degree_t{120});
         } else {
             return frc::Pose2d(units::meter_t{13.606}, units::meter_t{2.748},
-                               units::degree_t{120-180});
+                               units::degree_t{120});
         }
     }
     if (id == 11) {
         if (!left) {
             return frc::Pose2d(units::meter_t{12.527}, units::meter_t{2.772},
-                               units::degree_t{60-180});
+                               units::degree_t{60});
         } else {
             return frc::Pose2d(units::meter_t{12.239}, units::meter_t{2.928},
-                               units::degree_t{60-180});
+                               units::degree_t{60});
         }
     }
     return frc::Pose2d(OdometryPose().Translation().X(),

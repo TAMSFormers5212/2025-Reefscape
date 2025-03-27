@@ -233,19 +233,19 @@ RobotContainer::RobotContainer() {
                 m_operatorController.GetRawAxis(Controller::rightYAxis);
             double opRightX = 
                 m_operatorController.GetRawAxis(Controller::rightXAxis);
-            if (abs(opRightY) > 0.05 && !rightOverride_) {
+            if (abs(opRightY) > 0.05 && rightOverride_) {
                 m_superstructure.m_intake.setTargetPosition(m_superstructure.m_intake.getTargetPosition() - opRightY * 2);
             }
-            else if(opRightY>0.6&&abs(opRightX)<0.5&&rightOverride_){
+            else if(opRightY>0.6&&abs(opRightX)<0.5&&!rightOverride_){
                 m_superstructure.m_intake.groundPreset();
             }
-            else if(opRightX<-0.6&&abs(opRightY)<0.5&&rightOverride_){
+            else if(opRightX<-0.6&&abs(opRightY)<0.5&&!rightOverride_){
                 m_superstructure.m_intake.processorPreset();
             }
-            else if(opRightX>0.6&&abs(opRightY)<0.5&&rightOverride_){
+            else if(opRightX>0.6&&abs(opRightY)<0.5&&!rightOverride_){
                 m_superstructure.m_intake.reefPreset();
             }
-            else if(opRightY<-0.6&&abs(opRightX)<0.5&&rightOverride_){
+            else if(opRightY<-0.6&&abs(opRightX)<0.5&&!rightOverride_){
                 m_superstructure.m_intake.stowPreset();
             }
 
@@ -270,7 +270,7 @@ RobotContainer::RobotContainer() {
                         frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                 }
             } else if (opPovRight && !opPrevRight) {
-                m_superstructure.m_elevator.resetEncoders();
+                m_superstructure.m_elevator.changePresetOffset(-m_superstructure.m_elevator.getPresetOffset());
             }
 
             opPrevDown = opPovDown;
