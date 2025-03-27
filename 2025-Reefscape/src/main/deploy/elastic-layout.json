@@ -108,6 +108,7 @@
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
+              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
@@ -608,6 +609,7 @@
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
+              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
@@ -620,20 +622,6 @@
       "grid_layout": {
         "layouts": [],
         "containers": [
-          {
-            "title": "elevator pos",
-            "x": 512.0,
-            "y": 256.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/elevator pos",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
           {
             "title": "elevator current",
             "x": 768.0,
@@ -713,6 +701,48 @@
             "type": "Text Display",
             "properties": {
               "topic": "/SmartDashboard/converted distance",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "elevator preset offset",
+            "x": 640.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/elevator preset offset",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "elevator preset offset",
+            "x": 640.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/elevator preset offset",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "elevator target pos",
+            "x": 640.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/elevator target pos",
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": false
@@ -1056,6 +1086,7 @@
               "robot_length": 0.85,
               "show_other_objects": true,
               "show_trajectories": true,
+              "field_rotation": 0.0,
               "robot_color": 4294198070,
               "trajectory_color": 4294967295
             }
