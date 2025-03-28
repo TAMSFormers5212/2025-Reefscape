@@ -132,7 +132,7 @@ bool Elevator::closeEnough(void) {
 void Elevator::Periodic() {
     bool curLimitSwitch = m_limitSwitch.Get();
     if (curLimitSwitch && !prevLimitSwitch) {
-        resetEncoders();
+        // resetEncoders();
     }
 
     double elevatorSensorDistance =

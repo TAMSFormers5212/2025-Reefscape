@@ -115,17 +115,16 @@ frc::Pose2d SwerveDrive::OdometryPose() {
 frc::Rotation2d SwerveDrive::getGyroHeading2() {
     auto alliance = frc::DriverStation::GetAlliance();
     bool isAuto = frc::DriverStation::IsAutonomous();
-    if(alliance.value() == frc::DriverStation::Alliance::kRed && !isAuto || alliance.value() == frc::DriverStation::Alliance::kBlue && isAuto) {
+    if (alliance.value() == frc::DriverStation::Alliance::kRed && !isAuto ||
+        alliance.value() == frc::DriverStation::Alliance::kBlue && isAuto) {
         return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 180));
-    }
-    else {
+    } else {
         return frc::Rotation2d(degree_t(-fmod(m_gyro.GetYaw(), 360) + 0));
     }
-    
 }
 
 void SwerveDrive::resetHeading() {  // zeros the gyro
-    
+
     m_gyro.Reset();
 }
 
@@ -153,11 +152,9 @@ void SwerveDrive::resetOdometry(const frc::Pose2d pose) {
         {m_modules[0].getPosition(), m_modules[1].getPosition(),
          m_modules[2].getPosition(), m_modules[3].getPosition()},
         pose);
-    
 }
 void SwerveDrive::resetOdometryRotation(const frc::Rotation2d rotation) {
     m_odometry.ResetRotation(rotation);
-    
 }
 
 void SwerveDrive::swerveDrive(double x, double y, double theta,
@@ -288,7 +285,6 @@ void SwerveDrive::tankDrive(double x,
 // void SwerveDrive::SetAlign(bool a) { align = a; }
 
 void SwerveDrive::UpdatePoseEstimate() {
-    
     if (true) {
         bool doRejectUpdate = false;
 
@@ -317,21 +313,21 @@ void SwerveDrive::UpdatePoseEstimate() {
             m_odometry.SetVisionMeasurementStdDevs(temp);
             auto alliance = frc::DriverStation::GetAlliance();
             bool isAuto = frc::DriverStation::IsAutonomous();
-            if(alliance.value() == frc::DriverStation::Alliance::kRed &&
-               !isAuto) {
-                m_odometry.AddVisionMeasurement(frc::Pose2d(mt2.pose.Translation(), mt2.pose.Rotation()+ frc::Rotation2d(units::degree_t{0})), mt2.timestampSeconds);
-            }
-            else {
+            if (alliance.value() == frc::DriverStation::Alliance::kRed &&
+                !isAuto) {
+                m_odometry.AddVisionMeasurement(
+                    frc::Pose2d(mt2.pose.Translation(),
+                                mt2.pose.Rotation() +
+                                    frc::Rotation2d(units::degree_t{0})),
+                    mt2.timestampSeconds);
+            } else {
                 m_odometry.AddVisionMeasurement(mt2.pose, mt2.timestampSeconds);
             }
-
-            
         }
     }
 }
 
-void SwerveDrive::initAuto(void) {
-}
+void SwerveDrive::initAuto(void) {}
 
 void SwerveDrive::Periodic() {
     auto alliance = frc::DriverStation::GetAlliance();
@@ -341,9 +337,12 @@ void SwerveDrive::Periodic() {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
-        // m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
-        //               {m_modules[0].getPosition(), m_modules[1].getPosition(),
-        //                m_modules[2].getPosition(), m_modules[3].getPosition()});
+        // m_odometry.Update(getGyroHeading2() +
+        // frc::Rotation2d(units::degree_t{0}),
+        //               {m_modules[0].getPosition(),
+        //               m_modules[1].getPosition(),
+        //                m_modules[2].getPosition(),
+        //                m_modules[3].getPosition()});
     } else if (alliance.value() == frc::DriverStation::Alliance::kRed &&
                !isAuto) {
         // auto thing22 = m_gyro.GetAngle();
@@ -351,28 +350,32 @@ void SwerveDrive::Periodic() {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
-        
+
         // m_odometry.Update(frc::Rotation2d(units::degree_t{m_gyro.GetAngle()}),
-        //               {m_modules[0].getPosition(), m_modules[1].getPosition(),
-        //                m_modules[2].getPosition(), m_modules[3].getPosition()});
+        //               {m_modules[0].getPosition(),
+        //               m_modules[1].getPosition(),
+        //                m_modules[2].getPosition(),
+        //                m_modules[3].getPosition()});
 
     } else if (alliance.value() == frc::DriverStation::Alliance::kBlue &&
                isAuto) {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value() + 0, 0, 0, 0, 0,
             0);
-        // m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
-        //               {m_modules[0].getPosition(), m_modules[1].getPosition(),
-        //                m_modules[2].getPosition(), m_modules[3].getPosition()});
+        // m_odometry.Update(getGyroHeading2() +
+        // frc::Rotation2d(units::degree_t{0}),
+        //               {m_modules[0].getPosition(),
+        //               m_modules[1].getPosition(),
+        //                m_modules[2].getPosition(),
+        //                m_modules[3].getPosition()});
     } else {
         LimelightHelpers::SetRobotOrientation(
             "limelight", getGyroHeading2().Degrees().value(), 0, 0, 0, 0, 0);
-        
     }
     m_odometry.Update(getGyroHeading2() + frc::Rotation2d(units::degree_t{0}),
                       {m_modules[0].getPosition(), m_modules[1].getPosition(),
                        m_modules[2].getPosition(), m_modules[3].getPosition()});
-    
+
     UpdatePoseEstimate();
 
     SmartDashboard::PutBoolean("isAuto", isAuto);
@@ -583,19 +586,17 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
     );
     path->preventFlipping = true;
 
-    if(left) {
-    return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentLeft();
-    });
-    }
-    else {
-        return AutoBuilder::followPath(path).AndThen([this] { alignAdjustmentRight();
-    });
+    if (left) {
+        return AutoBuilder::followPath(path).AndThen(
+            [this] { alignAdjustmentLeft(); });
+    } else {
+        return AutoBuilder::followPath(path).AndThen(
+            [this] { alignAdjustmentRight(); });
     }
     // return AutoBuilder::followPath(path);
 }
 
 void SwerveDrive::alignAdjustmentLeft() {
-   
     PathPlannerTrajectoryState goalState = PathPlannerTrajectoryState();
     frc::Pose2d goalPose = getTargetPose(true);
     goalState.pose = goalPose;

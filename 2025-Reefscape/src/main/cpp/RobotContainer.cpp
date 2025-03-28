@@ -98,7 +98,6 @@ RobotContainer::RobotContainer() {
     doubleL4Right = PathPlannerAuto("Double L4 Right").ToPtr();
     doubleL4Left = PathPlannerAuto("Double L4 Left").ToPtr();
 
-
     L1LeftL4Left = PathPlannerAuto("L1 Left - L4 Left").ToPtr();
     L1RightL4Right = PathPlannerAuto("L1 Right - L4 Right").ToPtr();
     // tripleL4Left = PathPlannerAuto("pipe dream").ToPtr();
@@ -185,18 +184,25 @@ RobotContainer::RobotContainer() {
                 m_drive.swerveDrive(-0.0, 0.2, 0.0, false);
             } else if (pov == 90.0) {  // right
                 m_drive.swerveDrive(0.0, -0.2, 0.0, false);
-            } else if (m_driverController.GetRawButton(
+            } else if (m_driverController.GetRawButtonPressed(
                            Controller::leftPaddle)) {
-                // m_drive.alignAdjustment();
                 m_pathfindAuto = m_drive.generateCommandLeft();
                 m_pathfindAuto.Schedule();
-            } else if (m_driverController.GetRawButton(
+            } else if (m_driverController.GetRawButtonPressed(
                            Controller::rightPaddle)) {
-                // m_drive.alignAdjustment();
                 m_pathfindAuto = m_drive.generateCommandRight();
                 m_pathfindAuto.Schedule();
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
+            }
+
+            if (m_driverController.GetRawButtonReleased(
+                    Controller::leftPaddle)) {
+                m_pathfindAuto.Cancel();
+            }
+            if (m_driverController.GetRawButtonReleased(
+                    Controller::rightPaddle)) {
+                m_pathfindAuto.Cancel();
             }
 
             if (!m_driverController.GetRawButton(Controller::leftPaddle) &&
@@ -280,8 +286,9 @@ RobotContainer::RobotContainer() {
                         frc::GenericHID::RumbleType::kLeftRumble, 0.0);
                 }
             } else if (opPovRight && !opPrevRight) {
-                m_superstructure.m_elevator.changePresetOffset(
-                    -m_superstructure.m_elevator.getPresetOffset());
+                // m_superstructure.m_elevator.changePresetOffset(
+                // -m_superstructure.m_elevator.getPresetOffset());
+                m_superstructure.m_elevator.resetEncoders();
             }
 
             opPrevDown = opPovDown;
@@ -342,7 +349,7 @@ RobotContainer::RobotContainer() {
                         : 0.0);
             } else if (leftPaddle || rightPaddle) {
                 m_superstructure.m_outtake.setLeftSpeed(
-                    m_operatorController.GetRawButton(Controller::leftPaddle) 
+                    m_operatorController.GetRawButton(Controller::leftPaddle)
                         ? 0.2
                         : 0.0);
                 m_superstructure.m_outtake.setRightSpeed(
@@ -350,8 +357,8 @@ RobotContainer::RobotContainer() {
                         ? 0.2
                         : 0.0);
             } else if (dRightTrigger > 0.05) {
-                m_superstructure.m_outtake.setSpeed(
-                    dRightTrigger > 0.05 ? 0.2 : 0.0);
+                m_superstructure.m_outtake.setSpeed(dRightTrigger > 0.05 ? 0.2
+                                                                         : 0.0);
             } else if (!autoIntake) {
                 m_superstructure.m_outtake.setSpeed(0.0);
             }
