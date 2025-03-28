@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoOuttake"
+            "name": "AutoOuttakeOneSide"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left to Source L2,3,4"
+            "pathName": "Left to Source L1"
           }
         },
         {
@@ -87,6 +87,18 @@
           "type": "named",
           "data": {
             "name": "Elevator Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Reef to Source L2,3,4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
           }
         }
       ]

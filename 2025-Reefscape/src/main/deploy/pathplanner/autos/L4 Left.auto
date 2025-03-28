@@ -5,9 +5,52 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Left L2,3,4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left L2,3,4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Elevator Source"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator L4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoOuttake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Elevator Source"
           }
         }
       ]

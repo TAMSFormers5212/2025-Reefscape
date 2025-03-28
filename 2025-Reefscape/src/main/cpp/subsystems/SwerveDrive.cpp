@@ -454,7 +454,7 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
     }
     if (id == 19) {
         if (!left) {
-            return frc::Pose2d(units::meter_t{3.632}, units::meter_t{5.132},
+            return frc::Pose2d(units::meter_t{3.647}, units::meter_t{5.214},
                                units::degree_t{-60});
         } else {
             return frc::Pose2d(units::meter_t{3.908}, units::meter_t{5.362},

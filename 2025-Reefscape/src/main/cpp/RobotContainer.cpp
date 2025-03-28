@@ -97,7 +97,11 @@ RobotContainer::RobotContainer() {
 
     doubleL4Right = PathPlannerAuto("Double L4 Right").ToPtr();
     doubleL4Left = PathPlannerAuto("Double L4 Left").ToPtr();
-    tripleL4Left = PathPlannerAuto("pipe dream").ToPtr();
+
+
+    L1LeftL4Left = PathPlannerAuto("L1 Left - L4 Left").ToPtr();
+    L1RightL4Right = PathPlannerAuto("L1 Right - L4 Right").ToPtr();
+    // tripleL4Left = PathPlannerAuto("pipe dream").ToPtr();
 
     m_chooser.SetDefaultOption("L1 Center", m_L1Center.get());
     m_chooser.AddOption("L1 Left", m_L1Left.get());
@@ -114,7 +118,10 @@ RobotContainer::RobotContainer() {
 
     m_chooser.AddOption("Double L4 Right", doubleL4Right.get());
     m_chooser.AddOption("Double L4 Left", doubleL4Left.get());
-    m_chooser.AddOption("Triple L4 Left", tripleL4Left.get());
+
+    m_chooser.AddOption("L1 Left L4 Left", L1LeftL4Left.get());
+    m_chooser.AddOption("L1 Right L4 Right", L1RightL4Right.get());
+    // m_chooser.AddOption("Triple L4 Left", tripleL4Left.get());
 
     m_chooser.AddOption("Mobility Auton", m_mobility.get());
     m_chooser.AddOption("Test Auto", m_testAuto.get());
@@ -335,7 +342,7 @@ RobotContainer::RobotContainer() {
                         : 0.0);
             } else if (leftPaddle || rightPaddle) {
                 m_superstructure.m_outtake.setLeftSpeed(
-                    m_operatorController.GetRawButton(Controller::leftPaddle)
+                    m_operatorController.GetRawButton(Controller::leftPaddle) 
                         ? 0.2
                         : 0.0);
                 m_superstructure.m_outtake.setRightSpeed(

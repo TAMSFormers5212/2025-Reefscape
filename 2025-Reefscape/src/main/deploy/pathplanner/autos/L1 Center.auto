@@ -28,6 +28,12 @@
           "data": {
             "name": "AutoOuttakeOneSide"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Outtake"
+          }
         }
       ]
     }

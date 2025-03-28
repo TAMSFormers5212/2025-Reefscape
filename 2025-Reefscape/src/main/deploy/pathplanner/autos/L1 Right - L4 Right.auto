@@ -24,12 +24,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "AutoOuttakeOneSide"
@@ -87,6 +81,18 @@
           "type": "named",
           "data": {
             "name": "Elevator Source"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Reef to Source L2,3,4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntake"
           }
         }
       ]
