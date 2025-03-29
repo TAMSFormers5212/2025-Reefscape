@@ -10,7 +10,12 @@
 
 #include "wpinet/WebServer.h"
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+   usbCam = frc::CameraServer::StartAutomaticCapture("front", 0);
+   usbCam.SetResolution(640, 480);
+   usbCam.SetFPS(30);
+   usbCam.SetPixelFormat(cs::VideoMode::kMJPEG);
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use

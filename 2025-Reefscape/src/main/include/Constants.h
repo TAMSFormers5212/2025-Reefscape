@@ -313,7 +313,7 @@ namespace IntakeConstants
     constexpr int pivotEncoder = 0;
     constexpr double encoderOffset = 0;
 
-    constexpr double pivotOffset = 0.07;
+    constexpr double pivotOffset = 0.0;
     constexpr double intakeRatio = 16.0;
 
     constexpr double pivotSprocketRatio = 2;
@@ -321,7 +321,7 @@ namespace IntakeConstants
     constexpr double pivotRatio = pivotSprocketRatio*pivotPlanetaryRatio;
     // constexpr double pivotRatio = pivotPlanetaryRatio;
 
-    constexpr double stowPresetAngle = 90;
+    constexpr double stowPresetAngle = 80;
     constexpr double groundPresetAngle = -5;
     constexpr double processorPresetAngle = 5;
     constexpr double reefPresetAngle = 55;

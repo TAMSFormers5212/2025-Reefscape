@@ -78,7 +78,7 @@ double Intake::getTargetPosition(void) { return position; }
 double Intake::getRelativePosition() { return m_pivotEncoder.GetPosition(); }
 
 double Intake::getPosition() {
-    double i360 = (m_absoluteEncoder.Get() - pivotOffset) * 360;
+    double i360 = (m_absoluteEncoder.Get() + pivotOffset) * 360;
     if (i360 > 180) return i360 - 360;
     if (i360 < -180) return i360 + 360;
     return i360;
@@ -100,7 +100,7 @@ double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
 void Intake::Periodic() {
     const double kP = 0.002;
-    const double kCos = 0.01;
+    const double kCos = 0.1;
     double currentPos;
 
     if (m_absoluteEncoder.IsConnected()) {
@@ -115,7 +115,8 @@ void Intake::Periodic() {
     double pid = error * kP;
     double ff = cos(currentPos) * kCos;
 
-    double power = ff;  // pid + ff;
+    double power = 0;
+    // ff;  // pid + ff;
     setPivotSpeed(power);
 
     // units::radian_t ffP{position*pi2/180};

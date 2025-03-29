@@ -388,6 +388,12 @@ RobotContainer::RobotContainer() {
             }
             m_superstructure.m_intake.setSpeed(
                 m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
+
+            if (m_driverController.GetRawButtonPressed(Controller::A)) {
+                m_superstructure.m_intake.groundPreset();
+            } else if (m_driverController.GetRawButtonPressed(Controller::X)) {
+                m_superstructure.m_intake.stowPreset();
+            }
         },
         {&m_superstructure.m_intake}));
 
