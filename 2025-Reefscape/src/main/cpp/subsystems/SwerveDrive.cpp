@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 
+#include <cmath>
 #include "LimelightHelpers.h"
 
 using namespace SwerveModuleConstants;
@@ -446,111 +447,227 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
     std::shared_ptr<nt::NetworkTable> table =
         nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     double id = table->GetNumber("tid", 0.0);
+
+    const double horizontalOffset = 0.616;
+    const double verticalOffset = 0.159;
+    const double verticalOffset2 = 0;
+    double apriltagPosX = 0;
+    double apriltagPosY = 0;
+
+
     if (id == 18) {
+        apriltagPosX = 3.658;
+        apriltagPosY = 4.026;
+
         if (left) {
-            return frc::Pose2d(units::meter_t{3.1}, units::meter_t{4.187},
+            return frc::Pose2d(units::meter_t{apriltagPosX - horizontalOffset}, units::meter_t{apriltagPosY + verticalOffset - verticalOffset2},
                                units::degree_t{0});
         } else {
-            return frc::Pose2d(units::meter_t{3.081}, units::meter_t{3.86},
+            return frc::Pose2d(units::meter_t{apriltagPosX - horizontalOffset}, units::meter_t{apriltagPosY - verticalOffset - verticalOffset2},
                                units::degree_t{0});
         }
     }
     if (id == 19) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{3.647}, units::meter_t{5.214},
+        apriltagPosX = 4.074;
+        apriltagPosY = 4.745;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY + yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{-60});
         } else {
-            return frc::Pose2d(units::meter_t{3.908}, units::meter_t{5.362},
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY + yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{-60});
         }
     }
     if (id == 20) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{5.071}, units::meter_t{5.386},
+        apriltagPosX = 4.905;
+        apriltagPosY = 4.745;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 + xOffset2 - xOffset3}, units::meter_t{apriltagPosY + yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{-120});
         } else {
-            return frc::Pose2d(units::meter_t{5.502}, units::meter_t{5.062},
-                               units::degree_t{-130});
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 - xOffset2 - xOffset3}, units::meter_t{apriltagPosY + yOffset1 + yOffset2 + yOffset3},
+                               units::degree_t{-120});
         }
     }
     if (id == 21) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{5.934}, units::meter_t{4.175},
+        apriltagPosX = 5.321;
+        apriltagPosY = 4.026;
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX + horizontalOffset}, units::meter_t{apriltagPosY - verticalOffset + verticalOffset2},
                                units::degree_t{180});
         } else {
-            return frc::Pose2d(units::meter_t{5.934}, units::meter_t{3.803},
+            return frc::Pose2d(units::meter_t{apriltagPosX + horizontalOffset}, units::meter_t{apriltagPosY + verticalOffset + verticalOffset2},
                                units::degree_t{180});
         }
     }
     if (id == 22) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{5.323}, units::meter_t{2.844},
+        apriltagPosX = 4.905;
+        apriltagPosY = 3.306;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{120});
         } else {
-            return frc::Pose2d(units::meter_t{5.071}, units::meter_t{2.688},
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{120});
         }
     }
     if (id == 17) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{3.920}, units::meter_t{2.676},
+        apriltagPosX = 4.074;
+        apriltagPosY = 3.306;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{60});
         } else {
-            return frc::Pose2d(units::meter_t{3.656}, units::meter_t{2.916},
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{60});
         }
     }
     if (id == 10) {
+        apriltagPosX = 12.227;
+        apriltagPosY = 4.026;
+
         if (left) {
-            return frc::Pose2d(units::meter_t{11.628}, units::meter_t{4.223},
+            return frc::Pose2d(units::meter_t{apriltagPosX - horizontalOffset}, units::meter_t{apriltagPosY + verticalOffset - verticalOffset2},
                                units::degree_t{0});
         } else {
-            return frc::Pose2d(units::meter_t{11.628}, units::meter_t{3.899},
+            return frc::Pose2d(units::meter_t{apriltagPosX - horizontalOffset}, units::meter_t{apriltagPosY - verticalOffset - verticalOffset2},
                                units::degree_t{0});
         }
     }
     if (id == 9) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{12.227}, units::meter_t{5.218},
+        apriltagPosX = 12.643;
+        apriltagPosY = 4.745;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY + yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{-60});
         } else {
-            return frc::Pose2d(units::meter_t{12.527}, units::meter_t{5.410},
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY + yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{-60});
         }
     }
     if (id == 8) {
+        apriltagPosX = 13.474;
+        apriltagPosY = 4.745;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
         if (left) {
-            return frc::Pose2d(units::meter_t{13.690}, units::meter_t{5.350},
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 + xOffset2 - xOffset3}, units::meter_t{apriltagPosY + yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{-120});
         } else {
-            return frc::Pose2d(units::meter_t{13.954}, units::meter_t{5.182},
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 - xOffset2 - xOffset3}, units::meter_t{apriltagPosY + yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{-120});
         }
     }
     if (id == 7) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{14.529}, units::meter_t{4.187},
+        apriltagPosX = 13.891;
+        apriltagPosY = 4.026;
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX + horizontalOffset}, units::meter_t{apriltagPosY - verticalOffset + verticalOffset2},
                                units::degree_t{180});
         } else {
-            return frc::Pose2d(units::meter_t{14.529}, units::meter_t{3.86},
+            return frc::Pose2d(units::meter_t{apriltagPosX + horizontalOffset}, units::meter_t{apriltagPosY + verticalOffset + verticalOffset2},
                                units::degree_t{180});
         }
     }
     if (id == 6) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{13.932}, units::meter_t{2.858},
+        apriltagPosX = 13.474;
+        apriltagPosY = 3.306;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{120});
         } else {
-            return frc::Pose2d(units::meter_t{13.644}, units::meter_t{2.696},
+            return frc::Pose2d(units::meter_t{apriltagPosX + xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{120});
         }
     }
     if (id == 11) {
-        if (!left) {
-            return frc::Pose2d(units::meter_t{12.486}, units::meter_t{2.695},
+        apriltagPosX = 12.643;
+        apriltagPosY = 3.306;
+        
+        auto xOffset1 = horizontalOffset / 2;
+        auto yOffset1 = horizontalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset2 = verticalOffset / 2;
+        auto xOffset2 = verticalOffset / 2 * std::sqrt(3.0);
+
+        auto yOffset3 = verticalOffset2 / 2;
+        auto xOffset3 = verticalOffset2 / 2 * std::sqrt(3.0);
+
+        if (left) {
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 - xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 - yOffset2 + yOffset3},
                                units::degree_t{60});
         } else {
-            return frc::Pose2d(units::meter_t{12.197}, units::meter_t{2.869},
+            return frc::Pose2d(units::meter_t{apriltagPosX - xOffset1 + xOffset2 + xOffset3}, units::meter_t{apriltagPosY - yOffset1 + yOffset2 + yOffset3},
                                units::degree_t{60});
         }
     }
