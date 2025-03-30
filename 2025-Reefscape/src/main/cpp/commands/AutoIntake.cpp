@@ -6,7 +6,7 @@ AutoIntake::AutoIntake(Outtake* outtake) : outtake(outtake) {
 }
 
 void AutoIntake::Initialize() {
-    outtake->setSpeed(0.2);
+    outtake->setSpeed(0.3);
 }
 
 void AutoIntake::Execute() {
@@ -14,7 +14,7 @@ void AutoIntake::Execute() {
         isFinished = true;
         outtake->setSpeed(0.0);
     }  else if (outtake->getBeamBack() && !isFinished) {
-        outtake->setSpeed(0.03);
+        outtake->setSpeed(0.04);
     }
 }
 

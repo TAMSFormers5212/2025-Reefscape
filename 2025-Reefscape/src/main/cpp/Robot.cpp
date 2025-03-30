@@ -12,7 +12,7 @@
 
 void Robot::RobotInit() {
    usbCam = frc::CameraServer::StartAutomaticCapture("front", 0);
-   usbCam.SetResolution(640, 480);
+   usbCam.SetResolution(320, 240);
    usbCam.SetFPS(30);
    usbCam.SetPixelFormat(cs::VideoMode::kMJPEG);
 }

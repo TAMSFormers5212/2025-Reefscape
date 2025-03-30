@@ -177,13 +177,13 @@ RobotContainer::RobotContainer() {
             int pov = m_driverController.GetPOV();
             SmartDashboard::PutNumber("drive pov", pov);
             if (pov == 0.0) {  // up
-                m_drive.swerveDrive(0.2, 0.0, 0.0, false);
+                m_drive.swerveDrive(0.1, 0.0, 0.0, false);
             } else if (pov == 180.0) {  // down
-                m_drive.swerveDrive(-0.2, 0.0, 0.0, false);
+                m_drive.swerveDrive(-0.1, 0.0, 0.0, false);
             } else if (pov == 270.0) {  // left
-                m_drive.swerveDrive(-0.0, 0.2, 0.0, false);
+                m_drive.swerveDrive(-0.0, 0.1, 0.0, false);
             } else if (pov == 90.0) {  // right
-                m_drive.swerveDrive(0.0, -0.2, 0.0, false);
+                m_drive.swerveDrive(0.0, -0.1, 0.0, false);
             } else if (m_driverController.GetRawButtonPressed(
                            Controller::leftPaddle)) {
                 m_pathfindAuto = m_drive.generateCommandLeft();

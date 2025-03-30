@@ -41,10 +41,10 @@
         "containers": [
           {
             "title": "limelight",
-            "x": 640.0,
-            "y": 0.0,
-            "width": 896.0,
-            "height": 640.0,
+            "x": 256.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 256.0,
             "type": "Camera Stream",
             "properties": {
               "topic": "/CameraPublisher/limelight",
@@ -85,8 +85,8 @@
             "title": "robot pos",
             "x": 0.0,
             "y": 0.0,
-            "width": 640.0,
-            "height": 384.0,
+            "width": 384.0,
+            "height": 256.0,
             "type": "Field",
             "properties": {
               "topic": "/SmartDashboard/robot pos",
@@ -209,6 +209,18 @@
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": false
+            }
+          },
+          {
+            "title": "front",
+            "x": 512.0,
+            "y": 0.0,
+            "width": 1024.0,
+            "height": 640.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/front",
+              "period": 0.06
             }
           }
         ]

@@ -448,9 +448,9 @@ frc::Pose2d SwerveDrive::getTargetPose(bool left) {
         nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     double id = table->GetNumber("tid", 0.0);
 
-    const double horizontalOffset = 0.616;
+    const double horizontalOffset = 0.60;
     const double verticalOffset = 0.159;
-    const double verticalOffset2 = 0;
+    const double verticalOffset2 = 0.025;
     double apriltagPosX = 0;
     double apriltagPosY = 0;
 
@@ -689,7 +689,9 @@ frc2::CommandPtr SwerveDrive::driveToTargetPose(frc::Pose2d waypoint,
 
     PathConstraints constraints(3.0_mps, 3.0_mps_sq, 360_deg_per_s,
                                 720_deg_per_s_sq);
-    // auto translation = frc::Translation2d(speeds.vx, speeds.vy).Norm();
+    // auto translation = frc::Translation2d(speeds.vx.value(), speeds.vy).Norm();
+
+    auto thing = units::meters_per_second_t(sqrt((speeds.vx.value() * speeds.vx.value())) + sqrt(speeds.vy.value() * speeds.vy.value()));
     // auto thing = translation / units::second_t{1};
     // units::velocity::meters_per_second_t thing{
     //     frc::Translation2d(speeds.vx, speeds.vy).Norm().value()};
