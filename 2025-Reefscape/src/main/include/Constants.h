@@ -313,7 +313,7 @@ namespace IntakeConstants
     constexpr int pivotEncoder = 0;
     constexpr double encoderOffset = 0;
 
-    constexpr double pivotOffset = 0.0;
+    constexpr double pivotOffset = -85;
     constexpr double intakeRatio = 16.0;
 
     constexpr double pivotSprocketRatio = 2;
