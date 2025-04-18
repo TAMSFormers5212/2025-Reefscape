@@ -233,7 +233,7 @@ RobotContainer::RobotContainer() {
     m_superstructure.SetDefaultCommand(RunCommand(
         [this] {
             frc::SmartDashboard::PutBoolean("autoIntake", autoIntake);
-
+            //auto intake? Auto? i had an auto once they locked it in a teleop, a teleop full of autos and autos make me crazy
             bool opPovDown = m_operatorController.GetPOV() == 180.0;
             bool opPovUp = m_operatorController.GetPOV() == 0.0;
             bool opPovLeft = m_operatorController.GetPOV() == 270.0;
