@@ -233,6 +233,7 @@ RobotContainer::RobotContainer() {
     m_superstructure.SetDefaultCommand(RunCommand(
         [this] {
             frc::SmartDashboard::PutBoolean("autoIntake", autoIntake);
+            frc::SmartDashboard::PutBoolean("right override", rightOverride_);
 
             bool opPovDown = m_operatorController.GetPOV() == 180.0;
             bool opPovUp = m_operatorController.GetPOV() == 0.0;
