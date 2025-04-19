@@ -374,6 +374,7 @@ RobotContainer::RobotContainer() {
             if (m_operatorController.GetRawButtonPressed(Controller::RPress)) {
                 rightOverride_ = !rightOverride_;
             }
+
             if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
                 0.05) {
                 m_superstructure.m_intake.setSpeed(m_operatorController.GetRawAxis(Controller::rightTrigger));

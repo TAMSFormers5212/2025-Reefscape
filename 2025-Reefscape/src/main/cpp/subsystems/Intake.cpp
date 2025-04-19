@@ -99,8 +99,8 @@ double Intake::getSpeed() { return m_encoder.GetVelocity(); }
 double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
 void Intake::Periodic() {
-    const double kP = 0.02;
-    const double kG = 0.4;
+    const double kP = 0.004;
+    const double kG = 0.01;
     double currentPos;
 
     if (m_absoluteEncoder.IsConnected()) {
