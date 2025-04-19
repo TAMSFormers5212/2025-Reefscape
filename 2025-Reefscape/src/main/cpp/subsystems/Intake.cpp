@@ -100,7 +100,7 @@ double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
 void Intake::Periodic() {
     const double kP = 0.002;
-    const double kCos = 0.2;
+    const double kG = 0.2;
     double currentPos;
 
     if (m_absoluteEncoder.IsConnected()) {
@@ -113,7 +113,7 @@ void Intake::Periodic() {
     double error = targetPos - currentPos;
 
     double pid = error * kP;
-    double ff = cos(currentPos / 180 * 3.14) * kCos;
+    double ff = cos(currentPos / 180 * 3.14) * kG;
 
     double power = ff;
     setPivotSpeed(power);
