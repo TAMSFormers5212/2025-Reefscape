@@ -36,21 +36,21 @@ Intake::Intake(int intakeMotor, int pivotMotor, int encoder,
 void Intake::resetMotor() {
     m_intakeConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(20, 25)
+        .SmartCurrentLimit(30, 30)
         .Inverted(true);
 
     m_intakeConfig.encoder.PositionConversionFactor(pi2 / intakeRatio);
 
     m_pivotConfig.SetIdleMode(rev::spark::SparkBaseConfig::IdleMode::kBrake)
         .VoltageCompensation(12.0)
-        .SmartCurrentLimit(20, 25)
+        .SmartCurrentLimit(30, 30)
         .Inverted(false);
 
     m_pivotConfig.encoder.PositionConversionFactor(pi2 / pivotRatio);
 
-    m_pivotConfig.closedLoop.Pidf(kiP, kiI, kiD, kiFF)
-        .IZone(kiIz)
-        .OutputRange(kiMinOutput, kiMaxOutput);
+    // m_pivotConfig.closedLoop.Pidf(kiP, kiI, kiD, kiFF)
+        // .IZone(kiIz)
+        // .OutputRange(kiMinOutput, kiMaxOutput);
 
     m_pivotEncoder.SetPosition(getPosition());
 
@@ -100,8 +100,8 @@ double Intake::getSpeed() { return m_encoder.GetVelocity(); }
 double Intake::getOutputCurrent() { return m_intakeMotor.GetOutputCurrent(); }
 
 void Intake::Periodic() {
-    const double kP = 0.002;
-    const double kG = 0.2;
+    const double kP = 0.004;
+    const double kG = 0.01;
     double currentPos;
 
     if (m_absoluteEncoder.IsConnected()) {
@@ -116,7 +116,7 @@ void Intake::Periodic() {
     double pid = error * kP;
     double ff = cos(currentPos / 180 * 3.14) * kG;
 
-    double power = ff;
+    double power = pid + ff;
     setPivotSpeed(power);
 
     // units::radian_t ffP{position*pi2/180};
@@ -128,6 +128,9 @@ void Intake::Periodic() {
                               m_absoluteEncoder.Get() - pivotOffset);
     SmartDashboard::PutNumber("intake abs pos", m_absoluteEncoder.Get());
     SmartDashboard::PutNumber("Intake neo pos", m_pivotEncoder.GetPosition());
+
+    SmartDashboard::PutNumber("intake motor current", m_intakeMotor.GetOutputCurrent());
+    SmartDashboard::PutNumber("pivot motor current", m_pivotMotor.GetOutputCurrent());
 
     SmartDashboard::PutNumber("pivot target pos", targetPos);
     SmartDashboard::PutNumber("pivot current pos", currentPos);

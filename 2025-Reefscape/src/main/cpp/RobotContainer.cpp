@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-//Goodbye code, we had a good run-sameer
 
 #include "RobotContainer.h"
 
@@ -185,26 +184,26 @@ RobotContainer::RobotContainer() {
                 m_drive.swerveDrive(-0.0, 0.1, 0.0, false);
             } else if (pov == 90.0) {  // right
                 m_drive.swerveDrive(0.0, -0.1, 0.0, false);
-            // } else if (m_driverController.GetRawButtonPressed(
-            //                Controller::leftPaddle)) {
-            //     m_pathfindAuto = m_drive.generateCommandLeft();
-            //     m_pathfindAuto.Schedule();
-            // } else if (m_driverController.GetRawButtonPressed(
-            //                Controller::rightPaddle)) {
-            //     m_pathfindAuto = m_drive.generateCommandRight();
-            //     m_pathfindAuto.Schedule();
+            } else if (m_driverController.GetRawButtonPressed(
+                           Controller::leftPaddle)) {
+                m_pathfindAuto = m_drive.generateCommandLeft();
+                m_pathfindAuto.Schedule();
+            } else if (m_driverController.GetRawButtonPressed(
+                           Controller::rightPaddle)) {
+                m_pathfindAuto = m_drive.generateCommandRight();
+                m_pathfindAuto.Schedule();
             } else {
                 m_drive.swerveDrive(XAxis, YAxis, RotAxis, true);
             }
 
-            // if (m_driverController.GetRawButtonReleased(
-            //         Controller::leftPaddle)) {
-            //     m_pathfindAuto.Cancel();
-            // }
-            // if (m_driverController.GetRawButtonReleased(
-            //         Controller::rightPaddle)) {
-            //     m_pathfindAuto.Cancel();
-            // }
+            if (m_driverController.GetRawButtonReleased(
+                    Controller::leftPaddle)) {
+                m_pathfindAuto.Cancel();
+            }
+            if (m_driverController.GetRawButtonReleased(
+                    Controller::rightPaddle)) {
+                m_pathfindAuto.Cancel();
+            }
 
             if (!m_driverController.GetRawButton(Controller::leftPaddle) &&
                 !m_driverController.GetRawButton(Controller::rightPaddle)) {
@@ -375,12 +374,12 @@ RobotContainer::RobotContainer() {
             if (m_operatorController.GetRawButtonPressed(Controller::RPress)) {
                 rightOverride_ = !rightOverride_;
             }
+
             if (m_operatorController.GetRawAxis(Controller::rightTrigger) >
                 0.05) {
-                m_superstructure.m_intake.setSpeed(0.8);
-            } else if (m_operatorController.GetRawAxis(
-                           Controller::leftTrigger) > 0.05) {
-                m_superstructure.m_intake.setSpeed(-0.8);
+                m_superstructure.m_intake.setSpeed(m_operatorController.GetRawAxis(Controller::rightTrigger));
+            } else if (m_operatorController.GetRawAxis(Controller::leftTrigger) > 0.05) {
+                m_superstructure.m_intake.setSpeed(-m_operatorController.GetRawAxis(Controller::leftTrigger));
             } else /*(m_operatorController.GetRawAxis(Controller::leftTrigger) <
                      0.05 &&
                  m_operatorController.GetRawAxis(Controller::rightTrigger) <
@@ -391,11 +390,11 @@ RobotContainer::RobotContainer() {
             // m_superstructure.m_intake.setSpeed(
             //     m_operatorController.GetRawAxis(Controller::rightYAxis) / 6);
 
-            // if (m_driverController.GetRawButtonPressed(Controller::A)) {
-            //     m_superstructure.m_intake.groundPreset();
-            // } else if (m_driverController.GetRawButtonPressed(Controller::X)) {
-            //     m_superstructure.m_intake.stowPreset();
-            // }
+            if (m_driverController.GetRawButtonPressed(Controller::A)) {
+                m_superstructure.m_intake.groundPreset();
+            } else if (m_driverController.GetRawButtonPressed(Controller::X)) {
+                m_superstructure.m_intake.stowPreset();
+            }
         },
         {&m_superstructure.m_intake}));
 
