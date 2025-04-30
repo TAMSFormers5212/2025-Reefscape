@@ -15,6 +15,7 @@
 
 using namespace std;
 using namespace rev::spark;
+//Goodbye code, we had a good run-sameer
 
 class Outtake : public frc2::SubsystemBase {
    public:
